@@ -21,4 +21,5 @@
 - [`reuse-rules.md`](development/reuse-rules.md) - When to extract duplicate code | DRY principles
 - [`anti-patterns.md`](development/anti-patterns.md) - Common mistakes to avoid | What NOT to do
 - [`monitoring.md`](development/monitoring.md) - How to catch code violations | Linting and CI checks
+- [`mcp-server.md`](development/mcp-server.md) - MCP server architecture and decisions | AI knowledge layer
 

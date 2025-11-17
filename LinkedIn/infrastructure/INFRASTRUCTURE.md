@@ -236,12 +236,48 @@ NEXT_PUBLIC_LOGTAIL_TOKEN
 
 **Note:** Webhooks, notifications, and chat add ₹0 extra cost - all hosted on existing infrastructure.
 
+## 18. MCP Server Infrastructure
+
+### FlowHub MCP Server
+
+* **Purpose**: AI assistant knowledge layer for FlowHub docs, policies, and automation
+* **Platform**: Local Python server (runs on dev machine)
+* **Port**: `3000` (or configured)
+* **Framework**: Python MCP SDK
+
+### Vector Database
+
+* **Cloud**: Qdrant Cloud (1GB free tier)
+  * Usage: Core stable docs (SDLC, policies, flows, infrastructure)
+  * Size: ~50-100MB
+  * Always available, fast queries
+* **Local**: Qdrant Embedded (Python library, no Docker)
+  * Usage: Cloud mirror + active work (decisions, logs, generated code)
+  * Size: Unlimited (local storage)
+  * Full control, offline capable
+
+### Environment Variables
+
+```
+QDRANT_CLOUD_URL
+QDRANT_API_KEY
+```
+
+### Cost
+
+* **MCP Server**: Free (local Python process)
+* **Qdrant Cloud**: Free (1GB tier)
+* **Qdrant Local**: Free (local storage)
+
+**Total MCP Infrastructure Cost: ₹0**
+
 ---
 
 ## Verification
 
-- Date: 2025-11-16
+- Date: 2025-11-17
 - Verified by: Assistant
 - All required services documented with infrastructure details
+- MCP server and vector database infrastructure added
 - Constraints and cost breakdown align with free tiers and budget
 - Consistent with flows in `LinkedIn/complete-flows/FLOWS-SIMPLE.md` and Redis limits in `LinkedIn/infrastructure/REDIS-USAGE.md`
