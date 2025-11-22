@@ -1,0 +1,188 @@
+---
+alwaysApply: true
+---
+# 02_Dispatcher
+## (User Command Routing & Mode Selection Engine)
+
+This rule defines how the assistant MUST choose the correct User Command based on user input, context, and SDLC phase.  
+The dispatcher controls **which workflow activates**, ensuring the assistant never guesses or improvises.
+
+---
+
+## 1. Dispatcher Core Principle
+The assistant MUST activate EXACTLY ONE User Command at a time.  
+No mixing.  
+No overlapping.  
+No multi-command generation.
+
+The assistant MUST announce:
+
+Entering <command> workflow…
+
+before applying that command’s rule file.
+
+---
+
+## 2. When the User Explicitly Types a Command
+If the user types any valid User Command by name (e.g., `plan_feature`, `debugging_session`, etc.):
+
+- The assistant MUST immediately enter that workflow  
+- The assistant MUST NOT question the command  
+- The assistant MUST NOT try to redirect  
+- The assistant MUST NOT mix with any other command  
+
+Example:
+
+User: plan_feature  
+Assistant:  
+Entering plan_feature workflow…
+
+---
+
+## 3. When User Message Indicates a Command Intentionally
+If the user does not type a command directly but the meaning is clear:
+
+Example:
+- “Plan this feature”
+- “Help me design this”
+- “Make a todo list”
+- “Start debugging”
+- “Explain this flow”
+- “Test this”
+
+The dispatcher MUST convert it to the correct User Command.
+
+Example:  
+User: “Help me design the new login system”  
+→ Activate `plan_feature`
+
+---
+
+## 4. When Multiple Commands Could Match
+If a message could trigger more than one command:
+
+The assistant MUST activate:
+
+### refine_prompt → clarify_request  
+until exactly one command matches.
+
+Example:
+User: “Fix this issue and explain why it happened.”
+
+Ambiguous → Dispatcher MUST activate:
+1. refine_prompt  
+2. clarify_request  
+3. After user answers, pick ONE command.
+
+---
+
+## 5. SDLC Phase Enforcement
+Dispatcher MUST obey the SDLC Pipeline.
+
+Meaning:
+
+- If SDLC is in “planning phase” → only planning commands allowed  
+- If SDLC is waiting for approval → only approval handling allowed  
+- If SDLC is in coding phase → only implementation commands allowed  
+- If SDLC is in testing → MUST activate `test_cycle`  
+- If SDLC is in debugging → MUST activate `debugging_session`  
+- If SDLC is in documentation → MUST activate `draft_document` or `refine_document` only when user requests it  
+
+If the user tries to jump ahead:
+
+Output:
+
+SDLC Violation — Stopping Execution
+
+---
+
+## 6. Dispatcher’s Command Mapping Table
+
+### **Refinement Phase**
+If unclear → refine_prompt  
+If still unclear → clarify_request
+
+### **Scoping Phase**
+If user describes boundaries → scope_request
+
+### **Requirements Phase**
+If user lists what must be done → document_requirements
+
+### **Planning Phase**
+If user describes design/approach → plan_feature
+
+### **Approval Phase**
+If plan is ready → assistant MUST ask for approval  
+No other command allowed
+
+### **Task Breakdown**
+If user asks for tasks → generate_todo
+
+### **Coding Phase**
+If implementation needed → implement_change  
+Uses Serena only
+
+### **Testing Phase**
+If validation needed → test_cycle
+
+### **Debugging Phase**
+If errors appear → debugging_session
+
+### **Documentation Phase**
+If user says “write documentation” or “create a document” → draft_document  
+If user says “improve the doc” → refine_document
+
+### **Open Discussion**
+If user says “let’s brainstorm”, “talk freely”, or similar → open_discussion
+
+### **Research**
+If user says “research”, “understand”, “find info” → research_topic
+
+### **Flow Explanations**
+If user says “explain how this works” → explain_flow  
+If user says “simulate behavior” → simulate_flow
+
+---
+
+## 7. Prevention of Wrong Command Activation
+The assistant MUST NOT:
+
+- Infer commands incorrectly  
+- Activate commands that violate SDLC  
+- Activate commands not supported by the current context  
+- Fall back to normal chat when a command is needed  
+
+Violation → STOP immediately.
+
+---
+
+## 8. Dispatcher STOP Condition
+The dispatcher MUST stop the workflow if:
+
+- More than one command is possible  
+- SDLC phase does not permit the requested command  
+- MCP tools required for the phase are not available  
+- Approval is missing  
+- User request contradicts current command  
+- The assistant cannot determine the proper command
+
+Output:
+
+Command Selection Error — Need clarification
+
+Then activate:
+
+refine_prompt → clarify_request
+
+---
+
+## 9. Dispatcher Exit Rule
+After a command finishes its workflow, the dispatcher MUST ask:
+
+“Should I proceed to the next SDLC phase?”
+
+Only after YES can the SDLC resume.
+
+---
+
+# End of 02_Dispatcher

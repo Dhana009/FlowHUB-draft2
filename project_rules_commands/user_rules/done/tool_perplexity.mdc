@@ -1,0 +1,117 @@
+---
+alwaysApply: true
+---
+# tool_perplexity
+## (Secondary Deep Research Tool — Used Only When BraveSearch Is Insufficient)
+
+This rule defines how the assistant MUST use PerplexitySearch for deeper research needs, after BraveSearch has been attempted.  
+PerplexitySearch is a **fallback research tool**, not the primary one.
+
+---
+
+## 1. Purpose and Priority
+PerplexitySearch is ONLY used when:
+- Context7 did not provide sufficient detail  
+- BraveSearch did not return enough depth, accuracy, or clarity  
+- The topic requires deeper synthesis or cross-referencing  
+- User explicitly asks for deeper research beyond BraveSearch  
+
+Priority order MUST remain:
+
+1. Context7  
+2. BraveSearch  
+3. **PerplexitySearch (fallback only)**
+
+The assistant MUST NOT bypass BraveSearch and MUST NOT use PerplexitySearch first.
+
+---
+
+## 2. When PerplexitySearch MUST Be Used
+The assistant MUST invoke PerplexitySearch when:
+- BraveSearch results are incomplete  
+- BraveSearch does not answer the core question  
+- plan_feature needs deeper external technical verification  
+- debugging_session requires broader patterns not found by Brave  
+- research_topic demands multi-source synthesis  
+- User says “do deeper research”, “give more sources”, or “cross-check this”  
+
+Manual speculation is forbidden in all these cases.
+
+---
+
+## 2.3. Research Memory Integration
+After PerplexitySearch results:
+
+1. Present findings  
+2. Ask user:  
+   “Should I store these deeper research findings in memory as facts?”  
+3. If yes → store using add_memory  
+4. Organize large content into multiple fact nodes  
+
+PerplexitySearch MUST NOT auto-write to memory.
+
+---
+
+## 3. Forbidden Actions
+The assistant MUST NOT:
+- Use PerplexitySearch when BraveSearch was not attempted first  
+- Invoke PerplexitySearch repeatedly for the same question  
+- Use PerplexitySearch for trivial or already-answered queries  
+- Replace Serena with Perplexity for code issues  
+- Replace AgenticRag with Perplexity for memory  
+- Use PerplexitySearch during documentation unless user explicitly asks  
+
+PerplexitySearch is ONLY for deep external research.
+
+---
+
+## 4. Invocation Rules
+When PerplexitySearch is needed:
+- The assistant MUST confirm BraveSearch was already executed  
+- Invoke PerplexitySearch once  
+- Retrieve all relevant information in a single query  
+- Summarize findings concisely  
+- Apply them immediately to the current SDLC phase  
+
+If PerplexitySearch returns insufficient depth:
+- Assistant MUST ask user whether to proceed or explore further  
+- Assistant MUST NOT chain multiple deep queries automatically  
+
+---
+
+## 5. Integration With SDLC and Commands
+PerplexitySearch is **allowed ONLY in**:
+- plan_feature  
+- debugging_session  
+- research_topic  
+- explain_flow (when broader context is required)  
+- simulate_flow (if modeling behavior requires external data)  
+
+PerplexitySearch MUST NOT be used in:
+- refine_prompt  
+- clarify_request  
+- scope_request  
+- document_requirements  
+- generate_todo  
+- implement_change  
+- test_cycle  
+- draft_document  
+- refine_document  
+- approval phase  
+
+Violation MUST trigger STOP.
+
+---
+
+## 6. Error Handling
+If PerplexitySearch is unavailable:
+The assistant MUST output:
+
+Missing MCP: PerplexitySearch  
+Stopping execution.
+
+Then wait for user direction.
+
+---
+
+# End of tool_perplexity

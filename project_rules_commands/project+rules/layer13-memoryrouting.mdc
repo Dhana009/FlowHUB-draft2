@@ -1,0 +1,503 @@
+---
+description: Memory Routing Rules (Layer 13)
+alwaysApply: true
+---
+
+# MEMORY ROUTING RULES  
+## (Graffiti vs VectorDB Routing Decisions and Storage Logic)
+
+Defines the exact routing logic for storing and retrieving information in Graffiti Graph vs VectorDB.
+
+Every memory operation must follow these routing rules.
+
+---
+
+# 1. MEMORY ROUTING CONTRACT  
+### (STRICT – Cannot be Violated)
+
+All memory operations must route through **AgenticRag MCP** using these rules:
+
+1. **Graffiti Graph** → structured, relational, rule-like knowledge  
+2. **VectorDB** → semantic, text-like, explanation and narrative knowledge  
+
+Routing decision is based on:
+- data structure (nodes/relationships vs text/narrative)  
+- stability (rules/patterns vs examples/explanations)  
+- query pattern (exact lookup vs semantic search)  
+- update frequency (rare vs frequent)  
+
+All routing must be explicit and documented.
+
+---
+
+# 2. GRAFFITI ROUTING RULES
+
+### 2.1 Architecture Relationships → Graffiti  
+**ROUTE TO GRAFFITI:**
+- Controller → Service → Repository → Model mappings  
+- Route → Page → Component → Hook mappings  
+- API endpoint → Service → Schema → Model mappings  
+- Feature → Module → Version relationships  
+
+**REASON:** Structured relationships, stable over time, exact lookups needed.
+
+### 2.2 Rules and Constraints → Graffiti  
+**ROUTE TO GRAFFITI:**
+- Selector policy rules  
+- Accessibility rules  
+- Performance budgets  
+- CI/CD rules  
+- Anti-pattern rules  
+
+**REASON:** Rule-like knowledge, stable, needs exact matching.
+
+### 2.3 Configuration and Schemas → Graffiti  
+**ROUTE TO GRAFFITI:**
+- Database schema relationships  
+- API contract definitions  
+- Redis key patterns and TTLs  
+- Environment configuration relationships  
+
+**REASON:** Structured data, stable, needs exact lookups.
+
+### 2.4 Test and Dependency Graphs → Graffiti  
+**ROUTE TO GRAFFITI:**
+- Test → Module → Requirement mappings  
+- CI dependency graphs  
+- Component dependency graphs  
+- Service dependency graphs  
+
+**REASON:** Graph structure, relationships, exact lookups needed.
+
+---
+
+# 3. VECTORDB ROUTING RULES
+
+### 3.1 Documentation and Explanations → VectorDB  
+**ROUTE TO VECTORDB:**
+- PRDs, FRDs, design documents  
+- Architecture decision records  
+- Long-form explanations  
+- Standards and guidelines text  
+
+**REASON:** Narrative content, semantic search needed, may be updated.
+
+### 3.2 Examples and Patterns → VectorDB  
+**ROUTE TO VECTORDB:**
+- Code implementation examples  
+- Styling patterns  
+- Testing patterns  
+- Debugging patterns  
+
+**REASON:** Example-based, semantic similarity search, may have variations.
+
+### 3.3 Historical Context → VectorDB  
+**ROUTE TO VECTORDB:**
+- Debugging summaries  
+- Root cause analyses  
+- Performance investigation summaries  
+- Research summaries  
+
+**REASON:** Narrative explanations, semantic search, historical reference.
+
+### 3.4 User Preferences → VectorDB  
+**ROUTE TO VECTORDB:**
+- Style preferences  
+- Tone preferences  
+- Explanation depth preferences  
+- Communication preferences  
+
+**REASON:** Text-based preferences, semantic matching, may evolve.
+
+---
+
+# 4. ROUTING DECISION TREE
+
+### 4.1 Decision Criteria  
+**ROUTE TO GRAFFITI IF:**
+- Data is structured (nodes and relationships)  
+- Data is stable (rarely changes)  
+- Exact lookup is needed  
+- Relationships are important  
+- Data is rule-like or constraint-like  
+
+**ROUTE TO VECTORDB IF:**
+- Data is narrative or text-based  
+- Data is example-based  
+- Semantic search is needed  
+- Data may have variations  
+- Data is explanation-heavy  
+
+### 4.2 Hybrid Cases  
+**WHEN BOTH ARE NEEDED:**
+- Store structure in Graffiti  
+- Store explanation in VectorDB  
+- Link them via references  
+- Example: Architecture decision (Graffiti) + decision rationale (VectorDB)  
+
+### 4.3 Ambiguous Cases  
+**WHEN UNCERTAIN:**
+- Prefer Graffiti for structured data  
+- Prefer VectorDB for narrative data  
+- Ask user for clarification if needed  
+- Document routing decision  
+
+---
+
+# 5. SDLC PHASE ROUTING RULES
+
+### 5.1 Planning Phase Routing  
+**GRAFFITI:**
+- Architecture graph retrieval  
+- Module dependency retrieval  
+- Rule and constraint retrieval  
+
+**VECTORDB:**
+- Previous design decisions  
+- Standards and best practices  
+- Historical context  
+
+### 5.2 Implementation Phase Routing  
+**GRAFFITI:**
+- Module relationships  
+- File graph  
+- API graph  
+- Selector policy  
+
+**VECTORDB:**
+- Implementation examples  
+- Code patterns  
+- Previous implementation notes  
+
+### 5.3 Testing Phase Routing  
+**GRAFFITI:**
+- Test → Module mappings  
+- Test dependency graphs  
+- Test coverage relationships  
+
+**VECTORDB:**
+- Test strategy explanations  
+- Testing patterns  
+- Test debugging summaries  
+
+### 5.4 Debugging Phase Routing  
+**GRAFFITI:**
+- Structural relationships  
+- Component dependencies  
+- Service dependencies  
+
+**VECTORDB:**
+- Previous error summaries  
+- Root cause analyses  
+- Debugging patterns  
+
+---
+
+# 6. COMPONENT-SPECIFIC ROUTING RULES
+
+### 6.1 Backend Component Routing  
+**GRAFFITI:**
+- Controller → Service → Repository → Model  
+- API endpoint → Service → Schema  
+- Database schema relationships  
+
+**VECTORDB:**
+- Service implementation examples  
+- Error handling patterns  
+- Database query patterns  
+
+### 6.2 Frontend Component Routing  
+**GRAFFITI:**
+- Route → Page → Component → Hook  
+- Component dependency graph  
+- Selector → Component mappings  
+
+**VECTORDB:**
+- Component implementation examples  
+- Styling patterns  
+- User interaction patterns  
+
+### 6.3 Testing Component Routing  
+**GRAFFITI:**
+- Test → Module → Requirement  
+- Test dependency graph  
+- Coverage relationships  
+
+**VECTORDB:**
+- Test strategy explanations  
+- Test patterns  
+- Test debugging summaries  
+
+### 6.4 CI/CD Component Routing  
+**GRAFFITI:**
+- CI pipeline → Stage mappings  
+- Validation → Rule relationships  
+- Deployment → Environment mappings  
+
+**VECTORDB:**
+- CI/CD configuration examples  
+- Deployment strategies  
+- Troubleshooting guides  
+
+---
+
+# 7. DATA TYPE ROUTING RULES
+
+### 7.1 Structured Data → Graffiti  
+**ROUTE TO GRAFFITI:**
+- JSON schemas  
+- Type definitions  
+- Configuration objects  
+- Relationship mappings  
+
+**REASON:** Structured format, exact matching needed.
+
+### 7.2 Text Data → VectorDB  
+**ROUTE TO VECTORDB:**
+- Documentation text  
+- Explanation text  
+- Decision rationale  
+- User preferences text  
+
+**REASON:** Text-based, semantic search needed.
+
+### 7.3 Code Examples → VectorDB  
+**ROUTE TO VECTORDB:**
+- Code snippets  
+- Implementation examples  
+- Pattern examples  
+- Best practice examples  
+
+**REASON:** Example-based, semantic similarity search.
+
+### 7.4 Rules and Constraints → Graffiti  
+**ROUTE TO GRAFFITI:**
+- Validation rules  
+- Business rules  
+- Configuration rules  
+- Policy rules  
+
+**REASON:** Rule-like, stable, exact matching needed.
+
+---
+
+# 8. QUERY PATTERN ROUTING RULES
+
+### 8.1 Exact Lookup → Graffiti  
+**ROUTE TO GRAFFITI WHEN:**
+- Looking for specific relationship  
+- Looking for specific rule  
+- Looking for specific configuration  
+- Looking for exact match  
+
+**REASON:** Graffiti supports exact node/relationship queries.
+
+### 8.2 Semantic Search → VectorDB  
+**ROUTE TO VECTORDB WHEN:**
+- Looking for similar examples  
+- Looking for related explanations  
+- Looking for patterns  
+- Looking for context  
+
+**REASON:** VectorDB supports semantic similarity search.
+
+### 8.3 Hybrid Queries  
+**WHEN BOTH ARE NEEDED:**
+- Query Graffiti for structure  
+- Query VectorDB for context  
+- Combine results  
+- Example: Get architecture (Graffiti) + explanation (VectorDB)  
+
+---
+
+# 9. UPDATE FREQUENCY ROUTING RULES
+
+### 9.1 Stable Data → Graffiti  
+**ROUTE TO GRAFFITI:**
+- Architecture decisions (rarely change)  
+- Rules and constraints (stable)  
+- Schema definitions (stable)  
+- Configuration relationships (stable)  
+
+**REASON:** Graffiti optimized for stable, structured data.
+
+### 9.2 Frequently Updated Data → VectorDB  
+**ROUTE TO VECTORDB:**
+- Implementation examples (may vary)  
+- Debugging summaries (accumulate)  
+- Research findings (grow over time)  
+- User preferences (may evolve)  
+
+**REASON:** VectorDB handles growing, evolving content better.
+
+---
+
+# 10. RETRIEVAL PRIORITY ROUTING RULES
+
+### 10.1 Primary Retrieval → Graffiti  
+**RETRIEVE FROM GRAFFITI FIRST WHEN:**
+- Need exact structure  
+- Need relationships  
+- Need rules  
+- Need constraints  
+
+**REASON:** Graffiti provides exact, structured answers.
+
+### 10.2 Secondary Retrieval → VectorDB  
+**RETRIEVE FROM VECTORDB WHEN:**
+- Need context or explanation  
+- Need examples  
+- Need patterns  
+- Need historical reference  
+
+**REASON:** VectorDB provides semantic, contextual answers.
+
+### 10.3 Combined Retrieval  
+**RETRIEVE FROM BOTH WHEN:**
+- Need both structure and context  
+- Need both rules and examples  
+- Need both relationships and explanations  
+
+**REASON:** Combine structured data with contextual information.
+
+---
+
+# 11. WRITE ROUTING RULES
+
+### 11.1 New Architecture Decision → Graffiti  
+**ROUTE TO GRAFFITI:**
+- Store architecture relationships  
+- Store module dependencies  
+- Store component relationships  
+
+**ALSO STORE IN VECTORDB:**
+- Decision rationale  
+- Context and explanation  
+
+**REASON:** Structure in Graffiti, explanation in VectorDB.
+
+### 11.2 New Implementation → Graffiti + VectorDB  
+**ROUTE TO GRAFFITI:**
+- Store file relationships  
+- Store component dependencies  
+- Store API mappings  
+
+**ROUTE TO VECTORDB:**
+- Store implementation examples  
+- Store code patterns  
+
+**REASON:** Structure in Graffiti, examples in VectorDB.
+
+### 11.3 New Debugging Summary → VectorDB  
+**ROUTE TO VECTORDB:**
+- Store error summary  
+- Store root cause analysis  
+- Store fix description  
+
+**ALSO STORE IN GRAFFITI:**
+- Error → Component mapping (if structural)  
+
+**REASON:** Narrative in VectorDB, structure in Graffiti if needed.
+
+---
+
+# 12. ROUTING VALIDATION RULES
+
+### 12.1 Routing Validation Requirements  
+- Routing decision must be explicit  
+- Routing decision must be documented  
+- Routing decision must be consistent  
+- Routing decision must be validated  
+
+### 12.2 Routing Error Prevention  
+- Do not route structured data to VectorDB  
+- Do not route narrative data to Graffiti  
+- Do not duplicate data in both systems  
+- Do not route without clear reason  
+
+### 12.3 Routing Consistency  
+- Similar data types must route consistently  
+- Routing patterns must be followed  
+- Routing decisions must be reviewable  
+- Routing must be maintainable  
+
+---
+
+# 13. MCP TOOL INTEGRATION
+
+### 13.1 AgenticRag MCP Usage  
+AgenticRag must be used for:
+- all memory routing decisions  
+- all memory storage operations  
+- all memory retrieval operations  
+- routing validation  
+
+### 13.2 Routing Through AgenticRag  
+- All routing must go through AgenticRag  
+- AgenticRag handles Graffiti vs VectorDB routing  
+- AgenticRag handles deduplication  
+- AgenticRag handles tagging and categorization  
+
+### 13.3 Routing Configuration  
+- Routing rules must be configured in AgenticRag  
+- Routing patterns must be documented  
+- Routing must be testable  
+- Routing must be maintainable  
+
+---
+
+# 14. MEMORY INTEGRATION
+
+### 14.1 Graffiti Storage  
+Store in Graffiti:
+- routing decision patterns  
+- data type → storage mapping  
+- routing → component relationships  
+- routing dependency graphs  
+
+### 14.2 VectorDB Storage  
+Store in VectorDB:
+- routing decision examples  
+- routing best practices  
+- routing troubleshooting guides  
+- routing pattern explanations  
+
+---
+
+# 15. ROUTING DOCUMENTATION CONTRACT
+
+### 15.1 Routing Documentation Requirements  
+- Routing decisions must be documented  
+- Routing patterns must be documented  
+- Routing examples must be provided  
+- Routing must be maintainable  
+
+### 15.2 Routing Examples  
+- Provide examples of Graffiti routing  
+- Provide examples of VectorDB routing  
+- Provide examples of hybrid routing  
+- Provide examples of routing decisions  
+
+### 15.3 Routing Guidelines  
+- Provide guidelines for routing decisions  
+- Provide guidelines for routing validation  
+- Provide guidelines for routing maintenance  
+- Provide guidelines for routing troubleshooting  
+
+---
+
+# 16. STOP CONDITIONS
+
+Memory routing must STOP if:
+- routing decision is unclear  
+- data type does not match routing rules  
+- routing violates established patterns  
+- routing duplicates data incorrectly  
+- routing is not documented  
+- routing is not validated  
+
+If any violation is detected → planning must stop and routing must be corrected.
+
+---
+
+# END OF RULESET

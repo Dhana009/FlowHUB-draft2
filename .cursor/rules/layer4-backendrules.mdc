@@ -1,0 +1,457 @@
+---
+description: Backend Rules (Layer 4)
+alwaysApply: true
+---
+
+# BACKEND RULES  
+## (Foundational Constraints for Controllers, Services, Repositories, Models)
+
+Defines all backend architecture, structure, and API rules for the entire system.
+
+Every backend file generated in this project **must comply with all rules below.**
+
+---
+
+# 1. BACKEND LAYER CONTRACT  
+### (STRICT – Cannot be Violated)
+
+All backend logic must follow the **4-layer architecture**:
+
+1. **Controller Layer**  
+   - receives HTTP request  
+   - validates request schema  
+   - transforms payload → service input  
+   - returns HTTP-safe response  
+   - never contains business logic  
+
+2. **Service Layer**  
+   - holds all business logic  
+   - orchestrates repositories  
+   - performs validation & transformations  
+   - throws domain-specific errors with messages  
+
+3. **Repository Layer**  
+   - direct DB operations only  
+   - no transformations  
+   - no business rules  
+   - return raw DB objects  
+
+4. **Model/Schema Layer**  
+   - database models  
+   - Zod/Yup validation schemas  
+   - response schemas  
+   - typed interfaces  
+
+No layer may reach across other layers (controller cannot call repository directly).
+
+---
+
+# 2. FOLDER STRUCTURE CONTRACT
+
+Every backend file must be placed into one of these locations:
+
+### 2.1 Controller Structure  
+```
+backend/
+  controllers/
+    [resource-name].controller.ts
+    [resource-name].controller.test.ts
+```
+
+### 2.2 Service Structure  
+```
+backend/
+  services/
+    [service-name].service.ts
+    [service-name].service.test.ts
+```
+
+### 2.3 Repository Structure  
+```
+backend/
+  repositories/
+    [repository-name].repository.ts
+    [repository-name].repository.test.ts
+```
+
+### 2.4 Model/Schema Structure  
+```
+backend/
+  models/
+    [model-name].model.ts
+  schemas/
+    [schema-name].schema.ts
+  types/
+    [type-name].ts
+```
+
+### 2.5 API Structure  
+```
+backend/
+  routes/
+    [route-name].routes.ts
+  middleware/
+    [middleware-name].middleware.ts
+```
+
+### 2.6 Shared Backend Structure  
+```
+backend/
+  utils/
+    [utility-name].ts
+  constants/
+    [constant-name].ts
+  config/
+    [config-name].ts
+  errors/
+    [error-name].ts
+```
+
+If a file is created outside allowed locations → planning must stop.
+
+---
+
+# 3. DATABASE SCHEMA CONTRACT
+
+### 3.1 Schema Definition Rules  
+- All schemas must be defined in models  
+- Schemas must be typed (TypeScript)  
+- Schemas must include validation (Zod/Yup)  
+- Schemas must document constraints  
+- Schemas must support migrations  
+
+### 3.2 Database Constraints  
+- Primary keys must be defined  
+- Foreign keys must be enforced  
+- Unique constraints must be documented  
+- Indexes must be defined for query performance  
+- Nullable fields must be explicitly marked  
+
+### 3.3 Migration Rules  
+- All schema changes must use migrations  
+- Migrations must be reversible  
+- Migrations must be tested  
+- Migration files must be versioned  
+
+### 3.4 Data Integrity  
+- Transactions must be used for multi-step operations  
+- Referential integrity must be maintained  
+- Data validation must occur at schema level  
+- Soft deletes must be implemented where required  
+
+---
+
+# 4. API CONTRACT
+
+### 4.1 Endpoint Requirements  
+Every endpoint MUST have:
+- request schema (Zod/Yup validation)  
+- response schema (typed interface)  
+- error schema (standardized error format)  
+- HTTP method (GET, POST, PUT, DELETE, PATCH)  
+- route path (RESTful conventions)  
+- authentication/authorization rules  
+
+### 4.2 Request Validation  
+- All requests must be validated against schemas  
+- Invalid requests must return 400 with error details  
+- Request body must match schema exactly  
+- Query parameters must be validated  
+- Path parameters must be validated  
+
+### 4.3 Response Format  
+- Success responses must follow standard format  
+- Error responses must follow error contract  
+- Response status codes must be correct (200, 201, 400, 401, 403, 404, 500)  
+- Response headers must be set correctly  
+- Response body must match response schema  
+
+### 4.4 API Versioning  
+- APIs must be versioned (v1, v2, etc.)  
+- Version must be in URL path or header  
+- Breaking changes require new version  
+- Deprecated endpoints must be marked  
+
+---
+
+# 5. VALIDATION CONTRACT
+
+### 5.1 Validation Rules  
+- All user input must be validated  
+- Validation must occur at controller layer  
+- Validation schemas must be shared (Zod/Yup)  
+- Validation errors must be user-friendly  
+- Validation must prevent injection attacks  
+
+### 5.2 Validation Layers  
+- Request validation (controller)  
+- Business rule validation (service)  
+- Data integrity validation (repository/model)  
+- Each layer validates its own concerns  
+
+### 5.3 Error Messages  
+- Validation errors must be clear  
+- Error messages must not expose internals  
+- Error format must be consistent  
+- Errors must include field-level details  
+
+---
+
+# 6. ERROR HANDLING CONTRACT
+
+### 6.1 Error Types  
+- Domain errors (business logic violations)  
+- Validation errors (input validation failures)  
+- System errors (database, network, etc.)  
+- Authentication/authorization errors  
+
+### 6.2 Error Handling Rules  
+- Errors must be caught at appropriate layer  
+- Errors must be transformed to HTTP responses  
+- Error stack traces must not be exposed in production  
+- Error logging must include context  
+- Errors must be typed and documented  
+
+### 6.3 Error Response Format  
+- Standardized error response structure  
+- Error codes must be consistent  
+- Error messages must be user-friendly  
+- Error details must be logged server-side  
+
+### 6.4 Error Propagation  
+- Errors must propagate up layers correctly  
+- Service errors must be caught by controllers  
+- Repository errors must be caught by services  
+- Unhandled errors must return 500  
+
+---
+
+# 7. OBSERVABILITY CONTRACT
+
+### 7.1 Logging Rules  
+- All errors must be logged  
+- Important operations must be logged  
+- Logs must include request context  
+- Logs must be structured (JSON)  
+- Log levels must be appropriate (error, warn, info, debug)  
+
+### 7.2 Metrics Rules  
+- API response times must be tracked  
+- Error rates must be monitored  
+- Database query performance must be measured  
+- Business metrics must be tracked  
+
+### 7.3 Tracing Rules  
+- Request tracing must be implemented  
+- Trace IDs must be propagated  
+- Distributed tracing must be supported  
+- Traces must include timing information  
+
+### 7.4 Monitoring Rules  
+- Health checks must be implemented  
+- Alerts must be configured for critical errors  
+- Performance degradation must be detected  
+- Resource usage must be monitored  
+
+---
+
+# 8. PERFORMANCE CONTRACT
+
+### 8.1 Performance Requirements  
+- API response times must be < 200ms (p95)  
+- Database queries must be optimized  
+- N+1 queries must be prevented  
+- Caching must be used appropriately  
+- Rate limiting must be implemented  
+
+### 8.2 Database Performance  
+- Queries must use indexes  
+- Queries must be analyzed for performance  
+- Connection pooling must be configured  
+- Query timeouts must be set  
+- Slow queries must be logged  
+
+### 8.3 Caching Rules  
+- Cache frequently accessed data  
+- Cache invalidation must be handled  
+- Cache TTLs must be appropriate  
+- Cache keys must be consistent  
+- Cache must not break data consistency  
+
+### 8.4 Resource Management  
+- Memory leaks must be prevented  
+- Connection pools must be managed  
+- File handles must be closed  
+- Background jobs must be monitored  
+
+---
+
+# 9. REDIS USAGE CONTRACT
+
+### 9.1 Redis Purpose  
+- Session storage  
+- Cache for frequently accessed data  
+- Rate limiting counters  
+- Pub/sub for real-time features  
+
+### 9.2 Redis Key Naming  
+- Keys must follow naming convention  
+- Keys must include namespace prefix  
+- Keys must be versioned  
+- Keys must have TTLs  
+
+### 9.3 Redis TTL Rules  
+- Session keys: 24 hours  
+- Cache keys: 1 hour (default)  
+- Rate limit keys: per-window duration  
+- Temporary keys: explicit TTL required  
+
+### 9.4 Redis Error Handling  
+- Redis failures must not break application  
+- Fallback behavior must be defined  
+- Redis connection must be monitored  
+- Redis errors must be logged  
+
+---
+
+# 10. SECURITY CONTRACT
+
+### 10.1 Authentication Rules  
+- All protected endpoints must require authentication  
+- Authentication tokens must be validated  
+- Token expiration must be enforced  
+- Token refresh must be implemented  
+
+### 10.2 Authorization Rules  
+- Role-based access control must be enforced  
+- Permissions must be checked at service layer  
+- Unauthorized access must return 403  
+- Authorization logic must be testable  
+
+### 10.3 Input Sanitization  
+- All user input must be sanitized  
+- SQL injection must be prevented (use parameterized queries)  
+- XSS must be prevented  
+- CSRF protection must be implemented  
+
+### 10.4 Data Protection  
+- Sensitive data must be encrypted  
+- Passwords must be hashed (bcrypt/argon2)  
+- API keys must be stored securely  
+- Secrets must not be in code  
+
+---
+
+# 11. BACKEND TESTING CONTRACT
+
+### 11.1 Unit Tests  
+- Every service must have unit tests  
+- Every repository must have unit tests  
+- Every controller must have unit tests  
+- Tests must cover success and error cases  
+- Tests must be isolated (no external dependencies)  
+
+### 11.2 Integration Tests  
+- API endpoints must have integration tests  
+- Database operations must be tested  
+- Service + repository integration must be tested  
+- Tests must use test database  
+
+### 11.3 Test Data  
+- Test data must be deterministic  
+- Test data must be isolated per test  
+- Test fixtures must be reusable  
+- Test data must be cleaned up  
+
+### 11.4 Test Coverage  
+- Minimum 80% code coverage  
+- Critical paths must have 100% coverage  
+- Error paths must be tested  
+- Edge cases must be tested  
+
+---
+
+# 12. MCP TOOL INTEGRATION
+
+### 12.1 Serena MCP Usage  
+Serena must be used for:
+- generating backend code  
+- refactoring services and repositories  
+- analyzing code structure  
+- mapping dependencies  
+
+### 12.2 Context7 MCP Usage  
+Context7 must be used for:
+- framework documentation (Express, NestJS, etc.)  
+- database ORM documentation  
+- API design patterns  
+- security best practices  
+
+### 12.3 AgenticRag Memory Usage  
+AgenticRag must retrieve:
+- API patterns from memory  
+- error handling patterns  
+- database schema patterns  
+- testing strategies  
+
+---
+
+# 13. MEMORY INTEGRATION
+
+### 13.1 Graffiti Storage  
+Store in Graffiti:
+- API endpoint → service → repository → model mappings  
+- database schema relationships  
+- error code definitions  
+- authentication/authorization rules  
+
+### 13.2 VectorDB Storage  
+Store in VectorDB:
+- API implementation examples  
+- error handling patterns  
+- database query patterns  
+- testing examples  
+- debugging summaries  
+
+---
+
+# 14. CI/CD CONTRACT
+
+### 14.1 Backend CI Requirements  
+- Linting must pass  
+- Type checking must pass  
+- Unit tests must pass  
+- Integration tests must pass  
+- Code coverage must meet threshold  
+
+### 14.2 Build Requirements  
+- Backend must build successfully  
+- Dependencies must be resolved  
+- Environment variables must be validated  
+- Database migrations must be validated  
+
+### 14.3 Deployment Requirements  
+- Health checks must pass  
+- Database migrations must run  
+- Services must start correctly  
+- Monitoring must be configured  
+
+---
+
+# 15. STOP CONDITIONS
+
+Backend code generation must STOP if:
+- layer architecture is violated  
+- folder structure rules are broken  
+- API contract is not followed  
+- validation is missing  
+- error handling is incomplete  
+- security rules are violated  
+- tests are missing  
+- database constraints are not defined  
+
+If any violation is detected → planning must stop and correction must be proposed.
+
+---
+
+# END OF RULESET

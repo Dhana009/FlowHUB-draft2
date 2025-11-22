@@ -1,0 +1,456 @@
+---
+description: MCP Server Rules (Layer 15)
+alwaysApply: true
+---
+
+# MCP SERVER RULES  
+## (MCP Tool Integration, Contracts, Priority, Error Handling)
+
+Defines how the project interacts with MCP servers and enforces MCP tool usage.
+
+Every MCP tool interaction must comply with these rules.
+
+---
+
+# 1. MCP TOOL PRIORITY CONTRACT  
+### (STRICT – Cannot be Violated)
+
+MCP tools must be used in this **strict priority order**:
+
+1. **Context7 MCP**  
+   - primary reference and documentation tool  
+   - must be used first for documentation lookup  
+   - must be used before external research  
+
+2. **AgenticRag MCP**  
+   - memory retrieval and storage  
+   - must be used before planning, coding, testing, debugging  
+   - must be used for all memory operations  
+
+3. **Serena MCP**  
+   - code generation, refactoring, analysis  
+   - must be used for all code operations  
+   - must be used for code understanding  
+
+4. **BraveSearch MCP**  
+   - primary external research tool  
+   - must be used when Context7 is insufficient  
+   - must be used before Perplexity  
+
+5. **PerplexitySearch MCP**  
+   - deep research fallback tool  
+   - must be used only when BraveSearch is insufficient  
+   - must not be used first  
+
+Priority order must be followed. Tools must not be skipped.
+
+---
+
+# 2. MCP TOOL AVAILABILITY CONTRACT
+
+### 2.1 Tool Availability Requirements  
+- MCP tools must be available before use  
+- Tool availability must be checked  
+- Missing tools must be reported  
+- Workflow must stop if required tool is missing  
+
+### 2.2 Required Tool Detection  
+- Tool availability must be verified  
+- Missing tools must be identified  
+- Tool errors must be handled  
+- Tool fallback must be defined  
+
+### 2.3 Tool Error Handling  
+- Tool errors must be caught  
+- Tool errors must be reported  
+- Tool errors must not crash workflow  
+- Tool errors must be logged  
+
+### 2.4 Tool Unavailability Protocol  
+- If required tool is unavailable → STOP  
+- Report: "Missing MCP: <tool_name>"  
+- Wait for user direction  
+- Do not proceed without required tool  
+
+---
+
+# 3. SERENA MCP CONTRACT
+
+### 3.1 Serena Usage Requirements  
+- Serena must be used for all code generation  
+- Serena must be used for all code refactoring  
+- Serena must be used for code analysis  
+- Serena must be used for dependency mapping  
+
+### 3.2 Serena Usage Rules  
+- Serena must be used in implement_change  
+- Serena must be used in refactor_code  
+- Serena must be used in review_code  
+- Serena must be used in debugging_session (when needed)  
+
+### 3.3 Serena Forbidden Usage  
+- Serena must NOT be used in planning phases  
+- Serena must NOT be used in documentation phases  
+- Serena must NOT be used in requirement phases  
+- Serena must NOT be used in scope phases  
+
+### 3.4 Serena Error Handling  
+- Serena errors must be caught  
+- Serena errors must be reported  
+- Serena errors must stop workflow  
+- Manual fallback is forbidden  
+
+---
+
+# 4. AGENTICRAG MCP CONTRACT
+
+### 4.1 AgenticRag Usage Requirements  
+- AgenticRag must be used for all memory operations  
+- AgenticRag must be used before planning  
+- AgenticRag must be used before coding  
+- AgenticRag must be used before debugging  
+
+### 4.2 AgenticRag Memory Retrieval  
+- search_nodes must be called before tasks  
+- search_facts must be called before tasks  
+- Memory must be retrieved at start of SDLC phases  
+- Memory must be integrated into workflow  
+
+### 4.3 AgenticRag Memory Storage  
+- Memory writes must require user approval  
+- Memory writes must be explicit  
+- Memory writes must be documented  
+- Automatic memory writes are forbidden  
+
+### 4.4 AgenticRag Routing  
+- AgenticRag routes to Graffiti for structured data  
+- AgenticRag routes to VectorDB for narrative data  
+- Routing decisions must be explicit  
+- Routing must follow Layer 13 rules  
+
+---
+
+# 5. CONTEXT7 MCP CONTRACT
+
+### 5.1 Context7 Usage Requirements  
+- Context7 must be used first for documentation  
+- Context7 must be used before external research  
+- Context7 must be used for API documentation  
+- Context7 must be used for framework documentation  
+
+### 5.2 Context7 Usage Rules  
+- Context7 must be used in plan_feature  
+- Context7 must be used in debugging_session  
+- Context7 must be used in research_topic  
+- Context7 must be used when documentation is needed  
+
+### 5.3 Context7 Forbidden Usage  
+- Context7 must NOT be used for code generation  
+- Context7 must NOT be used for memory operations  
+- Context7 must NOT be used when not needed  
+
+### 5.4 Context7 Error Handling  
+- Context7 errors must be caught  
+- Context7 errors must trigger fallback to BraveSearch  
+- Context7 unavailability must not block workflow  
+- Context7 results must be validated  
+
+---
+
+# 6. BRAVESEARCH MCP CONTRACT
+
+### 6.1 BraveSearch Usage Requirements  
+- BraveSearch must be used when Context7 is insufficient  
+- BraveSearch must be used before PerplexitySearch  
+- BraveSearch must be used for external research  
+- BraveSearch must be used for up-to-date information  
+
+### 6.2 BraveSearch Usage Rules  
+- BraveSearch must be used in plan_feature (when needed)  
+- BraveSearch must be used in debugging_session (when needed)  
+- BraveSearch must be used in research_topic  
+- BraveSearch must be used for external verification  
+
+### 6.3 BraveSearch Forbidden Usage  
+- BraveSearch must NOT be used when Context7 is sufficient  
+- BraveSearch must NOT be used for code generation  
+- BraveSearch must NOT be used for memory operations  
+- BraveSearch must NOT be used in early SDLC phases  
+
+### 6.4 BraveSearch Error Handling  
+- BraveSearch errors must be caught  
+- BraveSearch errors must trigger fallback to PerplexitySearch  
+- BraveSearch unavailability must be reported  
+- BraveSearch results must be validated  
+
+---
+
+# 7. PERPLEXITYSEARCH MCP CONTRACT
+
+### 7.1 PerplexitySearch Usage Requirements  
+- PerplexitySearch must be used only as fallback  
+- PerplexitySearch must be used when BraveSearch is insufficient  
+- PerplexitySearch must be used for deep research  
+- PerplexitySearch must be used for synthesis  
+
+### 7.2 PerplexitySearch Usage Rules  
+- PerplexitySearch must be used in debugging_session (when needed)  
+- PerplexitySearch must be used in research_topic (when needed)  
+- PerplexitySearch must be used for complex topics  
+- PerplexitySearch must be used for multi-source synthesis  
+
+### 7.3 PerplexitySearch Forbidden Usage  
+- PerplexitySearch must NOT be used first  
+- PerplexitySearch must NOT be used when BraveSearch is sufficient  
+- PerplexitySearch must NOT be used for code generation  
+- PerplexitySearch must NOT be used in early SDLC phases  
+
+### 7.4 PerplexitySearch Error Handling  
+- PerplexitySearch errors must be caught  
+- PerplexitySearch errors must be reported  
+- PerplexitySearch unavailability must be reported  
+- PerplexitySearch results must be validated  
+
+---
+
+# 8. MCP TOOL INTEGRATION CONTRACT
+
+### 8.1 Tool Integration Requirements  
+- MCP tools must be integrated with project rules  
+- MCP tools must respect SDLC phases  
+- MCP tools must respect command boundaries  
+- MCP tools must be used correctly  
+
+### 8.2 Tool Integration with SDLC  
+- Tools must be used in correct SDLC phases  
+- Tools must not be used in forbidden phases  
+- Tool usage must align with SDLC requirements  
+- Tool usage must be validated  
+
+### 8.3 Tool Integration with Commands  
+- Tools must be used in correct commands  
+- Tools must respect command boundaries  
+- Tool usage must align with command requirements  
+- Tool usage must be validated  
+
+### 8.4 Tool Integration Validation  
+- Tool usage must be validated  
+- Tool integration must be tested  
+- Tool integration must be documented  
+- Tool integration must be maintained  
+
+---
+
+# 9. MCP TOOL ERROR HANDLING CONTRACT
+
+### 9.1 Error Handling Requirements  
+- All MCP tool errors must be caught  
+- All MCP tool errors must be handled  
+- All MCP tool errors must be reported  
+- Tool errors must not crash workflow  
+
+### 9.2 Error Handling Rules  
+- Tool errors must be logged  
+- Tool errors must be reported to user  
+- Tool errors must stop workflow if critical  
+- Tool errors must trigger fallback if available  
+
+### 9.3 Error Recovery  
+- Tool errors must be recoverable when possible  
+- Tool errors must have fallback strategies  
+- Tool errors must be retryable when appropriate  
+- Tool errors must be documented  
+
+### 9.4 Error Reporting  
+- Tool errors must be clearly reported  
+- Tool errors must include context  
+- Tool errors must include recovery options  
+- Tool errors must be actionable  
+
+---
+
+# 10. MCP TOOL VALIDATION CONTRACT
+
+### 10.1 Tool Validation Requirements  
+- Tool results must be validated  
+- Tool results must be verified  
+- Tool results must be used correctly  
+- Tool results must not be ignored  
+
+### 10.2 Result Validation Rules  
+- Tool results must be checked for errors  
+- Tool results must be checked for completeness  
+- Tool results must be checked for correctness  
+- Tool results must be integrated properly  
+
+### 10.3 Result Usage Rules  
+- Tool results must be used as source of truth  
+- Tool results must not be overridden  
+- Tool results must not be ignored  
+- Tool results must be applied correctly  
+
+### 10.4 Validation Enforcement  
+- Tool validation must be automated  
+- Tool validation must be part of workflow  
+- Tool validation must be documented  
+- Tool validation must be maintained  
+
+---
+
+# 11. MCP TOOL PERFORMANCE CONTRACT
+
+### 11.1 Performance Requirements  
+- Tool calls must be efficient  
+- Tool calls must not be redundant  
+- Tool calls must be cached when appropriate  
+- Tool calls must be optimized  
+
+### 11.2 Performance Rules  
+- Tools must not be called repeatedly for same query  
+- Tool results must be cached when appropriate  
+- Tool calls must be batched when possible  
+- Tool calls must be optimized  
+
+### 11.3 Performance Monitoring  
+- Tool performance must be monitored  
+- Tool call times must be tracked  
+- Tool performance issues must be identified  
+- Tool performance must be optimized  
+
+### 11.4 Performance Optimization  
+- Tool calls must be optimized  
+- Tool usage must be efficient  
+- Tool performance must be improved  
+- Tool performance must be maintained  
+
+---
+
+# 12. MCP TOOL SECURITY CONTRACT
+
+### 12.1 Security Requirements  
+- Tool credentials must be secure  
+- Tool access must be controlled  
+- Tool data must be protected  
+- Tool security must be validated  
+
+### 12.2 Security Rules  
+- Tool credentials must not be exposed  
+- Tool access must be authenticated  
+- Tool data must be encrypted  
+- Tool security must be maintained  
+
+### 12.3 Security Validation  
+- Tool security must be validated  
+- Tool security must be tested  
+- Tool security must be audited  
+- Tool security must be documented  
+
+### 12.4 Security Enforcement  
+- Tool security must be enforced  
+- Tool security violations must be detected  
+- Tool security violations must be reported  
+- Tool security must be maintained  
+
+---
+
+# 13. MCP TOOL DOCUMENTATION CONTRACT
+
+### 13.1 Documentation Requirements  
+- Tool usage must be documented  
+- Tool integration must be documented  
+- Tool errors must be documented  
+- Tool configuration must be documented  
+
+### 13.2 Documentation Rules  
+- Tool usage patterns must be documented  
+- Tool integration patterns must be documented  
+- Tool error handling must be documented  
+- Tool configuration must be documented  
+
+### 13.3 Documentation Maintenance  
+- Documentation must be kept up to date  
+- Documentation must be reviewed  
+- Documentation must be accessible  
+- Documentation must be maintained  
+
+---
+
+# 14. MCP TOOL TESTING CONTRACT
+
+### 14.1 Testing Requirements  
+- Tool integration must be tested  
+- Tool usage must be tested  
+- Tool error handling must be tested  
+- Tool performance must be tested  
+
+### 14.2 Testing Rules  
+- Tool integration tests must be written  
+- Tool usage tests must be written  
+- Tool error handling tests must be written  
+- Tool performance tests must be written  
+
+### 14.3 Testing Validation  
+- Tool tests must pass  
+- Tool tests must be maintained  
+- Tool tests must be updated  
+- Tool tests must be documented  
+
+---
+
+# 15. MCP TOOL MONITORING CONTRACT
+
+### 15.1 Monitoring Requirements  
+- Tool usage must be monitored  
+- Tool performance must be monitored  
+- Tool errors must be monitored  
+- Tool availability must be monitored  
+
+### 15.2 Monitoring Rules  
+- Tool usage metrics must be collected  
+- Tool performance metrics must be collected  
+- Tool error metrics must be collected  
+- Tool availability metrics must be collected  
+
+### 15.3 Monitoring Alerts  
+- Tool errors must trigger alerts  
+- Tool performance degradation must trigger alerts  
+- Tool unavailability must trigger alerts  
+- Tool monitoring must be actionable  
+
+---
+
+# 16. MEMORY INTEGRATION
+
+### 16.1 Graffiti Storage  
+Store in Graffiti:
+- MCP tool → usage mapping  
+- MCP tool → phase relationships  
+- MCP tool → command relationships  
+- MCP tool dependency graphs  
+
+### 16.2 VectorDB Storage  
+Store in VectorDB:
+- MCP tool usage examples  
+- MCP tool integration patterns  
+- MCP tool troubleshooting guides  
+- MCP tool best practices  
+
+---
+
+# 17. STOP CONDITIONS
+
+MCP tool usage must STOP if:
+- required tool is unavailable  
+- tool priority order is violated  
+- tool is used in forbidden phase  
+- tool is used in forbidden command  
+- tool results are not validated  
+- tool errors are not handled  
+- tool security is violated  
+- tool usage is not documented  
+
+If any violation is detected → workflow must stop and correction must be required.
+
+---
+
+# END OF RULESET

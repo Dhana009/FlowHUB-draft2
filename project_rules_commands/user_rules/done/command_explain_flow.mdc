@@ -1,0 +1,151 @@
+---
+alwaysApply: true
+---
+# command_explain_flow
+## (System Flow Explanation, Architecture Understanding, and Conceptual Clarification Workflow)
+
+This rule defines how the assistant MUST behave whenever the `explain_flow` command is invoked.  
+This workflow explains *how something works* — conceptually, logically, architecturally — WITHOUT generating plans, requirements, or code.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering explain_flow workflow…
+
+The assistant MUST NOT:
+- write code  
+- generate diffs  
+- run Serena  
+- modify or create files  
+- plan features  
+- extract requirements  
+- define scope  
+- generate todos  
+- debug or test  
+- produce documentation without permission  
+- store memory automatically  
+
+This workflow is purely conceptual and explanatory.
+
+---
+
+## 2. Purpose of explain_flow
+The assistant MUST use this workflow when:
+- The user wants to understand how a system works  
+- The user asks for an architecture explanation  
+- The user wants a process or logical flow described  
+- The user is learning a concept  
+- The assistant must explain something without entering SDLC  
+
+The goal is clarity of understanding, not execution.
+
+---
+
+## 3. Required AgenticRag Memory Retrieval (Conditional)
+If the explanation involves:
+- Prior architecture  
+- Previous project flows  
+- Existing patterns  
+- Known constraints  
+- User-specific preferences  
+
+The assistant MUST:
+- Use `search_nodes` to pull relevant memory  
+- Use `search_facts` to gather relationships  
+- Integrate memory into the explanation  
+
+Memory MUST NOT add new behaviors or assumptions.
+
+---
+
+## 4. Allowed Actions
+During explain_flow, the assistant MAY:
+- Describe high-level architecture  
+- Explain data flow, process flow, or lifecycle  
+- Break down system components  
+- Provide conceptual diagrams (text-based only)  
+- Analyze how modules interact  
+- Compare approaches  
+- Provide simplified or deep explanations based on user preference  
+- Ask clarifying questions if the flow is unclear  
+
+All explanations MUST remain conceptual — not actionable SDLC instructions.
+
+---
+
+## 5. Forbidden Actions
+During explain_flow, the assistant MUST NOT:
+- Generate code  
+- Suggest implementation details  
+- Begin planning  
+- Create requirements  
+- Design architecture for execution  
+- Trigger research tools unless user asks  
+- Produce or modify documents  
+- Begin debugging or testing  
+- Enter any non-explanatory SDLC workflow  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 6. Explanation Protocol
+Explanations MUST follow this pattern:
+
+### 1. Context Summary  
+One short sentence describing what is being explained.
+
+### 2. Component Breakdown  
+Identify the core units or logical blocks involved.
+
+### 3. Flow Description  
+Step-by-step explanation of how the system behaves.
+
+### 4. Sequence Logic  
+Cause–effect or event–response mapping.
+
+### 5. Optional Deep Dive  
+If the user requests more detail:
+- Provide internal mechanics  
+- Add nuances, constraints, or trade-offs  
+
+All content MUST stay conceptual.
+
+---
+
+## 7. Optional Research (User-Triggered)
+If the user explicitly requests deeper understanding:
+- Assistant MUST ask: “Should I perform research on this?”  
+- If approved → run the research pipeline  
+- Then ask: “Do you want these findings stored in memory?”  
+
+No automatic research or storage allowed.
+
+---
+
+## 8. Integration With SDLC
+This workflow does NOT initiate any SDLC phase unless the user explicitly asks.  
+However:
+
+If during explanation the user transitions into SDLC language:
+- The assistant MUST exit explain_flow  
+- Enter refine_prompt  
+- Determine correct next command  
+- Ask for confirmation before executing  
+
+---
+
+## 9. Exit Conditions
+This workflow ends when:
+- The explanation is complete  
+- The user indicates understanding  
+- The user asks to continue with SDLC tasks  
+- The assistant detects intent to switch modes  
+
+After exit, the assistant MUST proceed to refine_prompt.
+
+---
+
+# End of command_explain_flow

@@ -1,0 +1,175 @@
+---
+alwaysApply: true
+---
+---
+description: Global MCP Enforcement Rule
+alwaysApply: true
+---
+
+# MCP EXECUTION — HARD ENFORCEMENT RULE
+
+This rule defines strict global behavior for all MCP tool usage.  
+The assistant must always follow these constraints regardless of project, command, or context.
+
+---
+
+## 1. MCP USAGE IS MANDATORY WHEN AVAILABLE
+
+If ANY MCP tool exists that is relevant, required, or explicitly mentioned:
+
+**THE ASSISTANT MUST CALL THE TOOL.  
+NO SIMULATION, NO PYTHON CODE, NO WORKAROUNDS.**
+
+Examples of forbidden behavior:
+- Writing Python to "simulate" Serena  
+- Creating files to mimic AgenticRag  
+- Generating manual JSON instead of calling the MCP  
+- Explaining how the tool works instead of calling it  
+
+**Only a real MCP tool call is allowed.**
+
+---
+
+## 2. USER-REQUESTED MCP CALLS HAVE ABSOLUTE PRIORITY
+
+If the user explicitly says:
+
+- “Use Serena”
+- “Call validate_code”
+- “Run scaffold_backend”
+- “Call AgenticRag”
+- “Test with the MCP server”
+- “Use Context7”
+- “Use Brave”
+- “Use Perplexity”
+
+The assistant MUST:
+
+**Call exactly that tool.  
+Immediately.  
+With no alternative behavior.**
+
+No fallback.  
+No interpretation.  
+No “maybe the user meant something else.”  
+No other output before the tool call.
+
+---
+
+## 3. TOOL PRIORITY ORDER (GLOBAL)
+
+When choosing which MCP tool to invoke, use this order:
+
+1. **Serena MCP**  
+   For coding, refactoring, validation, architecture mapping, static analysis.
+
+2. **AgenticRag MCP**  
+   For memory retrieval, memory updates, rule recall, prior decisions.
+
+3. **Context7 MCP**  
+   For documentation lookup, API details, framework-specific behavior.
+
+4. **Brave MCP**  
+   For targeted factual research when Context7 is insufficient.
+
+5. **Perplexity MCP**  
+   For deep reasoning, synthesis, or when Brave lacks structured clarity.
+
+6. **Cursor Search**  
+   For local project search (files, code, diffs).
+
+**The assistant MUST follow this priority unless the user names a specific tool.**
+
+---
+
+## 4. IF A REQUIRED TOOL IS MISSING — STOP IMMEDIATELY
+
+If the assistant attempts to call a tool and the tool is NOT available:
+
+**STOP THE WORKFLOW**  
+Respond with:
+
+Missing MCP: <tool-name>
+
+Do NOT:
+- write code  
+- attempt a workaround  
+- simulate the tool  
+- continue with fallback logic  
+- try to “guess” results  
+
+The task halts until the user resolves the missing tool.
+
+---
+
+## 5. MCP TOOLS MUST BE USED BEFORE ANY OTHER ACTION
+
+Before:
+- planning  
+- generating code  
+- debugging  
+- validating  
+- analyzing  
+- testing  
+- simulating  
+- or producing structured output
+
+The assistant MUST invoke the required MCP tools first.
+
+This ensures:
+- correctness  
+- reproducibility  
+- alignment with architecture rules  
+- alignment with memory  
+- no hallucinated solutions  
+
+---
+
+## 6. MCP TOOL OUTPUT CANNOT BE REPLACED OR IGNORED
+
+The assistant MUST NOT:
+- override MCP results  
+- contradict tool output  
+- rewrite results unless summarizing  
+- skip steps because it “thinks” it knows better  
+
+The MCP tool is the source of truth.
+
+---
+
+## 7. NO FALLBACK TO LOCAL GENERATION WHEN MCP EXISTS
+
+If a relevant MCP tool is available:
+
+**The assistant CANNOT use local model reasoning instead of the tool.**
+
+Forbidden behavior:
+- LLM generating backend schema manually when scaffold_schema exists  
+- LLM writing unit tests manually when scaffold_unit_tests exists  
+- LLM describing how to fix code instead of calling Serena's fix functions  
+- LLM creating manual architecture maps instead of using validate_architecture  
+
+---
+
+## 8. POST-MCP SUMMARY (ALLOWED)
+
+After calling the MCP tool, the assistant may produce:
+- short summaries  
+- interpretations  
+- next-step suggestions  
+
+But only **after** the tool call has completed.
+
+---
+
+## 9. ZERO TOLERANCE FOR TOOL SKIPPING
+
+If the task requires a tool and the tool is available:
+
+**Skipping it is a rule violation.  
+The assistant must always use the tool.**
+
+---
+
+# END OF RULE
+

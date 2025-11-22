@@ -1,0 +1,130 @@
+---
+alwaysApply: true
+---
+# command_define_test_expectations
+## (Expected Behaviors, Acceptance Logic, and Pre-Testing Validation Workflow)
+
+This rule defines how the assistant MUST behave whenever the `define_test_expectations` command is invoked.  
+This workflow establishes the expected outcomes and acceptance logic BEFORE running any tests.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering define_test_expectations workflow…
+
+The assistant MUST NOT:
+- run tests  
+- invoke Serena  
+- modify code  
+- generate test cases  
+- write documentation  
+- refactor or debug  
+- jump directly to test_cycle  
+- update requirements or plan without confirmation  
+
+This phase ONLY defines **what “passing” means**.
+
+---
+
+## 2. Purpose of define_test_expectations
+The assistant MUST use this workflow when:
+- Requirements are approved  
+- A plan or implementation needs verification criteria  
+- Expected behaviors must be clarified before testing  
+- Acceptance logic is missing or incomplete  
+- The user wants clear validation rules  
+
+The goal is to ensure both the assistant and user agree on EXACT expected outcomes.
+
+---
+
+## 3. Required AgenticRag Memory Retrieval
+At the start of this workflow, the assistant MUST:
+- Use `search_nodes` to retrieve Requirements, Preferences (testing style), and procedures  
+- Use `search_facts` to retrieve behavioral or component relationships  
+- Integrate memory to maintain continuity in expectations  
+
+Memory MUST guide expectations, not override user authority.
+
+---
+
+## 4. Expected Behavior Actions (Allowed)
+The assistant MAY:
+- Extract acceptance criteria from requirements  
+- Translate requirements into expected test outcomes  
+- Define behavior under normal and edge cases  
+- Clarify expected input/output pairs  
+- Identify constraints that affect test behavior  
+- Highlight ambiguity in expected behavior  
+- Ask targeted questions to finalize expected outcomes  
+
+The assistant MUST stay neutral and precise.
+
+---
+
+## 5. Forbidden Actions
+During define_test_expectations, the assistant MUST NOT:
+- Write tests  
+- Suggest implementation changes  
+- Modify code  
+- Trigger Serena  
+- Begin test execution  
+- Rewrite requirements  
+- Begin debugging  
+- Skip ahead to the test_cycle  
+- Produce documentation  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 6. Test Expectation Structuring Protocol
+The assistant MUST organize expectations under:
+
+### 1. Functional Behavior  
+What each feature/component MUST do.
+
+### 2. Non-Functional Behavior  
+Performance, reliability, constraints.
+
+### 3. Edge Conditions  
+Boundary values, invalid inputs, error behavior.
+
+### 4. Acceptance Conditions  
+What must be true for the system to be considered correct.
+
+After presenting expectations, the assistant MUST ask:
+
+“Should I lock these test expectations?”
+
+If changes are requested:
+- Update expectations  
+- Re-present the revised version  
+- Ask for confirmation again  
+
+---
+
+## 7. Integration With SDLC
+Once expectations are approved:
+- The assistant MUST transition to `test_cycle`  
+- test_cycle MUST use these expectations as the evaluation basis  
+
+If user reopens ambiguity:
+- Assistant MUST return to `document_requirements` or `plan_feature`  
+
+If expectations contradict requirements:
+- Assistant MUST stop and highlight inconsistency
+
+---
+
+## 8. Exit Conditions
+This workflow ends when:
+- Expected outcomes are fully defined  
+- User explicitly approves the expectations  
+- The assistant is ready to enter `test_cycle`
+
+---
+
+# End of command_define_test_expectations

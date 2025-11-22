@@ -1,0 +1,215 @@
+---
+description: Project-Wide Governing Principles (Root Rule)
+alwaysApply: true
+---
+
+# PROJECT-WIDE GOVERNING PRINCIPLES
+## (Root Rule for Entire SDLC: Design → Build → Test → Release)
+
+This project is a fully end-to-end SDLC system with **three versions (v1, v2, v3)**, each used to demonstrate:
+- semantic correctness,
+- maintainability,
+- automation stability,
+- deep architectural consistency,
+- cross-version predictability.
+
+These principles govern all project rules, project commands, user commands, memory rules, and MCP usage.
+
+---
+
+# 1. PROJECT PURPOSE (CORE CONTRACT)
+
+The purpose of this project:
+
+- Build an end-to-end full-stack application across **three versions** (Bootstrap, Tailwind, Custom CSS).
+- Demonstrate **semantic markup**, **accessibility**, **proper selectors**, **stable automation**, and **clean architecture**.
+- Write **backend + frontend + unit tests + E2E tests + API tests + Playwright tests**.
+- Follow a deterministic, repeatable SDLC pipeline.
+- Use automation and MCP tools consistently to avoid AI drift, hallucination, or unverified coding.
+
+This rule defines how *every* project rule must behave.
+
+---
+
+# 2. REQUIRED ARCHITECTURE PARADIGM
+
+The project must always follow:
+
+### 2.1 Backend (Layered Architecture)
+- Controller → Service → Repository → Model  
+- No shortcuts, no mixing of layers.  
+- Every rule must enforce this structure.
+
+### 2.2 Frontend (Semantic Component Architecture)
+- Route → Page → Component → Child Component → Hooks  
+- All UI must have **semantic roles**, **accessible structure**, and **strict selector policies**.
+
+### 2.3 Data & API Contract Standards
+- API schemas must be versioned.
+- Redis usage must follow documented TTL rules.
+- Error formats must match the error contract.
+
+---
+
+# 3. TESTING PRINCIPLES
+
+The testing foundations must always satisfy:
+
+- Unit tests for backend modules  
+- Unit tests for frontend logic  
+- Component-level tests  
+- API tests (supertest or similar)  
+- E2E tests (Playwright)  
+- CI rules (fail fast, no hidden flakiness)
+
+Tests must reflect:
+- semantic meaning  
+- accessibility  
+- stable selectors  
+- predictable automation flows  
+
+---
+
+# 4. COMMON REQUIREMENTS (APPLY TO ALL VERSIONS)
+
+Regardless of v1 / v2 / v3:
+
+### 4.1 Semantic Expectations
+- Use proper HTML roles
+- Avoid meaningless div spans for structure
+- Buttons must be `<button>`
+- Forms must be `<form>` with semantic grouping
+
+### 4.2 Selector Policy Enforcement
+Selectors must prioritise:
+1. **data-testid**  
+2. **accessible role**  
+3. **semantic tag**  
+4. Never use XPath  
+5. Never use raw nth-child selectors  
+
+This is mandatory across all versions.
+
+### 4.3 Accessibility Rules
+For every component:
+- ARIA labels validated  
+- Keyboard interaction must work  
+- Focus states must exist  
+- Images require alt text  
+- Error messages must be programmatically linked  
+
+---
+
+# 5. CODE GENERATION PRINCIPLES
+
+This project requires ALL code generation to follow:
+
+### 5.1 Strict Deterministic Structure
+- No creative rewrites  
+- No skipping layers  
+- No auto-fixing unless the plan approves it  
+
+### 5.2 Minimal-Diff Behavior
+All code changes must:
+- be minimal diffs  
+- reference correct files  
+- follow the architecture graph  
+- explain *why* each change is needed  
+- only be applied after explicit user approval  
+
+### 5.3 Validation Before Output
+Before generating code:
+- validate architecture
+- validate Graffiti graph consistency
+- validate selector policy
+- validate accessibility
+- validate backend/frontend separation
+- validate test impact
+
+If validation fails:
+- stop and re-plan
+
+---
+
+# 6. DOCUMENTATION PRINCIPLES
+
+All documents created by this project must follow:
+
+- short & clean defaults  
+- long only upon user request  
+- consistent formatting  
+- deterministic structure
+
+Document types:
+- PRD  
+- FRD  
+- System Design  
+- Architecture Overview  
+- Schema Spec  
+- API Spec  
+- Test Strategy  
+- Performance/Monitoring Plan  
+
+---
+
+# 7. MCP ENFORCEMENT FOR PROJECT OPERATIONS
+
+The project must use MCP tools in this order:
+
+### 7.1 Before coding
+- Context7 MCP  
+- Serena MCP (source graph)  
+- AgenticRag memory  
+
+### 7.2 Before debugging
+- Cursor Search  
+- AgenticRag  
+- Context7  
+- Brave  
+- Perplexity (only when needed)  
+
+### 7.3 Before testing architectural assumptions
+- AgenticRag  
+- Graffiti Graph  
+
+Every project command MUST use MCP tools BEFORE choosing any action.
+
+---
+
+# 8. STATE MANAGEMENT BETWEEN VERSIONS
+
+Each version (v1, v2, v3) must maintain:
+
+- its own UI components  
+- its own CSS system  
+- its own automation structure  
+- shared backend  
+- shared API  
+- shared test harness  
+- shared monitoring/pipeline  
+
+This ensures automation stability across visual changes.
+
+---
+
+# 9. MEMORY USAGE REQUIREMENTS
+
+The project must store:
+
+- structural rules → Graffiti  
+- long explanations → VectorDB  
+- API contracts → Graffiti  
+- architecture diagrams → Graffiti  
+- debugging summaries → VectorDB  
+- test strategies → VectorDB  
+- performance budgets → Graffiti  
+- CI rules → Graffiti
+
+Memory writes require:
+- user approval  
+- clean, structured format  
+- no noise or logs  
+
+---
+
+# END OF RULE

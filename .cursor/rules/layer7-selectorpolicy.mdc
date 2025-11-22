@@ -1,0 +1,415 @@
+---
+description: Selector Policy (Layer 7)
+alwaysApply: true
+---
+
+# SELECTOR POLICY  
+## (Stable Selectors for Automation: data-testid > role > semantic)
+
+Defines the mandatory selector hierarchy and rules for all automation and testing.
+
+Every UI element generated in this project **must comply with all selector rules below.**
+
+---
+
+# 1. SELECTOR PRIORITY CONTRACT  
+### (STRICT – Cannot be Violated)
+
+Selectors must follow this **strict priority hierarchy**:
+
+1. **data-testid** (PRIMARY)  
+   - must be used for all interactive elements  
+   - must be used for all testable components  
+   - highest priority for automation  
+
+2. **role** (SECONDARY)  
+   - must be used when accessibility requires it  
+   - can be used as fallback when data-testid is missing  
+   - must match accessibility requirements  
+
+3. **semantic tag** (TERTIARY)  
+   - can be used as last resort fallback  
+   - must use proper HTML semantic tags  
+   - must not rely on styling or content  
+
+4. **FORBIDDEN: nth-child**  
+   - never use nth-child selectors  
+   - never use positional selectors  
+   - never use CSS pseudo-selectors for automation  
+
+5. **FORBIDDEN: XPath**  
+   - never use XPath selectors  
+   - never use complex XPath expressions  
+   - never use XPath for automation  
+
+This hierarchy determines automation reliability and test stability.
+
+---
+
+# 2. DATA-TESTID CONTRACT
+
+### 2.1 data-testid Requirements  
+- Every interactive element must have data-testid  
+- Every testable component must have data-testid  
+- Every form input must have data-testid  
+- Every button must have data-testid  
+- Every link must have data-testid  
+
+### 2.2 data-testid Naming Convention  
+- Must use kebab-case  
+- Must be descriptive and clear  
+- Must include component/feature context  
+- Must not include version-specific identifiers  
+- Must be stable across versions  
+
+### 2.3 data-testid Examples  
+- `data-testid="login-submit-button"`  
+- `data-testid="user-profile-email-input"`  
+- `data-testid="navigation-home-link"`  
+- `data-testid="task-list-item"`  
+- `data-testid="error-message"`  
+
+### 2.4 data-testid Stability  
+- data-testid must not change between versions  
+- data-testid must not depend on styling  
+- data-testid must not depend on content  
+- data-testid must be deterministic  
+- data-testid must be unique within context  
+
+---
+
+# 3. ROLE-BASED SELECTOR CONTRACT
+
+### 3.1 Role Requirements  
+- Role must be used when accessibility requires it  
+- Role must match element's semantic purpose  
+- Role must be explicit when implicit role is unclear  
+- Role must follow ARIA role standards  
+
+### 3.2 Role Usage Rules  
+- Use role as secondary selector when data-testid is missing  
+- Use role for accessibility validation  
+- Use role for screen reader compatibility  
+- Do not use role as primary automation selector  
+
+### 3.3 Role Examples  
+- `role="button"` for custom button elements  
+- `role="navigation"` for navigation containers  
+- `role="dialog"` for modal dialogs  
+- `role="alert"` for error messages  
+- `role="form"` for form containers  
+
+### 3.4 Role Stability  
+- Role must be consistent across versions  
+- Role must not change based on styling  
+- Role must match semantic meaning  
+- Role must be testable  
+
+---
+
+# 4. SEMANTIC TAG SELECTOR CONTRACT
+
+### 4.1 Semantic Tag Requirements  
+- Semantic tags must be used for all HTML elements  
+- Semantic tags must match element purpose  
+- Semantic tags must follow HTML5 standards  
+- Semantic tags must be accessible  
+
+### 4.2 Semantic Tag Usage Rules  
+- Use semantic tags as tertiary fallback  
+- Use semantic tags for structure  
+- Use semantic tags for accessibility  
+- Do not rely solely on semantic tags for automation  
+
+### 4.3 Semantic Tag Examples  
+- `<button>` for buttons  
+- `<form>` for forms  
+- `<nav>` for navigation  
+- `<main>` for main content  
+- `<article>` for article content  
+
+### 4.4 Semantic Tag Stability  
+- Semantic tags must be consistent across versions  
+- Semantic tags must not change based on styling  
+- Semantic tags must match content structure  
+- Semantic tags must be testable  
+
+---
+
+# 5. FORBIDDEN SELECTOR CONTRACT
+
+### 5.1 nth-child Prohibition  
+- Never use nth-child selectors  
+- Never use :nth-of-type selectors  
+- Never use positional CSS selectors  
+- Never use :first-child or :last-child for automation  
+- These selectors are fragile and break easily  
+
+### 5.2 XPath Prohibition  
+- Never use XPath selectors  
+- Never use complex XPath expressions  
+- Never use XPath for element location  
+- XPath is brittle and maintenance-heavy  
+
+### 5.3 Content-Based Selector Prohibition  
+- Never use text content as primary selector  
+- Never use innerHTML as selector  
+- Never use dynamic content as selector  
+- Content changes break these selectors  
+
+### 5.4 Styling-Based Selector Prohibition  
+- Never use class names for automation (unless semantic)  
+- Never use ID selectors (unless stable and documented)  
+- Never use CSS properties as selectors  
+- Styling changes break these selectors  
+
+---
+
+# 6. SELECTOR NAMING CONVENTION CONTRACT
+
+### 6.1 Naming Rules  
+- Use kebab-case for all data-testid values  
+- Use descriptive names that indicate purpose  
+- Include component/feature context  
+- Keep names concise but clear  
+- Avoid abbreviations unless standard  
+
+### 6.2 Naming Patterns  
+- `[feature]-[element]-[type]`  
+- `[component]-[action]-[target]`  
+- `[section]-[item]-[identifier]`  
+- Examples: `login-submit-button`, `user-profile-email-input`  
+
+### 6.3 Naming Consistency  
+- Follow consistent naming patterns  
+- Use same pattern across similar elements  
+- Document naming conventions  
+- Enforce naming in code reviews  
+
+### 6.4 Naming Stability  
+- Names must not change between versions  
+- Names must be version-agnostic  
+- Names must not include implementation details  
+- Names must be maintainable  
+
+---
+
+# 7. VERSION CONSISTENCY CONTRACT
+
+### 7.1 Cross-Version Selector Requirements  
+- Selectors must be identical across v1, v2, v3  
+- data-testid values must match across versions  
+- Role attributes must match across versions  
+- Semantic tags must match across versions  
+
+### 7.2 Version Isolation Rules  
+- Selectors must not include version identifiers  
+- Selectors must work in all versions  
+- Selectors must not depend on version-specific styling  
+- Selectors must be version-agnostic  
+
+### 7.3 Version Testing  
+- E2E tests must use same selectors across versions  
+- Selector validation must run for all versions  
+- Selector changes must be tested in all versions  
+- Selector stability must be verified across versions  
+
+---
+
+# 8. SELECTOR STABILITY CONTRACT
+
+### 8.1 Stability Requirements  
+- Selectors must not change unless functionality changes  
+- Selectors must be stable across deployments  
+- Selectors must be stable across refactors  
+- Selectors must be stable across styling changes  
+
+### 8.2 Stability Rules  
+- Do not change selectors for cosmetic reasons  
+- Do not change selectors during refactoring  
+- Do not change selectors for performance optimization  
+- Only change selectors when functionality changes  
+
+### 8.3 Stability Validation  
+- Selector changes must be reviewed  
+- Selector changes must update all tests  
+- Selector changes must be documented  
+- Selector changes must be backward-compatible when possible  
+
+### 8.4 Stability Maintenance  
+- Monitor selector usage in tests  
+- Track selector changes over time  
+- Document selector deprecations  
+- Maintain selector migration guides  
+
+---
+
+# 9. SELECTOR TESTING CONTRACT
+
+### 9.1 Test Selector Requirements  
+- All E2E tests must use data-testid  
+- All component tests must use data-testid  
+- All integration tests must use stable selectors  
+- All tests must follow selector priority hierarchy  
+
+### 9.2 Test Selector Validation  
+- Tests must validate selector existence  
+- Tests must validate selector stability  
+- Tests must catch selector changes  
+- Tests must fail if selectors are missing  
+
+### 9.3 Test Selector Maintenance  
+- Update tests when selectors change  
+- Remove tests for deprecated selectors  
+- Add tests for new selectors  
+- Document selector usage in tests  
+
+---
+
+# 10. SELECTOR DOCUMENTATION CONTRACT
+
+### 10.1 Documentation Requirements  
+- All selectors must be documented  
+- Selector purpose must be clear  
+- Selector usage must be documented  
+- Selector changes must be tracked  
+
+### 10.2 Selector Registry  
+- Maintain registry of all selectors  
+- Document selector purpose  
+- Document selector usage  
+- Document selector dependencies  
+
+### 10.3 Selector Guidelines  
+- Provide guidelines for selector creation  
+- Provide examples of good selectors  
+- Provide examples of bad selectors  
+- Provide migration guides  
+
+---
+
+# 11. SELECTOR VALIDATION CONTRACT
+
+### 11.1 Validation Requirements  
+- Selectors must be validated before code merge  
+- Selector uniqueness must be validated  
+- Selector naming must be validated  
+- Selector stability must be validated  
+
+### 11.2 Validation Rules  
+- Validate data-testid presence  
+- Validate data-testid naming  
+- Validate role attributes  
+- Validate semantic tags  
+
+### 11.3 Validation Tools  
+- Use linting tools for selector validation  
+- Use automated checks for selector compliance  
+- Use CI/CD for selector validation  
+- Use code review for selector validation  
+
+---
+
+# 12. SELECTOR MIGRATION CONTRACT
+
+### 12.1 Migration Requirements  
+- Old selectors must be deprecated before removal  
+- Migration path must be provided  
+- Tests must be updated during migration  
+- Documentation must be updated  
+
+### 12.2 Migration Process  
+- Announce selector deprecation  
+- Provide migration timeline  
+- Update all tests  
+- Remove deprecated selectors  
+
+### 12.3 Migration Safety  
+- Maintain backward compatibility when possible  
+- Support both old and new selectors during transition  
+- Provide clear migration instructions  
+- Test migration thoroughly  
+
+---
+
+# 13. MCP TOOL INTEGRATION
+
+### 13.1 Serena MCP Usage  
+Serena must be used for:
+- analyzing selector usage  
+- refactoring selectors  
+- mapping selector dependencies  
+- validating selector compliance  
+
+### 13.2 Context7 MCP Usage  
+Context7 must be used for:
+- testing framework selector documentation  
+- Playwright selector best practices  
+- accessibility selector guidelines  
+- automation selector patterns  
+
+### 13.3 AgenticRag Memory Usage  
+AgenticRag must retrieve:
+- selector patterns from memory  
+- selector naming conventions  
+- selector migration patterns  
+- selector testing strategies  
+
+---
+
+# 14. MEMORY INTEGRATION
+
+### 14.1 Graffiti Storage  
+Store in Graffiti:
+- selector → component mappings  
+- selector → test mappings  
+- selector → version mappings  
+- selector dependency graphs  
+
+### 14.2 VectorDB Storage  
+Store in VectorDB:
+- selector implementation examples  
+- selector naming patterns  
+- selector migration guides  
+- selector testing examples  
+
+---
+
+# 15. CI/CD SELECTOR CONTRACT
+
+### 15.1 CI Validation Requirements  
+- Selector validation must run in CI  
+- Selector uniqueness must be checked  
+- Selector naming must be validated  
+- Selector stability must be verified  
+
+### 15.2 CI Selector Checks  
+- Validate data-testid presence  
+- Validate selector naming convention  
+- Validate forbidden selector usage  
+- Validate cross-version consistency  
+
+### 15.3 CI Selector Enforcement  
+- Fail build if selectors are missing  
+- Fail build if selectors violate rules  
+- Fail build if selectors are unstable  
+- Enforce selector policy in CI  
+
+---
+
+# 16. STOP CONDITIONS
+
+Selector usage must STOP if:
+- data-testid is missing on interactive elements  
+- selector violates priority hierarchy  
+- forbidden selectors are used  
+- selector naming convention is violated  
+- selector is not stable across versions  
+- selector depends on styling or content  
+- selector is not documented  
+
+If any violation is detected → planning must stop and correction must be proposed.
+
+---
+
+# END OF RULESET

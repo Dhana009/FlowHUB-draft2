@@ -1,0 +1,511 @@
+---
+description: Monitoring Rules (Layer 12)
+alwaysApply: true
+---
+
+# MONITORING RULES  
+## (Logging, Metrics, Tracing, Alerts, Dashboards, Health Checks)
+
+Defines all monitoring, observability, and alerting requirements for the entire system.
+
+Every component and service must be monitored according to these rules.
+
+---
+
+# 1. MONITORING CONTRACT  
+### (STRICT – Cannot be Violated)
+
+All system components must implement **comprehensive monitoring**:
+
+1. **Logging**  
+   - structured logging for all events  
+   - log levels (error, warn, info, debug)  
+   - log aggregation and storage  
+   - log retention policies  
+
+2. **Metrics**  
+   - application metrics  
+   - infrastructure metrics  
+   - business metrics  
+   - custom metrics  
+
+3. **Tracing**  
+   - distributed tracing  
+   - request tracing  
+   - performance tracing  
+   - error tracing  
+
+4. **Alerts**  
+   - error alerts  
+   - performance alerts  
+   - resource alerts  
+   - business alerts  
+
+5. **Dashboards**  
+   - operational dashboards  
+   - performance dashboards  
+   - business dashboards  
+   - custom dashboards  
+
+All monitoring must be automated, continuous, and actionable.
+
+---
+
+# 2. LOGGING CONTRACT
+
+### 2.1 Logging Requirements  
+- All errors must be logged  
+- Important operations must be logged  
+- Logs must include request context  
+- Logs must be structured (JSON)  
+- Log levels must be appropriate  
+
+### 2.2 Log Structure Requirements  
+- Logs must be in JSON format  
+- Logs must include timestamp  
+- Logs must include log level  
+- Logs must include request ID/trace ID  
+- Logs must include component/service name  
+
+### 2.3 Log Level Rules  
+- **ERROR**: system errors, exceptions, failures  
+- **WARN**: warnings, degraded functionality  
+- **INFO**: important operations, state changes  
+- **DEBUG**: detailed debugging information  
+
+### 2.4 Log Context Requirements  
+- Request ID must be included  
+- User ID must be included (when applicable)  
+- Component/service name must be included  
+- Operation name must be included  
+- Error stack traces must be included for errors  
+
+### 2.5 Log Retention Requirements  
+- Logs must be retained for minimum 30 days  
+- Error logs must be retained for minimum 90 days  
+- Logs must be archived after retention period  
+- Logs must be searchable and queryable  
+
+---
+
+# 3. METRICS CONTRACT
+
+### 3.1 Application Metrics Requirements  
+- API request count  
+- API response times (p50, p95, p99)  
+- API error rates  
+- API success rates  
+- Request size and response size  
+
+### 3.2 Infrastructure Metrics Requirements  
+- CPU usage  
+- Memory usage  
+- Disk usage  
+- Network usage  
+- Connection pool usage  
+
+### 3.3 Database Metrics Requirements  
+- Query count  
+- Query execution time  
+- Connection pool usage  
+- Slow query count  
+- Cache hit rate  
+
+### 3.4 Business Metrics Requirements  
+- User actions  
+- Feature usage  
+- Conversion rates  
+- Business events  
+- Custom business metrics  
+
+### 3.5 Metrics Collection Requirements  
+- Metrics must be collected continuously  
+- Metrics must be aggregated  
+- Metrics must be stored  
+- Metrics must be queryable  
+- Metrics must have retention policies  
+
+---
+
+# 4. TRACING CONTRACT
+
+### 4.1 Distributed Tracing Requirements  
+- Request tracing must be implemented  
+- Trace IDs must be propagated  
+- Traces must include timing information  
+- Traces must include service boundaries  
+- Traces must be correlated  
+
+### 4.2 Trace Structure Requirements  
+- Trace ID must be unique per request  
+- Trace must include span information  
+- Trace must include timing data  
+- Trace must include service names  
+- Trace must include operation names  
+
+### 4.3 Trace Propagation Requirements  
+- Trace ID must be propagated across services  
+- Trace ID must be included in logs  
+- Trace ID must be included in error reports  
+- Trace ID must be included in API responses (when debugging)  
+
+### 4.4 Trace Retention Requirements  
+- Traces must be retained for minimum 7 days  
+- Error traces must be retained for minimum 30 days  
+- Traces must be searchable  
+- Traces must be queryable  
+
+---
+
+# 5. ALERTING CONTRACT
+
+### 5.1 Error Alert Requirements  
+- Critical errors must trigger alerts immediately  
+- Error rate spikes must trigger alerts  
+- Repeated errors must trigger alerts  
+- Error alerts must include context  
+
+### 5.2 Performance Alert Requirements  
+- Response time degradation must trigger alerts  
+- Performance budget violations must trigger alerts  
+- Resource exhaustion must trigger alerts  
+- Performance alerts must be actionable  
+
+### 5.3 Resource Alert Requirements  
+- CPU usage > 80% must trigger alert  
+- Memory usage > 80% must trigger alert  
+- Disk usage > 80% must trigger alert  
+- Connection pool exhaustion must trigger alert  
+
+### 5.4 Business Alert Requirements  
+- Business metric anomalies must trigger alerts  
+- Conversion rate drops must trigger alerts  
+- User action anomalies must trigger alerts  
+- Business alerts must be configurable  
+
+### 5.5 Alert Configuration Requirements  
+- Alert thresholds must be configurable  
+- Alert channels must be configurable  
+- Alert frequency must be configurable  
+- Alert escalation must be configured  
+- Alert noise must be minimized  
+
+---
+
+# 6. DASHBOARD CONTRACT
+
+### 6.1 Operational Dashboard Requirements  
+- System health dashboard  
+- Error rate dashboard  
+- Performance dashboard  
+- Resource usage dashboard  
+
+### 6.2 Performance Dashboard Requirements  
+- API response times  
+- Request rates  
+- Error rates  
+- Resource usage  
+- Performance trends  
+
+### 6.3 Business Dashboard Requirements  
+- User activity  
+- Feature usage  
+- Conversion metrics  
+- Business KPIs  
+
+### 6.4 Dashboard Requirements  
+- Dashboards must be real-time  
+- Dashboards must be customizable  
+- Dashboards must be accessible  
+- Dashboards must be maintained  
+
+---
+
+# 7. HEALTH CHECK CONTRACT
+
+### 7.1 Health Check Requirements  
+- Health checks must be implemented  
+- Health checks must be exposed via endpoint  
+- Health checks must be fast (< 100ms)  
+- Health checks must be reliable  
+
+### 7.2 Health Check Structure  
+- Health check must return status (healthy/unhealthy)  
+- Health check must include component status  
+- Health check must include dependencies status  
+- Health check must include version information  
+
+### 7.3 Health Check Dependencies  
+- Database connectivity  
+- Redis connectivity  
+- External service connectivity  
+- Resource availability  
+
+### 7.4 Health Check Usage  
+- Health checks must be used by load balancers  
+- Health checks must be used by orchestration  
+- Health checks must be monitored  
+- Health check failures must trigger alerts  
+
+---
+
+# 8. ERROR TRACKING CONTRACT
+
+### 8.1 Error Tracking Requirements  
+- All errors must be tracked  
+- Error context must be captured  
+- Error frequency must be tracked  
+- Error trends must be analyzed  
+
+### 8.2 Error Context Requirements  
+- Error message  
+- Error stack trace  
+- Request context  
+- User context  
+- Component/service context  
+
+### 8.3 Error Aggregation Requirements  
+- Similar errors must be aggregated  
+- Error grouping must be intelligent  
+- Error trends must be identified  
+- Error patterns must be detected  
+
+### 8.4 Error Reporting Requirements  
+- Error reports must be generated  
+- Error reports must be actionable  
+- Error reports must include context  
+- Error reports must be timely  
+
+---
+
+# 9. PERFORMANCE MONITORING CONTRACT
+
+### 9.1 Performance Monitoring Requirements  
+- Performance must be monitored continuously  
+- Performance metrics must be collected  
+- Performance trends must be tracked  
+- Performance regressions must be detected  
+
+### 9.2 Performance Metrics Collection  
+- API response times  
+- Database query times  
+- Cache hit rates  
+- Resource usage  
+- User experience metrics  
+
+### 9.3 Performance Alerting  
+- Performance degradation must trigger alerts  
+- Performance budget violations must trigger alerts  
+- Performance anomalies must trigger alerts  
+- Performance alerts must be actionable  
+
+### 9.4 Performance Reporting  
+- Performance reports must be generated  
+- Performance trends must be analyzed  
+- Performance issues must be documented  
+- Performance improvements must be tracked  
+
+---
+
+# 10. RESOURCE MONITORING CONTRACT
+
+### 10.1 Resource Monitoring Requirements  
+- CPU usage must be monitored  
+- Memory usage must be monitored  
+- Disk usage must be monitored  
+- Network usage must be monitored  
+- Connection pool usage must be monitored  
+
+### 10.2 Resource Alerting  
+- Resource exhaustion must trigger alerts  
+- Resource usage spikes must trigger alerts  
+- Resource leaks must be detected  
+- Resource alerts must be actionable  
+
+### 10.3 Resource Optimization  
+- Resource usage must be optimized  
+- Resource leaks must be fixed  
+- Resource limits must be enforced  
+- Resource capacity must be planned  
+
+---
+
+# 11. USER EXPERIENCE MONITORING CONTRACT
+
+### 11.1 User Experience Metrics  
+- Page load times  
+- Time to interactive  
+- First contentful paint  
+- Largest contentful paint  
+- Cumulative layout shift  
+
+### 11.2 User Experience Tracking  
+- Real user monitoring (RUM)  
+- Synthetic monitoring  
+- User session tracking  
+- User action tracking  
+
+### 11.3 User Experience Alerting  
+- User experience degradation must trigger alerts  
+- User experience anomalies must trigger alerts  
+- User experience alerts must be actionable  
+
+### 11.4 User Experience Reporting  
+- User experience reports must be generated  
+- User experience trends must be analyzed  
+- User experience issues must be documented  
+
+---
+
+# 12. SECURITY MONITORING CONTRACT
+
+### 12.1 Security Monitoring Requirements  
+- Security events must be monitored  
+- Authentication failures must be tracked  
+- Authorization failures must be tracked  
+- Suspicious activity must be detected  
+
+### 12.2 Security Alerting  
+- Security incidents must trigger alerts immediately  
+- Authentication failures must trigger alerts  
+- Authorization failures must trigger alerts  
+- Suspicious activity must trigger alerts  
+
+### 12.3 Security Logging  
+- Security events must be logged  
+- Security logs must be retained  
+- Security logs must be auditable  
+- Security logs must be protected  
+
+---
+
+# 13. MONITORING TOOL INTEGRATION CONTRACT
+
+### 13.1 Monitoring Tool Requirements  
+- Centralized logging system  
+- Metrics collection system  
+- Distributed tracing system  
+- Alerting system  
+- Dashboard system  
+
+### 13.2 Tool Integration Requirements  
+- Tools must be integrated  
+- Data must be correlated  
+- Tools must be accessible  
+- Tools must be maintained  
+
+### 13.3 Tool Configuration Requirements  
+- Tool configuration must be version-controlled  
+- Tool configuration must be documented  
+- Tool configuration must be tested  
+- Tool configuration must be maintained  
+
+---
+
+# 14. MONITORING DATA RETENTION CONTRACT
+
+### 14.1 Log Retention Requirements  
+- Logs must be retained for minimum 30 days  
+- Error logs must be retained for minimum 90 days  
+- Security logs must be retained for minimum 1 year  
+- Logs must be archived after retention  
+
+### 14.2 Metrics Retention Requirements  
+- Metrics must be retained for minimum 90 days  
+- Aggregated metrics must be retained for minimum 1 year  
+- Metrics must be archived after retention  
+
+### 14.3 Trace Retention Requirements  
+- Traces must be retained for minimum 7 days  
+- Error traces must be retained for minimum 30 days  
+- Traces must be archived after retention  
+
+### 14.4 Data Archival Requirements  
+- Data must be archived after retention  
+- Archived data must be accessible  
+- Archived data must be searchable  
+- Archived data must be secure  
+
+---
+
+# 15. MCP TOOL INTEGRATION
+
+### 15.1 Serena MCP Usage  
+Serena must be used for:
+- analyzing monitoring setup  
+- validating monitoring implementation  
+- identifying monitoring gaps  
+- mapping monitoring dependencies  
+
+### 15.2 Context7 MCP Usage  
+Context7 must be used for:
+- monitoring tool documentation  
+- observability best practices  
+- monitoring pattern documentation  
+- alerting best practices  
+
+### 15.3 AgenticRag Memory Usage  
+AgenticRag must retrieve:
+- monitoring patterns from memory  
+- alerting strategies  
+- monitoring configuration examples  
+- common monitoring issues and fixes  
+
+---
+
+# 16. MEMORY INTEGRATION
+
+### 16.1 Graffiti Storage  
+Store in Graffiti:
+- monitoring → component mappings  
+- alert → metric relationships  
+- monitoring → service mappings  
+- monitoring dependency graphs  
+
+### 16.2 VectorDB Storage  
+Store in VectorDB:
+- monitoring configuration examples  
+- alerting strategies  
+- monitoring troubleshooting guides  
+- monitoring best practices  
+
+---
+
+# 17. CI/CD MONITORING CONTRACT
+
+### 17.1 CI/CD Monitoring Requirements  
+- CI/CD pipeline must be monitored  
+- Build times must be tracked  
+- Test execution times must be tracked  
+- Deployment times must be tracked  
+
+### 17.2 CI/CD Alerting  
+- CI/CD failures must trigger alerts  
+- Build time increases must trigger alerts  
+- Test failures must trigger alerts  
+- Deployment failures must trigger alerts  
+
+### 17.3 CI/CD Reporting  
+- CI/CD reports must be generated  
+- CI/CD trends must be analyzed  
+- CI/CD issues must be documented  
+
+---
+
+# 18. STOP CONDITIONS
+
+Monitoring implementation must STOP if:
+- logging is not implemented  
+- metrics are not collected  
+- tracing is not implemented  
+- alerts are not configured  
+- dashboards are not available  
+- health checks are not implemented  
+- error tracking is not implemented  
+- monitoring data is not retained  
+
+If any violation is detected → planning must stop and correction must be proposed.
+
+---
+
+# END OF RULESET

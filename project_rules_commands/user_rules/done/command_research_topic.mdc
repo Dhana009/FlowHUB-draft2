@@ -1,0 +1,152 @@
+---
+alwaysApply: true
+---
+# command_research_topic
+## (Deep Research, Knowledge Extraction, and Truth-Grounded Investigation Workflow)
+
+This rule defines how the assistant MUST behave whenever the `research_topic` command is invoked.  
+This workflow performs rigorous, multi-source research using the full MCP pipeline — without generating plans, code, or documents unless explicitly requested.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering research_topic workflow…
+
+The assistant MUST NOT:
+- write code  
+- generate diffs  
+- modify files  
+- plan features  
+- create todos  
+- design architecture  
+- begin debugging  
+- run tests  
+- produce documentation  
+- store memory automatically  
+
+This workflow is exclusively for research and knowledge gathering.
+
+---
+
+## 2. Purpose of research_topic
+The assistant MUST use this workflow when:
+- A topic requires deeper understanding  
+- SDLC phases depend on external knowledge  
+- Planning or debugging requires authoritative references  
+- The user explicitly requests research  
+- The assistant must verify correctness before reasoning  
+
+The goal is to gather accurate, structured information from multiple trusted sources.
+
+---
+
+## 3. Mandatory Research Pipeline
+The assistant MUST execute research in this exact sequence:
+
+### Step 1 — Context7 Lookup  
+Primary source for up-to-date, accurate, version-specific information.
+
+### Step 2 — Cursor Local Search  
+Search the local project context to integrate project-specific details.
+
+### Step 3 — BraveSearch MCP  
+Run Brave only if Context7 + Cursor search do not resolve the question.
+
+### Step 4 — Perplexity MCP  
+Run Perplexity only if Brave still leaves gaps or complexity remains high.
+
+The assistant MUST NOT invoke any source twice during a single research session.
+
+---
+
+## 4. Research Output Protocol
+Research output MUST follow this structure:
+
+### 1. Summary of Findings  
+Short, neutral description of gathered information.
+
+### 2. Key Concepts  
+Essential definitions, behaviors, properties.
+
+### 3. Detailed Technical Insights  
+Accurate explanations from research results.
+
+### 4. Relevance to Task  
+Exactly how the information relates to the user’s problem or SDLC phase.
+
+The assistant MUST avoid bloat or unnecessary text.
+
+---
+
+## 5. Permission Rules for Document Writing
+If research results could be stored or documented, the assistant MUST ask:
+
+“Do you want these research findings documented?”
+
+If user says yes:
+- Ask for detail level  
+- Ask for length limit  
+- Ask what format  
+- Only then generate a document  
+
+The assistant MUST NOT write or store anything automatically.
+
+---
+
+## 6. Required AgenticRag Integration
+After research is complete, the assistant MUST:
+- Ask: “Should I store these findings in memory?”  
+- Wait for explicit approval  
+
+If user approves:
+- Use `add_memory` with clear node types:  
+  - Preference  
+  - Requirement  
+  - Procedure  
+  - Fact  
+
+Research MUST never override user directives.
+
+---
+
+## 7. Forbidden Actions
+During research_topic, the assistant MUST NOT:
+- Create code  
+- Propose implementation  
+- Modify any plan  
+- Update requirements  
+- Alter project structure  
+- Invoke Serena for debugging or execution  
+- Generate architecture suggestions  
+- Jump ahead in SDLC  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 8. Integration With SDLC
+After research:
+- If research resolves ambiguity → return to refine_prompt or clarify_request  
+- If research supports planning → transition to plan_feature  
+- If research supports debugging → transition to debugging_session  
+- If user wants documentation → transition to draft_document  
+- If user declines → simply return results and wait for next command  
+
+This workflow NEVER transitions directly to implementation or testing.
+
+---
+
+## 9. Exit Conditions
+This workflow ends when:
+- Research pipeline is completed  
+- Findings are clearly summarized  
+- User decisions on documentation and memory are respected  
+- Next SDLC command is selected based on user instruction  
+
+After exit, the assistant MUST await the next command.
+
+---
+
+# End of command_research_topic

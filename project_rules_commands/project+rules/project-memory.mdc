@@ -1,0 +1,227 @@
+---
+description: Project Memory Governance (Graffiti Graph + VectorDB)
+alwaysApply: true
+---
+
+# PROJECT MEMORY GOVERNANCE
+## (Graffiti Graph + VectorDB via AgenticRag)
+
+This project uses TWO complementary long-term memory systems, orchestrated via AgenticRag:
+
+- **Graffiti Graph** → structured, relational, rule-like knowledge  
+- **VectorDB** → semantic, text-like, explanation and narrative knowledge  
+
+This rule defines:
+- what must go where  
+- when to read  
+- when to write  
+- how each SDLC phase should use memory  
+
+All behavior here must remain consistent with global User Rules (especially: no memory writes without explicit user approval).
+
+---
+
+## 1. MEMORY SYSTEM OVERVIEW
+
+### 1.1 Graffiti Graph — “STRUCTURED PROJECT BRAIN”
+Graffiti stores **nodes and relationships** that represent project structure and rules.
+
+Use Graffiti for:
+- Architecture relationships (controller → service → model, page → component → hook)  
+- API graph (endpoint → service → schema → DB model)  
+- UI structure (route → layout → page → component tree)  
+- Versioning graph (v1/v2/v3 → features → modules)  
+- Selector policy relationships (SelectorRule → applies_to → Component/Element)  
+- Test graph (test → module → feature → requirement)  
+- CI dependency graph (check → depends_on → test_suite)  
+- Redis keys and policies (key pattern → TTL → usage policy)  
+- Anti-pattern relationships (AntiPattern → violates → ArchitectureRule)  
+- Accessibility rules (Role → required attributes → violations)  
+- Performance budgets (Module → budgets → thresholds)
+
+**Rule:** Graffiti stores anything that is best represented as “nodes + edges” and is relatively stable over time.
+
+---
+
+### 1.2 VectorDB — “SEMANTIC PROJECT MEMORY”
+VectorDB stores **semantic text chunks** for fuzzy retrieval and explanation.
+
+Use VectorDB for:
+- PRDs, FRDs, design docs, architecture documents  
+- Phase 1–4 descriptions and narratives  
+- Standards, guidelines, and long-form explanations  
+- Past debugging summaries and root-cause writeups  
+- Performance and monitoring investigation summaries  
+- Research summaries from Brave / Perplexity / Context7  
+- Test strategy explanations and patterns  
+- Historical decision records (e.g., “why we chose this schema”)  
+- User preferences that are textual (style, tone, explanation depth)
+
+**Rule:** VectorDB stores longer, narrative, explanation-heavy content that may need to be revisited by meaning, not exact structure.
+
+---
+
+## 2. READ RULES — WHEN TO USE WHICH MEMORY
+
+### 2.1 General Priority
+1. **Graffiti first** when structure, rules, and relationships are needed.  
+2. **VectorDB second** when explanations, patterns, or historical context are needed.
+
+The assistant must:
+- Use Graffiti for rules and architecture.  
+- Use VectorDB for explanations and examples.
+
+---
+
+### 2.2 By User Command / Phase
+
+#### `refine_prompt` / `clarify_request`
+- Graffiti: retrieve high-level architecture and feature graph (what modules exist, what layers exist).  
+- VectorDB: retrieve relevant PRD/FRD paragraphs only if needed to clarify intent.
+
+#### `scope_request`
+- Graffiti: retrieve feature → module → version relationships to avoid scope creep.  
+- VectorDB: only if the user refers to narrative requirements.
+
+#### `document_requirements`
+- Graffiti: retrieve existing requirement nodes and related tests.  
+- VectorDB: retrieve requirement descriptions and prior requirement wording.
+
+#### `plan_feature`
+- Graffiti: architecture graph, module dependencies, anti-pattern rules, selector policy rules.  
+- VectorDB: previous design decisions, standards, and best-practice text.
+
+#### `generate_todo`
+- Graffiti: feature → module → task relationships (if they exist).  
+- VectorDB: not required unless user references narrative docs.
+
+#### `implement_change`
+- Graffiti: exact module relationships, file graph, API graph, selector policy, architecture rules.  
+- VectorDB: previous implementation notes or debugging summaries if relevant.
+
+#### `review_code` / `refactor_code`
+- Graffiti: anti-pattern rules, architecture rules, test graph, selector rules.  
+- VectorDB: prior reviews or refactor decisions (if any exist).
+
+#### `test_cycle`
+- Graffiti: test → module → requirement mapping, CI dependency graph.  
+- VectorDB: test strategy explanations only if needed to explain behavior.
+
+#### `debugging_session`
+- VectorDB: retrieve prior similar error summaries and root-cause analyses.  
+- Graffiti: retrieve structural relationships for the failing module (files, services, endpoints, components).
+
+#### `explain_flow` / `simulate_flow`
+- Graffiti: flow graph (route → component → service → DB).  
+- VectorDB: only if a prior explanation for that flow exists and is useful.
+
+#### `draft_document` / `refine_document`
+- VectorDB: main source for previous documents, narrative content, and explanations.  
+- Graffiti: retrieve the structural anchors (requirements, architecture nodes) referenced in the document.
+
+---
+
+## 3. WRITE RULES — WHAT TO STORE WHERE
+
+### 3.1 Graffiti Write Rules (STRUCTURED MEMORY)
+
+The assistant may propose writing to Graffiti when:
+
+- A **new architecture decision** is made  
+  - e.g., “Profile page now uses ProfileService → ProfileModel”
+
+- A **new module or feature** is created  
+  - e.g., “TaskBoard v3 added with new layout and selectors”
+
+- A **new API endpoint** is defined  
+  - store endpoint → method → path → schema → service → model links
+
+- A **new test suite** is created  
+  - link test → module → requirement
+
+- A **new selector rule or accessibility rule** is added  
+  - e.g., “All primary actions require aria-label and data-testid”
+
+- A **new anti-pattern detection rule** is formalized  
+  - e.g., “No direct DB calls in controllers”
+
+**Hard Constraint:**  
+Graffiti must store only **clean, structured nodes and relationships**, not raw logs or random text.
+
+**Global Alignment:**  
+Per User Rules, the assistant must ask the user before writing new memory:  
+- explain what node(s) will be written  
+- explain why  
+- write only after explicit approval.
+
+---
+
+### 3.2 VectorDB Write Rules (SEMANTIC MEMORY)
+
+The assistant may propose writing to VectorDB when:
+
+- A new **PRD / FRD / design discussion** has been finalized.  
+- A **debugging_session** produces a validated root-cause summary and fix.  
+- A **research_topic** call yields a solid, reusable research summary.  
+- A **test strategy** for a major feature is agreed upon.  
+- A **performance or monitoring investigation** is completed.  
+- The user explicitly says “remember this explanation” or “store this reasoning”.
+
+VectorDB entries should be:
+- short to medium chunks (2–15 lines)  
+- self-contained (can be understood without the full chat log)  
+- tagged with feature/module/phase/version when possible.
+
+Again, no writes without explicit user approval.
+
+---
+
+## 4. AGENTICRAG USAGE RULES
+
+All memory interactions for this project must go through **AgenticRag MCP**, not direct low-level calls.
+
+AgenticRag is responsible for:
+- routing reads to Graffiti vs VectorDB  
+- routing writes to Graffiti vs VectorDB  
+- deduplication strategies  
+- tagging and categorization  
+
+The assistant must:
+- call AgenticRag for memory retrieval before planning, coding, testing, or debugging.  
+- call AgenticRag for memory writes only after the user approves a proposed memory record.
+
+---
+
+## 5. NOISE & SAFETY FILTERS
+
+The assistant must **not** store:
+- raw stack traces  
+- large logs  
+- transient debugging noise  
+- sensitive secrets or credentials  
+- whole chat transcripts  
+
+Instead:
+- summarize  
+- extract the essential pattern or rule  
+- then propose storing only the summary.
+
+---
+
+## 6. HOW TO REPORT MEMORY USAGE TO USER
+
+Whenever memory is used in a meaningful way, the assistant should (briefly) indicate:
+
+- when a memory hit from Graffiti influenced architecture or structure  
+- when a VectorDB retrieval influenced an explanation, plan, or diagnosis  
+
+When proposing a memory write, the assistant must clearly show:
+- what would be stored  
+- where (Graffiti or VectorDB)  
+- why it is helpful in future sessions.
+
+No silent writes are allowed.
+
+---
+
+# END OF RULE

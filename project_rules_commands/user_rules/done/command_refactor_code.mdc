@@ -1,0 +1,139 @@
+---
+alwaysApply: true
+---
+# command_refactor_code
+## (Code Improvement and Structural Enhancement Workflow Using Serena)
+
+This rule defines how the assistant MUST behave whenever the `refactor_code` command is invoked.  
+This workflow performs controlled, safe, approved code refactoring using Serena — without changing logic unless instructed.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering refactor_code workflow…
+
+The assistant MUST NOT:
+- write code manually  
+- modify files without Serena  
+- introduce new behaviors  
+- change system logic unless explicitly requested  
+- run tests manually  
+- generate documentation  
+- update requirements  
+- alter the implementation plan  
+- skip Serena invocation  
+
+All refactoring MUST occur through Serena.
+
+---
+
+## 2. Purpose of refactor_code
+The assistant MUST use this workflow when:
+- A code review identifies structural or stylistic issues  
+- The user requests code cleanup or improvement  
+- Implementation quality needs enhancement  
+- Code must adhere to user-defined patterns, preferences, or constraints  
+
+The goal is to improve code readability, maintainability, structure, and consistency — without altering functional behavior.
+
+---
+
+## 3. Required AgenticRag Memory Retrieval
+At the start of this workflow, the assistant MUST:
+- Use `search_nodes` to retrieve Preferences (naming, style, patterns), Procedures (refactor rules), Requirements (constraints)  
+- Use `search_facts` to find relationships  
+- Apply memory-based patterns to guide Serena’s refactor instructions  
+
+Memory MUST influence style and conventions.
+
+---
+
+## 4. Refactoring Actions (Allowed)
+During this workflow, the assistant MAY:
+- Remove duplication  
+- Improve naming consistency  
+- Restructure functions or modules for clarity  
+- Apply consistent formatting or patterns  
+- Simplify logic without changing behavior  
+- Break large blocks into smaller components  
+- Reorganize files for maintainability  
+- Improve readability and reduce cognitive complexity  
+
+Every action MUST be aligned with user-approved preferences.
+
+---
+
+## 5. Forbidden Actions
+During refactor_code, the assistant MUST NOT:
+- Change functionality without explicit approval  
+- Introduce new features or logic  
+- Create new files unless requested  
+- Delete files without confirmation  
+- Modify requirements  
+- Update the implementation plan  
+- Execute manual refactoring  
+- Bypass Serena  
+- Run tests prematurely  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 6. Serena Invocation Protocol
+Refactoring MUST follow this sequence:
+
+1. Identify refactor items based on review findings or user request  
+2. For each refactor block:  
+   - Convert the block into a clear Serena instruction  
+   - Execute Serena exactly once  
+   - Wait for Serena’s output  
+3. After each Serena response:  
+   - Verify correctness  
+   - Confirm that no functional changes were introduced  
+
+If Serena returns an error:
+- Assistant MUST stop  
+- Present the error  
+- Ask the user how to proceed  
+
+Manual fallback is forbidden.
+
+---
+
+## 7. Approval Requirements
+Before executing any refactor, the assistant MUST confirm:
+
+“Do you approve proceeding with this refactor?”
+
+User must respond with:
+
+APPROVED:
+
+Without approval, the assistant MUST NOT execute Serena.
+
+---
+
+## 8. Integration With SDLC
+After refactoring:
+- The assistant MUST transition to `test_cycle`  
+- If new issues arise, assistant MUST return to review_code  
+- If user reopens design concerns, transition back to plan_feature  
+
+Refactoring NEVER transitions directly to implementation.
+
+---
+
+## 9. Exit Conditions
+This workflow ends when:
+- All approved refactor items are completed  
+- Serena outputs confirm successful changes  
+- The assistant verifies no functional changes occurred  
+- The assistant is ready to proceed to testing  
+
+After exit, the next SDLC step is always `test_cycle`.
+
+---
+
+# End of command_refactor_code

@@ -1,0 +1,472 @@
+---
+description: Accessibility Rules (Layer 8)
+alwaysApply: true
+---
+
+# ACCESSIBILITY RULES  
+## (ARIA, Keyboard Navigation, Focus Management, Screen Reader Compatibility)
+
+Defines all accessibility requirements, standards, and validation rules for the entire system.
+
+Every UI element generated in this project **must comply with all accessibility rules below.**
+
+---
+
+# 1. ACCESSIBILITY STANDARD CONTRACT  
+### (STRICT – Cannot be Violated)
+
+All UI must comply with **WCAG 2.1 Level AA** standards:
+
+1. **Perceivable**  
+   - text alternatives for images  
+   - captions for media  
+   - sufficient color contrast  
+   - resizable text  
+
+2. **Operable**  
+   - keyboard accessible  
+   - no seizure-inducing content  
+   - sufficient time limits  
+   - navigable interface  
+
+3. **Understandable**  
+   - readable text  
+   - predictable functionality  
+   - input assistance  
+   - error identification  
+
+4. **Robust**  
+   - compatible with assistive technologies  
+   - valid markup  
+   - proper ARIA usage  
+   - semantic HTML  
+
+WCAG 2.1 Level AA is the minimum standard. Level AAA should be targeted where possible.
+
+---
+
+# 2. SEMANTIC HTML CONTRACT
+
+### 2.1 Semantic Element Requirements  
+- Use proper HTML semantic elements  
+- Buttons must be `<button>` (not `<div>` or `<span>`)  
+- Forms must be `<form>` elements  
+- Links must be `<a>` elements  
+- Headings must follow hierarchy (h1 → h2 → h3)  
+
+### 2.2 Semantic Structure Requirements  
+- Use `<main>` for main content  
+- Use `<nav>` for navigation  
+- Use `<section>` for distinct sections  
+- Use `<article>` for article content  
+- Use `<header>` and `<footer>` appropriately  
+
+### 2.3 Semantic Form Requirements  
+- Form inputs must be inside `<form>` elements  
+- Inputs must have associated `<label>` elements  
+- Form groups must use `<fieldset>` and `<legend>`  
+- Required fields must be marked with `required` attribute  
+
+### 2.4 Semantic Navigation Requirements  
+- Navigation must use `<nav>` element  
+- Lists must use `<ul>`, `<ol>`, or `<dl>`  
+- List items must use `<li>`  
+- Landmarks must be properly marked  
+
+---
+
+# 3. ARIA ATTRIBUTES CONTRACT
+
+### 3.1 ARIA Usage Rules  
+- Use ARIA only when semantic HTML is insufficient  
+- Do not override semantic HTML with ARIA  
+- Use ARIA to enhance, not replace, semantic HTML  
+- ARIA must be valid and properly implemented  
+
+### 3.2 ARIA Role Requirements  
+- Use `role` attribute only when needed  
+- Roles must match element's actual function  
+- Do not use redundant roles  
+- Roles must be supported by assistive technologies  
+
+### 3.3 ARIA Label Requirements  
+- Use `aria-label` for elements without visible text  
+- Use `aria-labelledby` to reference existing labels  
+- Use `aria-describedby` for additional descriptions  
+- Labels must be clear and descriptive  
+
+### 3.4 ARIA State Requirements  
+- Use `aria-expanded` for collapsible content  
+- Use `aria-selected` for selected items  
+- Use `aria-checked` for checkboxes and radio buttons  
+- Use `aria-disabled` for disabled elements  
+- Use `aria-hidden` to hide decorative elements  
+
+### 3.5 ARIA Live Regions  
+- Use `aria-live` for dynamic content updates  
+- Use `aria-atomic` to control announcement scope  
+- Use `aria-relevant` to control what is announced  
+- Use `role="alert"` for important messages  
+
+---
+
+# 4. KEYBOARD NAVIGATION CONTRACT
+
+### 4.1 Keyboard Accessibility Requirements  
+- All interactive elements must be keyboard accessible  
+- All functionality must be available via keyboard  
+- Keyboard navigation must be logical and predictable  
+- Focus indicators must be visible  
+
+### 4.2 Keyboard Navigation Rules  
+- Tab order must follow visual order  
+- Tab order must be logical and intuitive  
+- Skip links must be provided for long pages  
+- Keyboard shortcuts must be documented  
+
+### 4.3 Keyboard Interaction Requirements  
+- Enter/Space must activate buttons  
+- Arrow keys must navigate lists and menus  
+- Escape must close modals and dialogs  
+- Tab must move focus forward  
+- Shift+Tab must move focus backward  
+
+### 4.4 Keyboard Trap Prevention  
+- No keyboard traps (focus must be escapable)  
+- Modals must trap focus within modal  
+- Focus must return to trigger after modal closes  
+- Focus management must be predictable  
+
+---
+
+# 5. FOCUS MANAGEMENT CONTRACT
+
+### 5.1 Focus Indicator Requirements  
+- All focusable elements must have visible focus indicators  
+- Focus indicators must have sufficient contrast  
+- Focus indicators must be clearly visible  
+- Focus indicators must not rely solely on color  
+
+### 5.2 Focus Management Rules  
+- Focus must be managed programmatically when needed  
+- Focus must move logically through interface  
+- Focus must not be lost unexpectedly  
+- Focus must be restored after dynamic content changes  
+
+### 5.3 Focus Order Requirements  
+- Focus order must match visual order  
+- Focus order must be logical and intuitive  
+- Focus order must not skip important elements  
+- Focus order must be consistent across versions  
+
+### 5.4 Focus Restoration  
+- Focus must return to trigger after modal/dialog closes  
+- Focus must be restored after page navigation  
+- Focus must be managed during dynamic updates  
+- Focus must not be lost during async operations  
+
+---
+
+# 6. FORM ACCESSIBILITY CONTRACT
+
+### 6.1 Form Label Requirements  
+- Every form input must have an associated label  
+- Labels must be programmatically associated (`<label for="id">`)  
+- Labels must be visible and clear  
+- Labels must describe the input purpose  
+
+### 6.2 Form Error Handling  
+- Error messages must be associated with inputs via `aria-describedby`  
+- Error messages must be announced to screen readers  
+- Error messages must be clear and actionable  
+- Error states must be visually and programmatically indicated  
+
+### 6.3 Form Validation Requirements  
+- Required fields must be marked with `required` attribute  
+- Required fields must be indicated visually and programmatically  
+- Validation errors must be announced immediately  
+- Validation must occur before form submission  
+
+### 6.4 Form Grouping  
+- Related form fields must be grouped with `<fieldset>`  
+- Fieldset must have a `<legend>` describing the group  
+- Form sections must be clearly labeled  
+- Form structure must be logical and organized  
+
+---
+
+# 7. IMAGE ACCESSIBILITY CONTRACT
+
+### 7.1 Alt Text Requirements  
+- All images must have `alt` attributes  
+- Alt text must describe image content or function  
+- Decorative images must have empty `alt=""`  
+- Complex images must have detailed descriptions  
+
+### 7.2 Alt Text Rules  
+- Alt text must be concise but descriptive  
+- Alt text must not include "image of" or "picture of"  
+- Alt text must convey the same information as the image  
+- Alt text must be contextually appropriate  
+
+### 7.3 Image Types  
+- Informative images: descriptive alt text required  
+- Decorative images: empty alt text (`alt=""`)  
+- Functional images: alt text describes function  
+- Complex images: long description or aria-describedby  
+
+### 7.4 Image Context  
+- Alt text must consider surrounding context  
+- Alt text must not duplicate nearby text  
+- Alt text must be meaningful in isolation  
+- Alt text must match image purpose  
+
+---
+
+# 8. COLOR AND CONTRAST CONTRACT
+
+### 8.1 Color Contrast Requirements  
+- Text must have minimum 4.5:1 contrast ratio (normal text)  
+- Text must have minimum 3:1 contrast ratio (large text)  
+- UI components must have minimum 3:1 contrast ratio  
+- Focus indicators must have sufficient contrast  
+
+### 8.2 Color Usage Rules  
+- Color must not be the only means of conveying information  
+- Status must be indicated by more than color alone  
+- Error states must use icons or text in addition to color  
+- Success states must use icons or text in addition to color  
+
+### 8.3 Color Blindness Considerations  
+- Information must be accessible to color-blind users  
+- Patterns or textures must supplement color coding  
+- Text labels must accompany color indicators  
+- Contrast must be sufficient for all users  
+
+### 8.4 Contrast Validation  
+- Contrast ratios must be validated  
+- Contrast must be tested with accessibility tools  
+- Contrast must meet WCAG standards  
+- Contrast must be verified across all versions  
+
+---
+
+# 9. SCREEN READER COMPATIBILITY CONTRACT
+
+### 9.1 Screen Reader Requirements  
+- All content must be accessible to screen readers  
+- Dynamic content must be announced  
+- Form inputs must be properly labeled  
+- Navigation must be understandable  
+
+### 9.2 Screen Reader Announcements  
+- Page titles must be announced  
+- Heading structure must be announced  
+- Form labels must be announced  
+- Error messages must be announced  
+- Status changes must be announced  
+
+### 9.3 Screen Reader Testing  
+- Components must be tested with screen readers  
+- Screen reader compatibility must be verified  
+- Announcements must be clear and accurate  
+- Navigation must be logical for screen readers  
+
+### 9.4 Screen Reader Optimization  
+- Use semantic HTML for better screen reader support  
+- Use ARIA to enhance screen reader experience  
+- Provide skip links for navigation  
+- Structure content logically for screen readers  
+
+---
+
+# 10. DYNAMIC CONTENT ACCESSIBILITY CONTRACT
+
+### 10.1 Dynamic Content Requirements  
+- Dynamic content changes must be announced  
+- Loading states must be communicated  
+- Error states must be announced  
+- Success states must be announced  
+
+### 10.2 Live Region Requirements  
+- Use `aria-live` for important updates  
+- Use `role="alert"` for critical messages  
+- Use `aria-atomic` to control announcement scope  
+- Use `aria-relevant` to filter announcements  
+
+### 10.3 Dynamic Content Rules  
+- Content changes must not disrupt user experience  
+- Focus must be managed during dynamic updates  
+- Loading indicators must be accessible  
+- Error messages must be immediately announced  
+
+### 10.4 Single Page Application (SPA) Requirements  
+- Route changes must be announced  
+- Page titles must be updated  
+- Focus must be managed on navigation  
+- Skip links must work across routes  
+
+---
+
+# 11. MODAL AND DIALOG ACCESSIBILITY CONTRACT
+
+### 11.1 Modal Requirements  
+- Modals must have `role="dialog"` or `role="alertdialog"`  
+- Modals must have `aria-modal="true"`  
+- Modals must have `aria-labelledby` or `aria-label`  
+- Modals must have descriptive titles  
+
+### 11.2 Modal Focus Management  
+- Focus must be trapped within modal  
+- Focus must move to modal on open  
+- Focus must return to trigger on close  
+- Focus must not move to background content  
+
+### 11.3 Modal Keyboard Handling  
+- Escape must close modal  
+- Tab must cycle within modal  
+- Focus must not escape modal  
+- Close button must be keyboard accessible  
+
+### 11.4 Modal Announcements  
+- Modal opening must be announced  
+- Modal purpose must be clear  
+- Modal content must be accessible  
+- Modal closing must be communicated  
+
+---
+
+# 12. ACCESSIBILITY TESTING CONTRACT
+
+### 12.1 Automated Testing Requirements  
+- All components must pass automated accessibility tests  
+- Tests must use accessibility testing libraries  
+- Tests must validate ARIA attributes  
+- Tests must validate semantic HTML  
+
+### 12.2 Manual Testing Requirements  
+- Components must be tested with keyboard navigation  
+- Components must be tested with screen readers  
+- Components must be tested for color contrast  
+- Components must be tested for focus management  
+
+### 12.3 Testing Tools  
+- Use axe-core or similar for automated testing  
+- Use WAVE or similar for accessibility auditing  
+- Use screen readers for manual testing  
+- Use keyboard-only navigation for testing  
+
+### 12.4 Testing Coverage  
+- All interactive elements must be tested  
+- All forms must be tested  
+- All modals must be tested  
+- All dynamic content must be tested  
+
+---
+
+# 13. VERSION CONSISTENCY CONTRACT
+
+### 13.1 Cross-Version Accessibility Requirements  
+- Accessibility must be identical across v1, v2, v3  
+- ARIA attributes must match across versions  
+- Keyboard navigation must be identical  
+- Focus management must be identical  
+
+### 13.2 Version Isolation Rules  
+- Accessibility must not depend on styling  
+- Accessibility must work regardless of CSS framework  
+- Semantic HTML must be consistent  
+- ARIA usage must be consistent  
+
+### 13.3 Version Testing  
+- Accessibility must be tested in all versions  
+- Keyboard navigation must work in all versions  
+- Screen reader compatibility must be verified in all versions  
+- Focus management must work in all versions  
+
+---
+
+# 14. MCP TOOL INTEGRATION
+
+### 14.1 Serena MCP Usage  
+Serena must be used for:
+- analyzing accessibility compliance  
+- refactoring for accessibility  
+- validating ARIA usage  
+- mapping accessibility dependencies  
+
+### 14.2 Context7 MCP Usage  
+Context7 must be used for:
+- WCAG guidelines documentation  
+- ARIA specification documentation  
+- Accessibility testing tool documentation  
+- Screen reader compatibility guides  
+
+### 14.3 AgenticRag Memory Usage  
+AgenticRag must retrieve:
+- accessibility patterns from memory  
+- ARIA usage examples  
+- accessibility testing strategies  
+- common accessibility issues and fixes  
+
+---
+
+# 15. MEMORY INTEGRATION
+
+### 15.1 Graffiti Storage  
+Store in Graffiti:
+- component → accessibility attributes mappings  
+- ARIA → component relationships  
+- accessibility → test mappings  
+- accessibility violation patterns  
+
+### 15.2 VectorDB Storage  
+Store in VectorDB:
+- accessibility implementation examples  
+- ARIA usage patterns  
+- accessibility testing examples  
+- accessibility debugging summaries  
+
+---
+
+# 16. CI/CD ACCESSIBILITY CONTRACT
+
+### 16.1 CI Validation Requirements  
+- Accessibility validation must run in CI  
+- Automated accessibility tests must pass  
+- Accessibility violations must block deployment  
+- Accessibility reports must be generated  
+
+### 16.2 CI Accessibility Checks  
+- Validate ARIA attributes  
+- Validate semantic HTML  
+- Validate color contrast  
+- Validate keyboard navigation  
+
+### 16.3 CI Accessibility Enforcement  
+- Fail build if accessibility violations found  
+- Fail build if WCAG standards not met  
+- Fail build if keyboard navigation broken  
+- Enforce accessibility in CI pipeline  
+
+---
+
+# 17. STOP CONDITIONS
+
+Accessibility implementation must STOP if:
+- WCAG 2.1 Level AA standards are not met  
+- ARIA attributes are invalid or misused  
+- Keyboard navigation is broken  
+- Focus management is incorrect  
+- Form inputs lack proper labels  
+- Images lack alt text  
+- Color contrast is insufficient  
+- Screen reader compatibility is broken  
+- Dynamic content is not announced  
+- Modals are not accessible  
+
+If any violation is detected → planning must stop and correction must be proposed.
+
+---
+
+# END OF RULESET

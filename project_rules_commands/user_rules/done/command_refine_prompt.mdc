@@ -1,0 +1,154 @@
+---
+alwaysApply: true
+---
+# command_refine_prompt
+## (Ambiguity Resolution, Intent Extraction, and SDLC Phase Detection Workflow)
+
+This rule defines how the assistant MUST behave whenever the `refine_prompt` command is invoked.  
+This workflow clarifies incomplete, ambiguous, or multi-layered user instructions and determines the correct SDLC phase before any reasoning begins.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering refine_prompt workflow…
+
+The assistant MUST NOT:
+- start planning  
+- extract requirements  
+- define scope  
+- write documents  
+- begin debugging  
+- generate todos  
+- implement code  
+- trigger Serena  
+- run research prematurely  
+
+This workflow ONLY clarifies intent and identifies the SDLC starting point.
+
+---
+
+## 2. Purpose of refine_prompt
+The assistant MUST use this workflow when:
+- User instruction is ambiguous or incomplete  
+- The SDLC phase is unclear  
+- Multiple possible interpretations exist  
+- The assistant must decide the correct next command  
+- The user provides natural language instead of explicit commands  
+
+The goal is to convert unclear intent into a precise, actionable instruction.
+
+---
+
+## 3. Required AgenticRag Memory Retrieval
+At the start of this workflow, the assistant MUST:
+- Use `search_nodes` to retrieve:  
+  - Prior user intent patterns  
+  - Relevant preferences  
+  - Historical context  
+- Use `search_facts` to retrieve relationships influencing interpretation  
+
+Memory MUST assist in disambiguation, not override new user intent.
+
+---
+
+## 4. Clarification Actions (Allowed)
+During refine_prompt, the assistant MAY:
+- Ask targeted questions  
+- Extract possible interpretations  
+- Present short, neutral clarifications  
+- Summarize what the user *might* mean  
+- Identify contradictions or unclear components  
+- Request confirmation before proceeding  
+
+Clarifications MUST be short and precise — no long text.
+
+---
+
+## 5. Forbidden Actions
+During refine_prompt, the assistant MUST NOT:
+- Generate requirements  
+- Propose architecture  
+- Begin debugging  
+- Run tests  
+- Produce documentation  
+- Suggest code  
+- Run research unless ambiguity depends on missing facts  
+- Move to implementation  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 6. Phase Identification Protocol
+After clarifying the user prompt, the assistant MUST:
+
+### Step 1 — Interpret user intent  
+Summarize what the user wants in one clean, neutral sentence.
+
+### Step 2 — Identify SDLC phase  
+Map the intent to:
+- clarify_request  
+- scope_request  
+- document_requirements  
+- plan_feature  
+- generate_todo  
+- implement_change  
+- review_code  
+- refactor_code  
+- test_cycle  
+- debugging_session  
+- draft_document  
+- refine_document  
+- research_topic  
+- explain_flow  
+- simulate_flow  
+- open_discussion  
+
+### Step 3 — Request confirmation  
+Ask:
+
+“Should I proceed with `<detected_command>`?”
+
+User MUST confirm before executing.
+
+---
+
+## 7. Research Rules (Conditional)
+If ambiguity CANNOT be resolved without external knowledge:
+- ONLY THEN run Context7  
+- If still unclear → Cursor Search  
+- If still unclear → BraveSearch  
+- Perplexity ONLY as last resort  
+
+After research:
+- Present findings  
+- Ask if the research should be saved to memory  
+- Ask if the user wants to proceed  
+
+No automatic research, no automatic memory.
+
+---
+
+## 8. Integration With SDLC
+After clarification and confirmation:
+- Assistant MUST enter the selected workflow  
+- No pipeline steps may be skipped  
+- If user provides new information mid-flow, assistant MUST re-run refine_prompt  
+
+This workflow ensures SDLC consistency and prevents incorrect assumptions.
+
+---
+
+## 9. Exit Conditions
+This workflow ends when:
+- The user’s intent is unambiguous  
+- The assistant identifies the correct SDLC phase  
+- The user explicitly approves the next step  
+
+After exit, the assistant MUST immediately enter the approved command workflow.
+
+---
+
+# End of command_refine_prompt

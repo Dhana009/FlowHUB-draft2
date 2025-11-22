@@ -1,0 +1,465 @@
+---
+description: Testing Rules (Layer 6)
+alwaysApply: true
+---
+
+# TESTING RULES  
+## (Backend Tests, Frontend Tests, Integration Tests, E2E Tests)
+
+Defines all testing requirements, structure, and standards for the entire system.
+
+Every test file generated in this project **must comply with all rules below.**
+
+---
+
+# 1. TESTING LAYER CONTRACT  
+### (STRICT – Cannot be Violated)
+
+All tests must follow the **4-tier testing architecture**:
+
+1. **Unit Tests**  
+   - test individual functions, methods, components  
+   - must be isolated (no external dependencies)  
+   - must be fast (< 100ms per test)  
+   - must be deterministic  
+
+2. **Integration Tests**  
+   - test interactions between modules  
+   - test API endpoints  
+   - test database operations  
+   - may use test database  
+
+3. **Component Tests**  
+   - test UI components in isolation  
+   - test user interactions  
+   - test accessibility  
+   - must use stable selectors  
+
+4. **End-to-End Tests**  
+   - test complete user flows  
+   - test across frontend and backend  
+   - must use Playwright  
+   - must use stable selectors only  
+
+No test tier may skip required coverage.
+
+---
+
+# 2. TEST FOLDER STRUCTURE CONTRACT
+
+Every test file must be placed into one of these locations:
+
+### 2.1 Backend Unit Test Structure  
+```
+backend/
+  services/
+    [service-name].service.test.ts
+  repositories/
+    [repository-name].repository.test.ts
+  controllers/
+    [controller-name].controller.test.ts
+```
+
+### 2.2 Backend Integration Test Structure  
+```
+backend/
+  __tests__/
+    integration/
+      [test-name].test.ts
+  routes/
+    [route-name].routes.test.ts
+```
+
+### 2.3 Frontend Unit Test Structure  
+```
+src/
+  shared/
+    hooks/
+      use[hook-name].test.ts
+    services/
+      [service-name].test.ts
+```
+
+### 2.4 Frontend Component Test Structure  
+```
+src/
+  v1/components/[component-name]/[component-name].test.tsx
+  v2/components/[component-name]/[component-name].test.tsx
+  v3/components/[component-name]/[component-name].test.tsx
+```
+
+### 2.5 E2E Test Structure  
+```
+e2e/
+  tests/
+    [feature-name].spec.ts
+  fixtures/
+    [fixture-name].ts
+```
+
+If a test file is created outside allowed locations → planning must stop.
+
+---
+
+# 3. BACKEND UNIT TEST CONTRACT
+
+### 3.1 Service Test Requirements  
+- Every service method must have tests  
+- Tests must cover success and error cases  
+- Tests must mock repository dependencies  
+- Tests must validate business logic  
+- Tests must validate error handling  
+
+### 3.2 Repository Test Requirements  
+- Every repository method must have tests  
+- Tests must use test database  
+- Tests must validate database operations  
+- Tests must validate query correctness  
+- Tests must clean up test data  
+
+### 3.3 Controller Test Requirements  
+- Every controller endpoint must have tests  
+- Tests must validate request handling  
+- Tests must validate response format  
+- Tests must validate error responses  
+- Tests must mock service dependencies  
+
+### 3.4 Test Isolation  
+- Tests must not depend on execution order  
+- Tests must not share state  
+- Tests must clean up after execution  
+- Tests must be runnable in parallel  
+
+---
+
+# 4. FRONTEND UNIT TEST CONTRACT
+
+### 4.1 Hook Test Requirements  
+- Every hook must have unit tests  
+- Tests must cover all state transitions  
+- Tests must mock API calls  
+- Tests must validate error handling  
+- Tests must validate return values  
+
+### 4.2 Service Test Requirements  
+- Every service method must have tests  
+- Tests must mock HTTP clients  
+- Tests must validate request/response transformations  
+- Tests must validate error handling  
+- Tests must validate API call parameters  
+
+### 4.3 Utility Test Requirements  
+- Every utility function must have tests  
+- Tests must cover edge cases  
+- Tests must validate input/output  
+- Tests must be pure (no side effects)  
+
+---
+
+# 5. COMPONENT TEST CONTRACT
+
+### 5.1 Component Test Requirements  
+- Every component must have tests  
+- Tests must validate rendering  
+- Tests must validate user interactions  
+- Tests must validate prop handling  
+- Tests must validate accessibility  
+
+### 5.2 Component Test Structure  
+- Tests must use React Testing Library (or equivalent)  
+- Tests must use stable selectors (data-testid)  
+- Tests must not test implementation details  
+- Tests must focus on user behavior  
+
+### 5.3 Component Test Coverage  
+- All user interactions must be tested  
+- All prop variations must be tested  
+- Error states must be tested  
+- Loading states must be tested  
+
+### 5.4 Version-Specific Component Tests  
+- Each version (v1, v2, v3) must have component tests  
+- Tests must validate functional equivalence  
+- Tests must use identical selectors  
+- Tests must validate accessibility across versions  
+
+---
+
+# 6. INTEGRATION TEST CONTRACT
+
+### 6.1 API Integration Test Requirements  
+- Every API endpoint must have integration tests  
+- Tests must validate request/response flow  
+- Tests must validate database operations  
+- Tests must validate error handling  
+- Tests must use test database  
+
+### 6.2 Frontend-Backend Integration Tests  
+- Tests must validate API integration  
+- Tests must validate data flow  
+- Tests must validate error propagation  
+- Tests must mock external services  
+
+### 6.3 Service-Repository Integration Tests  
+- Tests must validate service + repository integration  
+- Tests must validate transaction handling  
+- Tests must validate data transformations  
+- Tests must use test database  
+
+---
+
+# 7. END-TO-END TEST CONTRACT
+
+### 7.1 E2E Test Requirements  
+- Every major user flow must have E2E tests  
+- Tests must use Playwright  
+- Tests must use stable selectors only  
+- Tests must validate complete workflows  
+- Tests must run against all versions (v1, v2, v3)  
+
+### 7.2 E2E Test Structure  
+- Tests must be organized by feature  
+- Tests must be independent  
+- Tests must clean up test data  
+- Tests must handle async operations correctly  
+
+### 7.3 E2E Selector Requirements  
+- Tests must use data-testid (primary)  
+- Tests must use role (secondary)  
+- Tests must use semantic tags (fallback)  
+- Tests must never use nth-child or XPath  
+
+### 7.4 E2E Test Stability  
+- Tests must not be flaky  
+- Tests must handle timing correctly  
+- Tests must wait for elements properly  
+- Tests must handle network delays  
+
+---
+
+# 8. TEST DATA CONTRACT
+
+### 8.1 Test Data Requirements  
+- Test data must be deterministic  
+- Test data must be reproducible  
+- Test data must be minimal  
+- Test data must be isolated per test  
+
+### 8.2 Test Fixtures  
+- Test fixtures must be reusable  
+- Test fixtures must be versioned  
+- Test fixtures must be documented  
+- Test fixtures must be type-safe  
+
+### 8.3 Test Data Management  
+- Test data must be created before tests  
+- Test data must be cleaned up after tests  
+- Test data must not leak between tests  
+- Test data must use factories/builders  
+
+### 8.4 Test Database  
+- Integration tests must use test database  
+- Test database must be reset between test runs  
+- Test database must be isolated from development  
+- Test database migrations must be tested  
+
+---
+
+# 9. TEST COVERAGE CONTRACT
+
+### 9.1 Coverage Requirements  
+- Minimum 80% code coverage overall  
+- Critical paths must have 100% coverage  
+- Error paths must be tested  
+- Edge cases must be tested  
+
+### 9.2 Coverage Measurement  
+- Coverage must be measured per module  
+- Coverage reports must be generated  
+- Coverage thresholds must be enforced in CI  
+- Coverage gaps must be documented  
+
+### 9.3 Coverage Exclusions  
+- Test files may be excluded from coverage  
+- Generated code may be excluded  
+- Type definitions may be excluded  
+- Exclusions must be documented  
+
+---
+
+# 10. TEST STABILITY CONTRACT
+
+### 10.1 Stability Requirements  
+- Tests must not be flaky  
+- Tests must be deterministic  
+- Tests must not depend on timing  
+- Tests must not depend on external services  
+
+### 10.2 Test Isolation  
+- Tests must not share state  
+- Tests must not depend on execution order  
+- Tests must clean up after execution  
+- Tests must be runnable in parallel  
+
+### 10.3 Test Reliability  
+- Tests must pass consistently  
+- Tests must fail only when code is broken  
+- Tests must have clear failure messages  
+- Tests must be debuggable  
+
+### 10.4 Flaky Test Prevention  
+- Tests must not use random data  
+- Tests must not depend on system time  
+- Tests must mock external dependencies  
+- Tests must handle async operations correctly  
+
+---
+
+# 11. TEST PERFORMANCE CONTRACT
+
+### 11.1 Test Speed Requirements  
+- Unit tests must run in < 100ms each  
+- Integration tests must run in < 1s each  
+- Component tests must run in < 500ms each  
+- E2E tests must run in < 30s each  
+
+### 11.2 Test Suite Performance  
+- Full test suite must run in < 10 minutes  
+- CI test runs must complete in < 15 minutes  
+- Test parallelization must be used  
+- Slow tests must be optimized  
+
+### 11.3 Test Resource Usage  
+- Tests must not consume excessive memory  
+- Tests must not create too many connections  
+- Tests must clean up resources  
+- Tests must not leak memory  
+
+---
+
+# 12. TEST DOCUMENTATION CONTRACT
+
+### 12.1 Test Naming  
+- Test names must describe what is being tested  
+- Test names must include expected behavior  
+- Test names must be clear and readable  
+- Test names must follow naming convention  
+
+### 12.2 Test Organization  
+- Tests must be organized by feature  
+- Related tests must be grouped  
+- Test files must be co-located with source  
+- Test structure must be consistent  
+
+### 12.3 Test Comments  
+- Complex tests must have comments  
+- Test setup must be documented  
+- Test assertions must be clear  
+- Test data must be explained  
+
+---
+
+# 13. ACCESSIBILITY TESTING CONTRACT
+
+### 13.1 Accessibility Test Requirements  
+- All components must have accessibility tests  
+- Tests must validate ARIA attributes  
+- Tests must validate keyboard navigation  
+- Tests must validate screen reader compatibility  
+
+### 13.2 Accessibility Test Tools  
+- Tests must use accessibility testing libraries  
+- Tests must validate WCAG compliance  
+- Tests must catch accessibility violations  
+- Tests must be automated  
+
+### 13.3 Accessibility Test Coverage  
+- All interactive elements must be tested  
+- All form inputs must be tested  
+- All navigation must be tested  
+- All error messages must be tested  
+
+---
+
+# 14. MCP TOOL INTEGRATION
+
+### 14.1 Serena MCP Usage  
+Serena must be used for:
+- generating test code  
+- analyzing test coverage  
+- refactoring tests  
+- mapping test dependencies  
+
+### 14.2 Context7 MCP Usage  
+Context7 must be used for:
+- testing framework documentation  
+- testing best practices  
+- mocking library documentation  
+- assertion library documentation  
+
+### 14.3 AgenticRag Memory Usage  
+AgenticRag must retrieve:
+- test patterns from memory  
+- testing strategies  
+- test data patterns  
+- debugging test failures  
+
+---
+
+# 15. MEMORY INTEGRATION
+
+### 15.1 Graffiti Storage  
+Store in Graffiti:
+- test → module → requirement mappings  
+- test coverage relationships  
+- test dependency graphs  
+- test failure patterns  
+
+### 15.2 VectorDB Storage  
+Store in VectorDB:
+- test implementation examples  
+- test data patterns  
+- testing strategies  
+- debugging test failure summaries  
+
+---
+
+# 16. CI/CD TEST CONTRACT
+
+### 16.1 CI Test Requirements  
+- All tests must pass in CI  
+- Test coverage must meet threshold  
+- Tests must run in CI pipeline  
+- Test failures must block deployment  
+
+### 16.2 Test Execution in CI  
+- Tests must run on every commit  
+- Tests must run in parallel  
+- Test results must be reported  
+- Test failures must be visible  
+
+### 16.3 Test Maintenance  
+- Flaky tests must be fixed immediately  
+- Test failures must be investigated  
+- Test coverage must be maintained  
+- Tests must be updated with code changes  
+
+---
+
+# 17. STOP CONDITIONS
+
+Test code generation must STOP if:
+- test violates testing layer architecture  
+- test lacks required coverage  
+- test uses unstable selectors  
+- test is not isolated  
+- test data is not deterministic  
+- test lacks proper cleanup  
+- test violates performance requirements  
+- test lacks accessibility validation  
+
+If any violation is detected → planning must stop and correction must be proposed.
+
+---
+
+# END OF RULESET

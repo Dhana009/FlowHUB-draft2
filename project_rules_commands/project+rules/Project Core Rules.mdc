@@ -1,0 +1,253 @@
+---
+description: Project Core Rules (Layer 3)
+alwaysApply: true
+---
+
+# PROJECT CORE RULES  
+## (Mandatory Rules That All Project Logic Must Obey)
+
+These rules define the **core operational contract** for the entire project.  
+They sit directly under the Project-Wide Governing Principles and above all architecture, frontend, backend, testing, and CI rules.
+
+Everything generated within this project must comply with these core rules.
+
+---
+
+# 1. SDLC PIPELINE CONTRACT (NON-SKIPPABLE)
+
+Every piece of work must follow the strict pipeline:
+
+refine_prompt → clarify_request → scope_request → document_requirements  
+→ plan_feature → generate_todo → implement_change  
+→ test_cycle → debugging_session → finalize → document (optional)
+
+No rule or command is allowed to skip a phase.
+
+If skipping is needed (e.g., debugging critical error),  
+the system must explicitly state the skip and why it is valid.
+
+---
+
+# 2. VERSIONING CONTRACT (v1, v2, v3)
+
+All project output must obey:
+
+### 2.1 Version Isolation  
+- v1 = Bootstrap UI  
+- v2 = Tailwind UI  
+- v3 = Custom CSS UI  
+
+Each version maintains:
+- its own UI layout  
+- its own component tree  
+- its own CSS / styling semantics  
+- selector behavior must still match selector policy  
+
+### 2.2 Shared Backend  
+All versions share:
+- backend  
+- API  
+- database  
+- models  
+- validation  
+- testing harness  
+- automation logic  
+
+### 2.3 Version-Specific Responsibilities  
+- v1 proves *bootstrap + semantic correctness*  
+- v2 proves *utility-class consistency + automation stability*  
+- v3 proves *handwritten CSS + full semantic alignment*  
+
+---
+
+# 3. ARCHITECTURE CONTRACT (Applied Globally)
+
+All code across all versions must enforce:
+
+### 3.1 Backend Layers  
+- Controller → Service → Repository → Model  
+- No cross-coupling between layers  
+- No access skipping (controller cannot call repository)  
+- No business logic inside controllers  
+
+### 3.2 Frontend Layers  
+- Route → Page → Component → Sub-Component → Hooks  
+- No cross-version UI branching  
+- No unnecessary logic in components  
+- API calls only in hooks or service layers  
+
+### 3.3 API Contract  
+- Every endpoint MUST have:  
+  - request schema  
+  - response schema  
+  - error schema  
+  - typed model  
+  - validation  
+  - tests  
+
+### 3.4 Folder Structure Must Follow the Graph  
+- components  
+- features  
+- hooks  
+- services  
+- schemas  
+- api  
+- tests  
+
+If a file is created outside allowed locations → planning must stop.
+
+---
+
+# 4. SEMANTIC & ACCESSIBILITY CONTRACT
+
+Semantic and accessibility rules must ALWAYS be evaluated before generating UI code.
+
+### 4.1 Semantics  
+- Buttons must be `<button>`  
+- Forms must be `<form>`  
+- Headings must follow hierarchy  
+- No meaningless containers  
+- Inputs must have labels  
+
+### 4.2 Accessibility  
+- ARIA roles only when needed  
+- Error messages must be linked via aria-describedby  
+- Keyboard navigability must be preserved  
+- Focus management must be correct  
+
+### 4.3 Selector Stability  
+Selectors must follow strict rules:
+1. data-testid  
+2. role  
+3. semantic tag  
+4. never nth-child  
+5. never xpath  
+
+This determines automation reliability.
+
+---
+
+# 5. TESTING CONTRACT (ALL VERSIONS)
+
+All layers MUST produce testable output.
+
+### 5.1 Backend Tests  
+- Unit tests for each service & repository  
+- Test server responses and error cases  
+- API schema mismatch tests  
+
+### 5.2 Frontend Tests  
+- Unit tests for hooks  
+- Component tests  
+- Accessibility tests  
+
+### 5.3 Integration Tests  
+- Validate binding between frontend ↔ backend  
+
+### 5.4 End-to-End Tests  
+- Playwright flows  
+- Use stable selectors ONLY  
+
+### 5.5 Test Data Contract  
+- deterministic  
+- reproducible  
+- local-first  
+- minimal  
+
+---
+
+# 6. AUTOMATION STABILITY CONTRACT
+
+All code MUST be written in a way that ensures automated tests never break unless logic truly changes.
+
+Rules:
+- no transient selectors  
+- no flaky UI  
+- network calls must be mockable  
+- timeouts must be consistent  
+- animations must be stable  
+- skeleton loaders must be test-safe  
+
+Automation stability is a top priority for the project.
+
+---
+
+# 7. CODE GENERATION CONTRACT
+
+Every code action must obey:
+
+### 7.1 Minimal-Diff Output  
+- Only change what is required  
+- Never rewrite entire files  
+- Code must preserve structure  
+
+### 7.2 Code Validated Against All Rules  
+Before outputting code, the system must validate:
+- backend layer rules  
+- frontend semantic rules  
+- selector policy  
+- accessibility  
+- architecture graphs  
+- memory definitions  
+- CI standards  
+
+If a violation is found → planning must stop and correction must be proposed.
+
+### 7.3 User Approval Required  
+- no code without approval  
+- no file creation without approval  
+- no refactoring without approval  
+
+---
+
+# 8. DOCUMENTATION CONTRACT
+
+Documents must be:
+
+- short  
+- clean  
+- structured  
+- purpose-driven  
+- expandable only when user approves  
+
+Document types include:
+- PRD  
+- FRD  
+- SLD  
+- Schema Spec  
+- Selector Policy  
+- Test Strategy  
+- Architecture Overview  
+
+---
+
+# 9. DEBUGGING CONTRACT
+
+Before any debugging step:
+- agentic-rag must retrieve past patterns  
+- Cursor Search must pull recent changes  
+- Serena MCP must map code relationships  
+- Context7 must pull official behavior  
+- Brave / Perplexity only when needed  
+
+Debug output must be short, correct, and evidence-based.
+
+---
+
+# 10. CI/CD CONTRACT
+
+All code must satisfy:
+
+- structure checks  
+- lint rules  
+- type checks  
+- selector validation  
+- accessibility validation  
+- performance budget validation  
+- test stability  
+
+If CI would fail, code must not be generated.
+
+---
+
+# END OF RULESET

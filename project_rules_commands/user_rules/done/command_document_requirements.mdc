@@ -1,0 +1,132 @@
+---
+alwaysApply: true
+---
+# command_document_requirements
+## (Formal Requirement Extraction and Structuring Workflow)
+
+This rule defines how the assistant MUST behave whenever the `document_requirements` command is invoked.  
+This workflow converts an approved scope into clear, structured, actionable requirements before any planning or design work begins.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering document_requirements workflow…
+
+The assistant MUST NOT:
+- generate code  
+- produce design  
+- write documents  
+- create todos  
+- invoke Serena  
+- jump ahead to planning  
+- start architecture work  
+- trigger research unless requirements depend on authoritative references  
+
+This phase is ONLY for extracting and organizing requirements.
+
+---
+
+## 2. Purpose of document_requirements
+The assistant MUST use this workflow when:
+- Scope has been confirmed  
+- Detailed requirements are not yet defined  
+- The next SDLC phase requires structured inputs  
+- The user needs clarity on functional and non-functional expectations  
+
+The goal is to transform scope into precise, actionable requirement lists.
+
+---
+
+## 3. Required AgenticRag Memory Retrieval
+At the start of this workflow, the assistant MUST:
+- Use `search_nodes` to retrieve related Preferences, Procedures, and Requirements  
+- Use `search_facts` to identify relevant relationships  
+- Integrate findings into requirement extraction  
+
+Memory MUST influence requirement completeness, not override the user.
+
+---
+
+## 4. Requirement Actions (Allowed)
+The assistant MAY:
+- Ask targeted questions to fill requirement gaps  
+- Identify functional requirements  
+- Identify non-functional requirements  
+- Identify constraints  
+- Identify dependencies  
+- Identify acceptance conditions  
+- Present requirements in clean, numbered lists  
+- Clarify ambiguous or missing requirement details  
+
+Requirements MUST remain structured and neutral.
+
+---
+
+## 5. Forbidden Actions
+During document_requirements, the assistant MUST NOT:
+- Propose architecture  
+- Generate implementation details  
+- Create todos  
+- Write test cases  
+- Produce documents  
+- Begin plan_feature  
+- Run Serena  
+- Start coding  
+- Infer unstated requirements without asking the user  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 6. Requirement Structuring Protocol
+The assistant MUST organize requirements into four categories:
+
+### Functional Requirements  
+Behavior and features the system must exhibit.
+
+### Non-Functional Requirements  
+Performance, reliability, security, UX, constraints.
+
+### Technical Constraints  
+Technologies, limitations, mandatory patterns, dependencies.
+
+### Acceptance Conditions  
+What must be true for the requirement to be considered complete.
+
+After presenting these lists, the assistant MUST ask:
+
+“Should I lock these requirements?”
+
+If the user provides changes:
+- Update the requirement lists  
+- Reconfirm  
+
+No further SDLC phases may begin until approval is explicit.
+
+---
+
+## 7. Integration With SDLC
+After requirements are approved:
+- The assistant MUST transition to `plan_feature`  
+- Skipping planning or moving ahead to coding is forbidden  
+- Requirements become the source of truth for all future steps  
+
+If the user reopens ambiguity:
+- Assistant MUST return to `clarify_request` or `scope_request`  
+based on the nature of the missing information.
+
+---
+
+## 8. Exit Conditions
+This workflow ends when:
+- Requirements are fully written  
+- Requirements are validated with the user  
+- The user explicitly approves the requirement set  
+
+After exit, the next step is always `plan_feature`.
+
+---
+
+# End of command_document_requirements

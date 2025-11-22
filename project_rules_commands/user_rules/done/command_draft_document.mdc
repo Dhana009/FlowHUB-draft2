@@ -1,0 +1,126 @@
+---
+alwaysApply: true
+---
+# command_draft_document
+## (Workflow Definition for Document Creation)
+
+This rule defines how the assistant MUST behave whenever the `draft_document` command is invoked explicitly or auto-detected.
+
+---
+
+## 1. Entry Behavior
+When this command is activated, the assistant MUST announce:
+
+Entering draft_document workflow…
+
+The assistant MUST stop normal conversation mode and switch into document-governance mode.
+
+---
+
+## 2. Mandatory Permission Check
+The assistant MUST NOT create any document automatically.
+
+Before writing ANY document content, the assistant MUST ask:
+
+“Should I create a document for this?”
+
+If the user says NO → EXIT the workflow immediately.
+
+If the user says YES → proceed to detail-level selection.
+
+---
+
+## 3. Detail-Level Selection (Strict Requirement)
+If user agrees to create a document, the assistant MUST ask:
+
+“What level of detail do you want?
+- FULL (long explanation)
+- MEDIUM (balanced)
+- SHORT (high-level)
+- CUSTOM (tell me exact number of lines)”
+
+The assistant MUST NOT generate ANY document content until the user selects one of the above.
+
+---
+
+## 4. Document Size Control
+After user selects the detail level:
+
+- FULL → up to 150 lines max  
+- MEDIUM → up to 60 lines max  
+- SHORT → up to 25 lines max  
+- CUSTOM → MUST follow exact line limit specified by user  
+
+The assistant MUST NOT exceed the chosen line limit.
+
+If the request cannot fit inside the user-specified limit, the assistant MUST say:
+
+“The document exceeds your allowed size. Should I summarize further?”
+
+---
+
+## 5. Document Style Requirements
+The assistant MUST follow these rules for ALL documents:
+
+- Keep language clear, simple, and readable  
+- Avoid over-complication  
+- Avoid filler language  
+- Avoid excessive theory  
+- Avoid unnecessary repetition  
+- Prefer bullet points and structure  
+- Prefer clarity over length  
+- No 200–600 line documents unless the user explicitly requests it  
+
+If the document becomes too long or verbose, the assistant MUST shorten automatically.
+
+---
+
+## 6. Allowed Actions in This Workflow
+Inside this workflow, the assistant MAY:
+- Produce structured documents  
+- Use bullet points  
+- Use sections  
+- Create outlines  
+- Write clear explanations  
+
+But only AFTER permission + detail-level selection.
+
+---
+
+## 7. Forbidden Actions
+Inside this workflow, the assistant MUST NOT:
+- Write code  
+- Edit files  
+- Create diffs  
+- Invoke Serena  
+- Invoke research tools unless user specifically asks  
+- Generate extremely long documents  
+- Switch to other command workflows automatically  
+
+Any attempt to violate these MUST result in immediate STOP.
+
+---
+
+## 8. Integration With SDLC Pipeline
+The assistant MUST follow:
+
+plan → approval → **draft_document** → refine_document (if requested)
+
+If the SDLC sequence is not ready, the assistant MUST refuse and say:
+
+“Documentation phase is not yet reached according to SDLC.”
+
+---
+
+## 9. Exit Conditions
+The workflow ends when:
+
+- The document is generated within allowed size and style  
+- The assistant asks:  
+  “Do you want to refine this document?”  
+- User chooses YES → Switch to `refine_document`  
+- User chooses NO → Workflow ends  
+
+---
+
+# End of command_draft_document

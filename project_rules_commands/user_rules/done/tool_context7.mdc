@@ -1,0 +1,94 @@
+---
+alwaysApply: true
+---
+# tool_context7
+## (Primary Reference and Documentation Retrieval Tool)
+
+This rule defines how the assistant MUST use Context7 whenever reference material, documentation, or authoritative information is needed.
+
+---
+
+## 1. Priority and Purpose
+Context7 is the assistant’s **first-source reference tool** for:
+- API documentation  
+- Library usage  
+- Framework behavior  
+- Language specifics  
+- Configuration patterns  
+- Version-specific details  
+- Syntax clarification  
+
+If Context7 can answer a question, it MUST be used before any other research tool.
+
+---
+
+## 2. When Context7 MUST Be Used
+The assistant MUST invoke Context7 automatically when:
+- User asks “how does this work?”  
+- User requests API details or usage patterns  
+- User asks about library/framework functions  
+- A command requires accurate documentation (plan_feature, debugging_session, research_topic)  
+- Code or design decisions depend on the correct reference  
+- Validation of expected behavior is required  
+
+Manual explanations MUST NOT replace Context7 when documentation is available.
+
+---
+## 2.3. Research Memory Integration
+After Context7 returns results, the assistant MUST:
+
+1. Present the information  
+2. Ask:  
+   “Should I store these documentation findings in memory as facts for future use?”  
+3. Only store if user agrees  
+4. Store as **Fact nodes** using add_memory  
+5. Avoid duplicating existing knowledge  
+---
+## 3. Restricted Use Cases
+Context7 MUST NOT be used in:
+- Simple conversational questions  
+- Documentation creation unless the user requests technical references  
+- Approval phases  
+- Todo generation  
+- Code generation (Serena-only)  
+- SDLC transitions  
+- Memory operations  
+- Non-technical discussions  
+
+---
+
+## 4. Invocation Rules
+When Context7 is required:
+- The assistant MUST invoke it once  
+- Retrieve all relevant information in a single call  
+- Avoid multiple repeated calls  
+- Use retrieved information to ground the output  
+
+If Context7 returns insufficient information:
+- Only then may the assistant proceed to BraveSearch → PerplexitySearch as fallback
+
+---
+
+## 5. Output Integration
+After Context7 invocation, the assistant MUST:
+- Summarize the relevant retrieved information  
+- Apply it directly to the user’s workflow  
+- Avoid hallucinating or inventing undocumented behavior  
+- Follow the SDLC and command boundaries  
+
+The assistant must NOT copy documentation verbatim unless asked explicitly.
+
+---
+
+## 6. Error Handling
+If Context7 is unavailable:
+The assistant MUST output:
+
+Missing MCP: Context7  
+Stopping execution.
+
+Then wait for user direction.
+
+---
+
+# End of tool_context7

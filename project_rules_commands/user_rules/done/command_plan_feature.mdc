@@ -1,0 +1,156 @@
+---
+alwaysApply: true
+---
+# command_plan_feature
+## (Architecture, Design Reasoning, and Execution Strategy Workflow)
+
+This rule defines how the assistant MUST behave whenever the `plan_feature` command is invoked.  
+This workflow converts approved requirements into a clear, structured, code-ready plan without generating any code.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering plan_feature workflow…
+
+The assistant MUST NOT:
+- write code  
+- refactor code  
+- generate diffs  
+- run Serena  
+- document anything  
+- begin testing  
+- skip the plan approval process  
+- produce todos  
+- jump into debugging or execution  
+
+This phase is purely architectural and analytical.
+
+---
+
+## 2. Purpose of plan_feature
+The assistant MUST use this workflow when:
+- Requirements are approved  
+- A design or implementation plan is needed  
+- Architecture decisions must be reasoned out  
+- The solution requires structured steps before coding  
+- The user needs clear visibility into how the feature will be built  
+
+The goal is to produce a structured, understandable, and approvable implementation plan.
+
+---
+
+## 3. Required AgenticRag Memory Retrieval
+At the start of this workflow, the assistant MUST:
+- Use `search_nodes` to find architecture history, related requirements, user preferences, or existing patterns  
+- Use `search_facts` to find relationships that affect design  
+- Integrate retrieved memory into the plan reasoning  
+
+Memory MUST guide architecture depth and consistency.
+
+---
+
+## 4. Required Research Pipeline (Conditional)
+The assistant MUST run the research pipeline when architecture decisions require external confirmation:
+
+1. Context7  
+2. Local Cursor Search  
+3. BraveSearch (only if Context7 insufficient)  
+4. PerplexitySearch (only if Brave insufficient)
+
+After research results are shown, the assistant MUST ask:
+“Should I store these findings in memory as reusable facts?”
+
+No automatic write is permitted.
+
+---
+
+## 5. Planning Actions (Allowed)
+During plan_feature, the assistant MAY:
+- Break requirements into implementation steps  
+- Identify modules, functions, components, or classes  
+- Highlight edge cases  
+- Address performance and constraint considerations  
+- Identify integration points  
+- Provide multiple design options when useful  
+- Evaluate trade-offs  
+- Produce a final structured plan  
+
+The plan MUST be concise, structured, and code-oriented — without writing code.
+
+---
+
+## 6. Forbidden Actions
+During plan_feature, the assistant MUST NOT:
+- Generate code or diffs  
+- Suggest code snippets  
+- Begin implementation  
+- Trigger Serena  
+- Create todos prematurely  
+- Write test cases  
+- Create documentation  
+- Modify files  
+- Perform implicit memory writes  
+- Skip the approval step  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 7. Planning Structure Protocol
+The assistant MUST structure the plan into the following sections:
+
+### 1. High-Level Architecture  
+Overall flow, modules, and interaction boundaries.
+
+### 2. Component / Function Breakdown  
+Clear step-by-step components required for implementation.
+
+### 3. Data & State Considerations  
+What data is consumed, produced, or modified.
+
+### 4. Edge Cases & Constraints  
+All special scenarios and relevant requirement constraints.
+
+### 5. Execution Strategy  
+How the implementation will proceed linearly.
+
+After generating this plan, the assistant MUST stop and ask:
+
+“Do you approve this plan?  
+Reply with:  
+APPROVED: <optional note>  
+or  
+CHANGE: <what you want to modify>”
+
+Without approval, the workflow MUST NOT continue.
+
+---
+
+## 8. Integration With SDLC
+After approval:
+- The assistant MUST transition to `generate_todo`  
+- Coding MUST NOT begin until todos are generated  
+- Serena MUST NOT be invoked until the next command explicitly requires it  
+
+If the user requests changes:
+- Assistant MUST refine the plan  
+- Re-present updated plan  
+- Request approval again  
+
+No silent modifications are allowed.
+
+---
+
+## 9. Exit Conditions
+This workflow ends only when:
+- The plan is complete  
+- The user explicitly approves it  
+- The assistant is ready to generate an actionable todo list  
+
+The next step after exit is always `generate_todo`.
+
+---
+
+# End of command_plan_feature

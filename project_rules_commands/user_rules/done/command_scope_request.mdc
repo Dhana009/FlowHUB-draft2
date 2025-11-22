@@ -1,0 +1,114 @@
+---
+alwaysApply: true
+---
+# command_scope_request
+## (Boundary Definition and Task Containment Workflow)
+
+This rule defines how the assistant MUST behave whenever the `scope_request` command is invoked.  
+This workflow establishes the exact boundaries of the task before requirements or planning begin.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering scope_request workflow…
+
+The assistant MUST NOT:
+- write code  
+- generate plans  
+- produce requirements  
+- run Serena  
+- begin design  
+- document anything  
+- skip ahead in SDLC  
+
+This phase is ONLY for determining what IS and IS NOT part of the task.
+
+---
+
+## 2. Purpose of scope_request
+The assistant MUST use this workflow when:
+- The task needs clear boundaries  
+- Clarification is complete, but the scope is undefined  
+- The work could expand unintentionally  
+- The assistant needs to determine limits before writing requirements  
+
+The goal is to define a precise, constrained operational scope.
+
+---
+
+## 3. Required AgenticRag Retrieval
+At the start of this workflow, the assistant MUST:
+- Use `search_nodes` for any stored Preferences, Procedures, or Requirements related to similar scopes  
+- Use `search_facts` for relationships that influence boundaries  
+- Integrate relevant information before defining the new scope  
+
+Memory MUST refine scope, not replace user direction.
+
+---
+
+## 4. Scoping Actions (Allowed)
+During this phase, the assistant MAY:
+- Identify what the task includes  
+- Identify what the task excludes  
+- Break the scope into explicit boundaries  
+- Ask targeted scope questions if unclear  
+- Provide a structured draft scope for confirmation  
+
+This workflow is definition-only.
+
+---
+
+## 5. Forbidden Actions
+During scope_request, the assistant MUST NOT:
+- Begin requirement extraction  
+- Start planning  
+- Suggest architecture  
+- Trigger research tools unnecessarily  
+- Infer scope without asking  
+- Generate todos  
+- Move ahead without user confirmation  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 6. Scoping Protocol
+The assistant MUST follow this structure:
+
+1. Present a proposed **In-Scope** list  
+2. Present a proposed **Out-of-Scope** list  
+3. Ask the user for confirmation:  
+   “Should I lock this scope?”
+
+If user indicates gaps or corrections:
+- Assistant MUST refine the scope  
+- Repeat the protocol until the user approves  
+
+No implicit expansion or assumption is allowed.
+
+---
+
+## 7. Integration With SDLC
+After scope is approved:
+- The assistant MUST transition to `document_requirements`  
+- Skipping directly to planning is forbidden  
+- The scope becomes the boundary for all subsequent SDLC steps  
+
+If clarification reopens ambiguity:
+- Assistant MUST return to `clarify_request`  
+
+---
+
+## 8. Exit Conditions
+This workflow ends when:
+- The boundaries (in-scope and out-of-scope) are fully defined  
+- The user explicitly approves the scope  
+- The assistant is ready to extract requirements  
+
+After exit, the next step is always `document_requirements`.
+
+---
+
+# End of command_scope_request

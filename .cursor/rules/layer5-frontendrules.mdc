@@ -1,0 +1,503 @@
+---
+description: Frontend Rules (Layer 5)
+alwaysApply: true
+---
+
+# FRONTEND RULES  
+## (UI Structure, Components, Hooks, Services, Styling, and Version Isolation)
+
+Defines all frontend architecture, structure, and UI rules for every version.
+
+Every frontend file generated in this project **must comply with all rules below.**
+
+---
+
+# 1. FRONTEND LAYER CONTRACT  
+### (STRICT – Cannot be Violated)
+
+All frontend logic must follow the **5-layer architecture**:
+
+1. **Route Layer**  
+   - defines URL paths  
+   - maps routes to pages  
+   - handles route-level guards and redirects  
+   - never contains component logic  
+
+2. **Page Layer**  
+   - top-level page components  
+   - orchestrates layout and major sections  
+   - delegates to feature components  
+   - handles page-level state and data fetching  
+   - never contains business logic  
+
+3. **Component Layer**  
+   - reusable UI components  
+   - receives props, emits events  
+   - renders UI based on state  
+   - no direct API calls  
+   - no business logic  
+
+4. **Sub-Component Layer**  
+   - smaller, focused UI pieces  
+   - composition units for larger components  
+   - strictly presentational  
+   - no state management  
+
+5. **Hooks Layer**  
+   - custom React hooks (or equivalent)  
+   - encapsulates reusable logic  
+   - handles API calls via services  
+   - manages local component state  
+   - contains data transformation logic  
+
+No layer may skip intermediate layers (page cannot call hooks directly without components).
+
+---
+
+# 2. VERSION ISOLATION CONTRACT (v1, v2, v3)
+
+Frontend code must strictly enforce version isolation:
+
+### 2.1 Version-Specific Folders  
+Each version maintains its own folder structure:
+- `src/v1/` → Bootstrap UI components  
+- `src/v2/` → Tailwind UI components  
+- `src/v3/` → Custom CSS UI components  
+
+### 2.2 Shared Frontend Code  
+All versions share:
+- hooks (unless version-specific behavior required)  
+- services (API integration layer)  
+- schemas (TypeScript types, Zod validators)  
+- utilities (helpers, formatters)  
+- constants (API endpoints, config)  
+
+### 2.3 Version-Specific Code  
+Each version has:
+- its own component implementations  
+- its own styling system (Bootstrap classes, Tailwind classes, custom CSS)  
+- its own layout structures  
+- its own page implementations  
+
+### 2.4 Cross-Version Consistency  
+Despite isolation, all versions must:
+- use identical selectors (data-testid, roles, semantic tags)  
+- maintain identical accessibility attributes  
+- follow identical component prop interfaces  
+- produce identical functional behavior  
+- share identical API contracts  
+
+Version isolation is about *presentation*, not *functionality*.
+
+---
+
+# 3. FOLDER STRUCTURE CONTRACT
+
+Every frontend file must be placed into one of these locations:
+
+### 3.1 Version-Specific Structure  
+```
+src/
+  v1/ (or v2/ or v3/)
+    pages/
+      [page-name].tsx
+    components/
+      [component-name]/
+        index.tsx
+        [component-name].tsx
+        [component-name].test.tsx
+    layouts/
+      [layout-name].tsx
+    styles/
+      [version-specific styles]
+```
+
+### 3.2 Shared Frontend Structure  
+```
+src/
+  shared/
+    hooks/
+      use[hook-name].ts
+      use[hook-name].test.ts
+    services/
+      api/
+        [service-name].ts
+      [service-name].ts
+    schemas/
+      [schema-name].ts
+    utils/
+      [utility-name].ts
+    constants/
+      [constant-name].ts
+    types/
+      [type-name].ts
+```
+
+### 3.3 Test Structure  
+```
+src/
+  __tests__/
+    [test-type]/
+      [test-file].test.ts
+  [version]/components/[component]/[component].test.tsx
+```
+
+If a file is created outside allowed locations → planning must stop.
+
+---
+
+# 4. COMPONENT ARCHITECTURE CONTRACT
+
+### 4.1 Component Structure  
+Every component must:
+- be a single-purpose, reusable unit  
+- accept typed props  
+- emit typed events (if applicable)  
+- have a clear, semantic name  
+- include data-testid for automation  
+- follow accessibility requirements (Layer 8)  
+- follow selector policy (Layer 7)  
+
+### 4.2 Component Composition  
+- Components must compose, not duplicate  
+- Large components must break into sub-components  
+- Shared logic must move to hooks  
+- Shared UI patterns must become reusable components  
+
+### 4.3 Component Props  
+- All props must be typed (TypeScript)  
+- Optional props must have defaults  
+- Props must be validated at runtime (Zod) if user input  
+- Props must not include business logic  
+
+### 4.4 Component State  
+- Local UI state only (useState, useReducer)  
+- Global state via context or state management library  
+- No direct API calls in components  
+- State must be testable and mockable  
+
+---
+
+# 5. HOOKS CONTRACT
+
+### 5.1 Hook Responsibilities  
+Hooks must:
+- encapsulate reusable logic  
+- handle API calls via services  
+- manage component state  
+- perform data transformations  
+- handle side effects (useEffect)  
+- return typed values and functions  
+
+### 5.2 Hook Naming  
+- Must start with `use`  
+- Must describe the hook's purpose  
+- Must be camelCase  
+
+### 5.3 Hook Structure  
+Every hook must:
+- be a pure function (deterministic output for same input)  
+- handle loading, error, and success states  
+- return consistent data structures  
+- be testable in isolation  
+- not depend on component-specific context  
+
+### 5.4 Hook Testing  
+- All hooks must have unit tests  
+- Tests must cover all state transitions  
+- Tests must mock API calls  
+- Tests must validate error handling  
+
+---
+
+# 6. SERVICES CONTRACT
+
+### 6.1 Service Responsibilities  
+Services must:
+- encapsulate API communication  
+- transform request/response data  
+- handle API errors  
+- provide typed interfaces  
+- be framework-agnostic (reusable across versions)  
+
+### 6.2 Service Structure  
+Every service must:
+- use typed request/response schemas  
+- handle network errors gracefully  
+- return consistent error formats  
+- be testable with mocked HTTP clients  
+- not contain UI logic  
+
+### 6.3 API Integration  
+- All API calls must go through services  
+- Services must use shared API client  
+- Services must validate responses against schemas  
+- Services must handle authentication tokens  
+- Services must respect rate limits  
+
+### 6.4 Service Testing  
+- All services must have unit tests  
+- Tests must mock HTTP responses  
+- Tests must validate error cases  
+- Tests must verify request/response transformations  
+
+---
+
+# 7. STYLING CONTRACT
+
+### 7.1 Version-Specific Styling  
+Each version uses its own styling approach:
+
+**v1 (Bootstrap):**
+- Bootstrap CSS classes only  
+- Bootstrap components where applicable  
+- Custom CSS only for Bootstrap overrides  
+- No inline styles  
+
+**v2 (Tailwind):**
+- Tailwind utility classes only  
+- Tailwind components where applicable  
+- Custom CSS only for Tailwind extensions  
+- No inline styles  
+
+**v3 (Custom CSS):**
+- Handwritten CSS only  
+- CSS modules or styled-components  
+- Semantic class names  
+- No utility classes  
+
+### 7.2 Styling Consistency  
+Despite different approaches, all versions must:
+- produce visually equivalent layouts  
+- maintain identical spacing and typography scales  
+- use identical color palettes  
+- preserve identical responsive breakpoints  
+- maintain identical accessibility contrast ratios  
+
+### 7.3 Styling Rules  
+- No inline styles (except dynamic values)  
+- No style attributes in JSX (use className)  
+- All styles must be testable  
+- Styles must not break automation selectors  
+- Styles must not interfere with accessibility  
+
+---
+
+# 8. SEMANTIC MARKUP CONTRACT
+
+### 8.1 HTML Semantics  
+Every UI element must:
+- use appropriate HTML tags (`<button>`, `<form>`, `<nav>`, etc.)  
+- follow heading hierarchy (h1 → h2 → h3)  
+- use semantic containers (`<main>`, `<section>`, `<article>`, etc.)  
+- avoid meaningless `<div>` wrappers  
+- include proper labels for form inputs  
+
+### 8.2 Semantic Validation  
+Before generating UI code:
+- validate semantic correctness  
+- ensure proper HTML structure  
+- verify heading hierarchy  
+- check form label associations  
+- confirm navigation structure  
+
+### 8.3 Semantic Testing  
+- Accessibility tests must validate semantics  
+- E2E tests must use semantic selectors  
+- Component tests must verify semantic structure  
+
+---
+
+# 9. SELECTOR POLICY INTEGRATION
+
+Frontend code must follow the selector policy defined in Layer 7:
+
+### 9.1 Selector Priority  
+1. **data-testid** (primary for automation)  
+2. **role** (accessibility + automation)  
+3. **semantic tag** (fallback)  
+4. Never use nth-child  
+5. Never use XPath  
+
+### 9.2 Selector Requirements  
+Every interactive element must have:
+- data-testid attribute  
+- accessible role (if not implicit)  
+- semantic HTML tag  
+
+### 9.3 Selector Stability  
+- Selectors must not change between versions  
+- Selectors must not depend on styling  
+- Selectors must not depend on content  
+- Selectors must be deterministic  
+
+---
+
+# 10. ACCESSIBILITY INTEGRATION
+
+Frontend code must follow the accessibility rules defined in Layer 8:
+
+### 10.1 Accessibility Requirements  
+Every component must:
+- be keyboard navigable  
+- have proper focus management  
+- include ARIA labels when needed  
+- link error messages via aria-describedby  
+- provide alt text for images  
+- maintain proper color contrast  
+
+### 10.2 Accessibility Testing  
+- All components must pass accessibility tests  
+- E2E tests must validate keyboard navigation  
+- Screen reader compatibility must be verified  
+
+---
+
+# 11. API INTEGRATION CONTRACT
+
+### 11.1 API Call Rules  
+- All API calls must go through services  
+- Components must not call APIs directly  
+- Hooks must use services for API calls  
+- API calls must be typed and validated  
+
+### 11.2 API Error Handling  
+- Services must handle network errors  
+- Services must transform API errors to UI errors  
+- Components must display user-friendly error messages  
+- Error states must be testable  
+
+### 11.3 API Response Validation  
+- All API responses must be validated against schemas  
+- Invalid responses must trigger error handling  
+- Response types must match TypeScript interfaces  
+
+---
+
+# 12. STATE MANAGEMENT CONTRACT
+
+### 12.1 State Management Rules  
+- Local component state for UI-only state  
+- Context for shared UI state  
+- State management library (if needed) for global app state  
+- No prop drilling beyond 2 levels  
+
+### 12.2 State Structure  
+- State must be normalized  
+- State must be typed  
+- State must be testable  
+- State updates must be predictable  
+
+### 12.3 State Testing  
+- State management logic must be unit tested  
+- State transitions must be validated  
+- State must be mockable for component tests  
+
+---
+
+# 13. FRONTEND TESTING CONTRACT
+
+### 13.1 Component Tests  
+- Every component must have unit tests  
+- Tests must validate rendering  
+- Tests must validate user interactions  
+- Tests must validate prop handling  
+- Tests must validate accessibility  
+
+### 13.2 Hook Tests  
+- Every hook must have unit tests  
+- Tests must validate state transitions  
+- Tests must mock API calls  
+- Tests must validate error handling  
+
+### 13.3 Integration Tests  
+- Test component + hook integration  
+- Test component + service integration  
+- Test page-level flows  
+- Validate API integration  
+
+### 13.4 E2E Tests  
+- Test complete user flows  
+- Use stable selectors only  
+- Test across all versions (v1, v2, v3)  
+- Validate accessibility in E2E  
+
+---
+
+# 14. PERFORMANCE CONTRACT
+
+### 14.1 Performance Requirements  
+- Components must not cause unnecessary re-renders  
+- Large lists must use virtualization  
+- Images must be lazy-loaded  
+- Code must be code-split by route  
+- Bundle size must stay within budget (Layer 10)  
+
+### 14.2 Performance Testing  
+- Bundle size must be monitored  
+- Render performance must be measured  
+- API call frequency must be optimized  
+- Memory leaks must be prevented  
+
+---
+
+# 15. MCP TOOL INTEGRATION
+
+### 15.1 Serena MCP Usage  
+Serena must be used for:
+- generating frontend code  
+- refactoring components  
+- analyzing component structure  
+- mapping component dependencies  
+
+### 15.2 Context7 MCP Usage  
+Context7 must be used for:
+- framework documentation (React, Next.js, etc.)  
+- library API references  
+- styling system documentation  
+- accessibility guidelines  
+
+### 15.3 AgenticRag Memory Usage  
+AgenticRag must retrieve:
+- component patterns from memory  
+- styling conventions  
+- accessibility patterns  
+- testing strategies  
+
+---
+
+# 16. MEMORY INTEGRATION
+
+### 16.1 Graffiti Storage  
+Store in Graffiti:
+- component architecture relationships  
+- hook → service → API mappings  
+- version → component mappings  
+- selector → component mappings  
+
+### 16.2 VectorDB Storage  
+Store in VectorDB:
+- component implementation examples  
+- styling patterns  
+- accessibility examples  
+- testing patterns  
+- debugging summaries  
+
+---
+
+# 17. STOP CONDITIONS
+
+Frontend code generation must STOP if:
+- component violates layer architecture  
+- component breaks version isolation  
+- component lacks required selectors  
+- component fails accessibility requirements  
+- component structure violates folder rules  
+- component lacks required tests  
+- styling breaks selector stability  
+
+If any violation is detected → planning must stop and correction must be proposed.
+
+---
+
+# END OF RULESET

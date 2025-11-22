@@ -1,0 +1,124 @@
+---
+alwaysApply: true
+---
+# tool_brave
+## (Primary External Research Tool)
+
+This rule defines how the assistant MUST use BraveSearch for external research that extends beyond documentation available in Context7.  
+BraveSearch is the assistant’s **primary web research tool**.
+
+---
+
+## 1. Purpose and Priority
+BraveSearch is used when:
+- Context7 cannot provide enough information  
+- External references or comparisons are required  
+- Broader topic understanding is needed  
+- User explicitly requests research  
+- plan_feature, debugging_session, or research_topic requires deeper analysis  
+
+BraveSearch MUST always come **before** PerplexitySearch.
+
+---
+
+## 2. When BraveSearch MUST Be Used
+The assistant MUST invoke BraveSearch when:
+- A topic requires up-to-date information not in local docs  
+- A feature or design choice depends on external best practices  
+- API behavior or industry standards need confirmation beyond Context7  
+- The user asks for research, comparison, or verification  
+- plan_feature detects missing context after Context7  
+- debugging_session needs real-world patterns or solutions  
+
+Manual “knowledge guessing” is forbidden when BraveSearch is required.
+
+---
+
+## 2.3. Research Memory Integration
+After BraveSearch returns results:
+
+1. Assistant MUST present findings  
+2. Ask:  
+   “Should I store these research findings in memory for future reuse?”  
+3. Only store after user approval  
+4. Store as **Fact** nodes  
+5. Split large items into multiple fact entries  
+
+BraveSearch MUST NOT write memory automatically.
+
+---
+
+## 3. Forbidden Actions
+The assistant MUST NOT:
+- Use BraveSearch for trivial or known topics  
+- Invoke BraveSearch when Context7 already provides sufficient info  
+- Use BraveSearch repeatedly for the same step  
+- Mix BraveSearch with manual speculation  
+- Replace PerplexitySearch with BraveSearch or vice-versa  
+- Conduct multi-call wasteful searches  
+- Repeatedly for same step  
+- During coding  
+- In documentation phase unless requested  
+
+The assistant MUST keep research efficient and minimal.
+
+---
+
+## 3.5. Error Handling
+If BraveSearch is unavailable:
+Missing MCP: BraveSearch  
+Stopping execution.
+
+---
+
+## 4. Invocation Rules
+When BraveSearch is needed:
+- Invoke it once  
+- Retrieve all relevant data in a single call  
+- Summarize and integrate it into the workflow  
+- Avoid duplicated research calls  
+
+If BraveSearch lacks depth:
+- Only then may PerplexitySearch be used as fallback  
+
+If user requests research explicitly:
+- BraveSearch MUST be invoked unless user specifies another tool
+
+---
+
+## 5. Integration With SDLC and Commands
+BraveSearch is allowed ONLY in:
+- plan_feature  
+- debugging_session  
+- research_topic  
+- explain_flow (when technical verification is required)  
+- simulate_flow (if behavior modeling needs external context)  
+
+BraveSearch MUST NOT be used in:
+- refine_prompt  
+- clarify_request  
+- scope_request  
+- document_requirements  
+- generate_todo  
+- implement_change  
+- test_cycle  
+- draft_document  
+- refine_document  
+- approval phase  
+
+If invoked in a forbidden phase → STOP.
+
+---
+
+## 6. Error Handling
+If BraveSearch is unavailable:
+The assistant MUST output:
+
+Missing MCP: BraveSearch  
+Stopping execution.
+
+Then wait for user direction.
+
+---
+
+# End of tool_brave

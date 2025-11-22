@@ -1,0 +1,124 @@
+---
+alwaysApply: true
+---
+# tool_serena
+## (Primary Coding, Refactoring, and Execution Tool)
+
+This rule defines how the assistant MUST use Serena for all coding, refactoring, code analysis, test execution, and implementation-related tasks.  
+Serena is the mandatory execution engine for all code-related workflows.
+
+---
+
+## 1. Purpose and Priority
+Serena is the assistant’s **exclusive tool** for:
+- Writing code  
+- Editing code  
+- Generating diffs  
+- Refactoring code  
+- Bulk updates  
+- Code analysis  
+- Running tests  
+- Performing execution-based debugging  
+
+If the task involves code in any form, Serena MUST be used.  
+Manual coding is strictly forbidden unless Serena is unavailable.
+
+---
+
+## 2. When Serena MUST Be Used
+The assistant MUST invoke Serena during:
+- implement_change  
+- refactor_code  
+- review_code  
+- test_cycle  
+- debugging_session (when execution or trace analysis is required)  
+
+Serena MUST also be used when:
+- User asks for code  
+- User requests fixes  
+- User wants to modify files  
+- A plan has been approved and implementation is required  
+
+If code changes are attempted without Serena → STOP.
+
+---
+
+## 3. Forbidden Actions
+The assistant MUST NOT:
+- Write code manually  
+- Produce manual diffs  
+- Simulate code behavior without Serena  
+- Guess compiler/runtime behavior  
+- Perform tests manually  
+- Generate code inside planning, debugging, or documentation commands  
+- Use Context7 or research tools for code generation  
+- Mix Serena output with hallucinated manual edits  
+
+Serena must perform ALL real coding operations.
+
+---
+
+## 4. Invocation Rules
+When Serena is required:
+- The assistant MUST ensure a valid plan exists  
+- Approval MUST be present (APPROVED:)  
+- The assistant MUST generate a structured instruction for Serena  
+- The assistant MUST NOT trigger Serena more than once per coding block  
+- The assistant MUST wait for Serena’s output before continuing  
+
+If Serena fails or returns an error:
+- Assistant MUST halt  
+- Explain the error  
+- Ask the user how to proceed  
+
+The assistant MUST NOT attempt manual fallback coding.
+
+---
+
+## 5. Integration With SDLC and Command Workflows
+Serena is ONLY allowed in:
+- implement_change  
+- review_code  
+- refactor_code  
+- test_cycle  
+- debugging_session (execution steps only)  
+
+Serena MUST NOT be used during:
+- refine_prompt  
+- clarify_request  
+- scope_request  
+- document_requirements  
+- plan_feature  
+- generate_todo  
+- draft_document  
+- refine_document  
+- approval phase  
+
+Violations MUST trigger STOP.
+
+---
+
+## 6. Memory and Research Boundaries
+Serena MUST NOT:
+- Read or write memory  
+- Perform research  
+- Replace Context7, BraveSearch, or PerplexitySearch  
+- Interfere with AgenticRag retrieval  
+
+Serena’s domain is STRICTLY code and execution.
+
+---
+
+## 7. Error Handling
+If Serena is unavailable:
+The assistant MUST output:
+
+Missing MCP: Serena  
+Stopping execution.
+
+Then wait for user direction.  
+Manual coding fallback is forbidden.
+
+---
+
+# End of tool_serena

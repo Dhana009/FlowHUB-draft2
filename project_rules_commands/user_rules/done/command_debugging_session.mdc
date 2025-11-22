@@ -1,0 +1,147 @@
+---
+alwaysApply: true
+---
+# command_debugging_session
+## (Root Cause Analysis, Error Investigation, and Diagnostic Workflow)
+
+This rule defines how the assistant MUST behave whenever the `debugging_session` command is invoked.  
+This workflow performs deep, structured debugging using Serena, Memory, and the research pipeline when required — without making assumptions or performing silent fixes.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering debugging_session workflow…
+
+The assistant MUST NOT:
+- modify code outside Serena  
+- fix issues automatically  
+- rewrite files  
+- refactor code  
+- generate new implementation  
+- update requirements or plan  
+- skip directly to testing  
+- jump ahead to any other SDLC phase  
+
+This phase focuses exclusively on **understanding the problem**.
+
+---
+
+## 2. Purpose of debugging_session
+The assistant MUST use this workflow when:
+- Errors occur during test_cycle  
+- Serena returns failures or stack traces  
+- Code behaves unexpectedly  
+- Unexpected runtime or logical issues appear  
+- The user explicitly requests debugging  
+
+The goal is to identify the root cause — NOT to fix the issue yet.
+
+---
+
+## 3. Required AgenticRag Memory Retrieval
+At the start of this workflow, the assistant MUST:
+- Use `search_nodes` to load past regressions, known bugs, previous debugging outcomes, relevant requirements  
+- Use `search_facts` to find relationships between modules, components, or errors  
+- Integrate memory patterns into hypothesis formation  
+
+Memory MUST support debugging accuracy.
+
+---
+
+## 4. Required Research Pipeline (Conditional)
+If debugging requires external validation:
+1. Context7  
+2. Local Cursor Search  
+3. BraveSearch (if deeper info required)  
+4. PerplexitySearch (fallback only)
+
+After presenting research results, the assistant MUST ask:
+
+“Should I store these debugging findings in memory as reusable facts?”
+
+The assistant MUST NOT store anything automatically.
+
+---
+
+## 5. Debugging Actions (Allowed)
+During this workflow, the assistant MAY:
+- Analyze stack traces  
+- Interpret Serena error output  
+- Identify potential points of failure  
+- Generate multiple hypotheses  
+- Correlate errors with requirements  
+- Validate assumptions step-by-step  
+- Request additional information if needed  
+- Use Serena to inspect code or run diagnostic steps  
+
+Debugging MUST remain investigative — not corrective.
+
+---
+
+## 6. Forbidden Actions
+During debugging_session, the assistant MUST NOT:
+- Modify code  
+- Generate diffs  
+- Suggest exact code fixes  
+- Perform refactoring  
+- Execute fixes without approval  
+- Rewrite architecture  
+- Update requirements  
+- Alter the plan  
+- Skip ahead to implementation  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 7. Debugging Protocol
+The assistant MUST follow this structured debugging model:
+
+### Step 1 — Error Review  
+Summarize the error or failure.
+
+### Step 2 — Context Retrieval  
+Integrate memory findings.
+
+### Step 3 — Hypothesis Generation  
+List possible root causes (multiple, not single).
+
+### Step 4 — Hypothesis Testing  
+Use Serena diagnostics, static analysis, or controlled checks.
+
+### Step 5 — Root Cause Identification  
+Present the most probable cause with reasoning.
+
+### Step 6 — Await User Instruction  
+Ask:
+
+“Should I proceed with fix planning?”
+
+The assistant MUST NOT proceed without explicit direction.
+
+---
+
+## 8. Integration With SDLC
+After debugging:
+- If root cause is confirmed → transition to `generate_todo` for fix planning  
+- If further investigation is needed → remain in debugging_session  
+- If user requests a fix directly → assistant MUST still produce a plan first  
+- If the bug indicates requirements or scope changes → return to earlier SDLC steps  
+
+Debugging NEVER jumps directly to implementation.
+
+---
+
+## 9. Exit Conditions
+This workflow ends when:
+- The cause is identified  
+- The assistant presents confirmed reasoning  
+- The user explicitly instructs next steps  
+
+After exit, the next phase is usually `generate_todo` for the fix.
+
+---
+
+# End of command_debugging_session

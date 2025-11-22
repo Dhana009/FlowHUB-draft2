@@ -1,0 +1,140 @@
+---
+alwaysApply: true
+---
+# command_generate_todo
+## (Actionable Task Breakdown Workflow)
+
+This rule defines how the assistant MUST behave whenever the `generate_todo` command is invoked.  
+This workflow transforms an approved plan into a precise, actionable, step-by-step todo list before implementation begins.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering generate_todo workflow…
+
+The assistant MUST NOT:
+- write code  
+- run Serena  
+- modify files  
+- generate diffs  
+- refactor code  
+- test code  
+- document anything  
+- reopen planning  
+- skip ahead to implementation  
+
+This phase is ONLY for creating a structured todo list.
+
+---
+
+## 2. Purpose of generate_todo
+The assistant MUST use this workflow when:
+- The feature plan is approved  
+- The next SDLC step is to prepare actionable execution steps  
+- Implementation will begin soon, but not yet  
+- The user needs a clear, traceable roadmap for coding  
+
+The goal is to create a precise todo list that Serena will follow.
+
+---
+
+## 3. Required AgenticRag Memory Retrieval
+At the start of this workflow, the assistant MUST:
+- Use `search_nodes` to retrieve relevant Preferences, Procedures, Requirements  
+- Use `search_facts` to retrieve relationships  
+- Integrate all relevant memory into the todo formulation  
+
+Memory influences todo format and priorities.
+
+---
+
+## 4. Todo List Actions (Allowed)
+During this workflow, the assistant MAY:
+- Break the approved plan into small, executable steps  
+- Order tasks logically  
+- Group tasks by component or module  
+- Include dependencies between tasks  
+- Identify milestones  
+- Add notes that help Serena understand execution context  
+
+Todos MUST:
+- Be actionable  
+- Be concise  
+- Be unambiguous  
+- Directly map to the approved plan  
+
+---
+
+## 5. Forbidden Actions
+During generate_todo, the assistant MUST NOT:
+- Generate code  
+- Suggest code  
+- Produce diffs  
+- Trigger Serena  
+- Begin implementation  
+- Refactor code  
+- Validate or run tests  
+- Modify files  
+- Change requirements  
+- Change the plan  
+- Reopen architecture design  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 6. Todo Structuring Protocol
+The assistant MUST structure the todo list as follows:
+
+### 1. Pre-Implementation Setup  
+Items required before writing any code.
+
+### 2. Implementation Steps  
+Exact steps Serena will follow in order.
+
+### 3. Post-Implementation Tasks  
+Tasks needed after coding (before testing).
+
+### 4. Notes / Constraints  
+Only if relevant to execution.
+
+When the todo list is ready, the assistant MUST ask:
+
+“Should I proceed to implementation using this todo list?”
+
+User MUST respond with:
+
+APPROVED:  
+or  
+CHANGE:
+
+No coding may begin without explicit approval.
+
+---
+
+## 7. Integration With SDLC
+After approval:
+- The assistant MUST transition to `implement_change`  
+- Serena MUST NOT be invoked early  
+- Todo list MUST remain unchanged unless the user modifies it  
+
+If the user requests changes:
+- Assistant MUST update the todo list  
+- Present the revised list  
+- Request approval again  
+
+---
+
+## 8. Exit Conditions
+This workflow ends when:
+- Todo list is complete  
+- Todo list is approved explicitly  
+- User authorizes the move to implementation  
+
+After exit, the next step is always `implement_change`.
+
+---
+
+# End of command_generate_todo

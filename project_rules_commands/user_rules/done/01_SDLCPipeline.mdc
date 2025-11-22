@@ -1,0 +1,213 @@
+---
+alwaysApply: true
+---
+# 01_SDLCPipeline
+## (Strict Software Development Lifecycle Orchestration)
+
+This rule defines the mandatory SDLC sequence the assistant MUST follow for every task.  
+No phase may be skipped, reordered, merged, or ignored.
+
+---
+
+## 1. Mandatory SDLC Sequence
+
+The assistant MUST ALWAYS follow this exact sequence:
+
+refine_prompt  
+→ clarify_request  
+→ scope_request  
+→ document_requirements  
+→ plan_feature  
+→ approval  
+→ generate_todo  
+→ implement_change  
+→ test_cycle  
+→ debugging_session (if needed)  
+→ draft_document (only if requested)  
+→ refine_document (only if requested)
+
+Skipping or reordering any step MUST cause STOP.
+
+---
+
+## 2. Phase Activation Logic
+
+### **refine_prompt**
+Triggered when:
+- The user request is ambiguous  
+- Multiple commands could match  
+- The intent is unclear  
+
+Output: refined understanding only.  
+No coding. No planning. No files.
+
+### **clarify_request**
+Triggered when:
+- refine_prompt indicates missing information  
+
+Output: direct questions to user.  
+No assumptions allowed.
+
+### **scope_request**
+Triggered when:
+- User intent is clear  
+- Boundaries are required  
+
+Output: strict scope boundaries.
+
+### **document_requirements**
+Triggered when:
+- Scope is confirmed  
+- Requirements need extraction  
+
+Output: requirement list only.
+
+### **plan_feature**
+Triggered after requirements.  
+Output: architecture, steps, trade-offs.  
+No code. No documents. No tool execution.
+
+### **Approval Phase**
+Before ANY code:
+Assistant MUST stop and ask:
+
+Do you approve this plan?  
+Reply with:  
+APPROVED: <plan_identifier>  
+or  
+CHANGE: <your correction>
+
+**Plan Identification Format:**
+- Plans MUST be presented with a clear identifier: "Plan 1: <description>" or "Plan: <name>"
+- The identifier can be a number (Plan 1, Plan 2, etc.) or a descriptive name (login-feature, api-refactor, etc.)
+- User approval MUST match the presented identifier exactly
+
+**Approval Format Variants:**
+- `APPROVED: Plan 1` (for numbered plans)
+- `APPROVED: <plan_name>` (for named plans)  
+- `APPROVED: <plan_identifier>` (any unique identifier matching the presented plan)
+
+No approval → STOP.
+
+### **generate_todo**
+Triggered after approval.  
+Output: clear actionable tasks only.
+
+### **implement_change**
+Triggered only after todo generation.  
+Uses Serena MCP exclusively.  
+No manual code allowed.  
+No fallback unless Serena errors.
+
+### **test_cycle**
+Triggered after implementation.  
+Runs Serena test execution.  
+No manual test simulation.
+
+### **debugging_session**
+Triggered when tests fail.  
+Performs analysis only.  
+Uses AgenticRag + Context7.  
+No code generation here.
+
+### **draft_document**
+Triggered ONLY when user explicitly asks for a document.  
+Requires detail-level permission.  
+Then document is generated.
+
+### **refine_document**
+Triggered ONLY when user wants improvements.
+
+---
+
+## 3. SDLC Phase Enforcement
+If the assistant tries to:
+- jump ahead  
+- skip a phase (without override protocol)  
+- return to an earlier phase  
+- switch to a command not supported by SDLC  
+- start coding before approval  
+- test before implementation  
+- document before testing  
+
+Assistant MUST STOP and output:
+
+SDLC Violation — Stopping Execution
+
+**SDLC Phase Override Protocol:**
+If the user explicitly requests skipping a phase:
+1. Assistant MUST STOP immediately
+2. Output: "SDLC Override Request Detected — Skipping <phase_name>"
+3. Ask for explicit confirmation: "Are you sure you want to skip <phase_name>? Reply OVERRIDE: SKIP <phase_name> to confirm."
+4. Only proceed if user responds with: `OVERRIDE: SKIP <phase_name>`
+5. Document the override in the workflow for future reference
+6. Continue to the next phase in sequence after override confirmation
+
+The assistant MUST NOT skip phases without this explicit override protocol.
+
+---
+
+## 4. MCP Tool Integration Per Phase
+
+### **refine_prompt / clarify_request / scope_request**
+Tools: NONE (exempt from MCP tool requirements)  
+Assistant MUST NOT use MCP tools here, **EXCEPT**:
+- AgenticRag MAY be used for context retrieval if prior knowledge is relevant to understanding user intent
+- This exception does NOT override the "Tools: NONE" rule for other MCP tools (Context7, Serena, BraveSearch, PerplexitySearch)
+
+**Rationale:** These early phases focus on understanding user intent through direct communication. MCP tools are exempt to prevent premature technical assumptions.
+
+### **document_requirements / plan_feature**
+Tools:  
+- Context7 (ALWAYS first)  
+- AgenticRag (for memory and prior context)  
+- BraveSearch / PerplexitySearch (only if research needed)
+
+### **generate_todo**
+Tools: NONE  
+(todo list is conceptual)
+
+### **implement_change**
+Tools:  
+- Serena (MANDATORY)  
+If Serena available but not used → STOP.
+
+### **test_cycle**
+Tools: Serena for test execution.
+
+### **debugging_session**
+Tools:  
+- Serena  
+- AgenticRag  
+- Context7  
+
+### **draft_document / refine_document**
+Tools: NONE  
+Unless user asks for research.
+
+---
+
+## 5. Phase Completion Check
+Before moving to next SDLC phase, assistant MUST confirm:
+
+“SDLC phase <name> completed. Should I proceed to the next phase?”
+
+User must say YES.  
+If unclear → STOP.
+
+---
+
+## 6. Exit Rules
+The SDLC ends when:
+- Code implemented  
+- Tests passed  
+- Debugging complete  
+- Documentation (if requested) delivered  
+
+Assistant must then ask:
+
+“SDLC complete. Do you want to start another workflow?”
+
+---
+
+# End of 01_SDLCPipeline

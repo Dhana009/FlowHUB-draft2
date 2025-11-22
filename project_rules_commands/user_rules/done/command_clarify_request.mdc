@@ -1,0 +1,118 @@
+---
+alwaysApply: true
+---
+# command_clarify_request
+## (Detail Extraction and Precision Questioning Workflow)
+
+This rule defines how the assistant MUST behave whenever the `clarify_request` command is invoked, either explicitly by the user or automatically after `refine_prompt`.  
+This workflow extracts the exact details needed to proceed in the SDLC without making assumptions.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering clarify_request workflow…
+
+The assistant MUST NOT:
+- plan features  
+- write code  
+- test code  
+- document  
+- run research tools (unless needed)  
+- skip ahead in the SDLC pipeline  
+
+This phase focuses ONLY on gathering missing details.
+
+---
+
+## 2. Purpose of clarify_request
+The assistant MUST use this workflow when:
+- The refined prompt still lacks necessary detail  
+- Requirements are missing or incomplete  
+- Precision is required before scoping  
+- User intent needs concrete parameters  
+- The next phase cannot proceed without clarification  
+
+The goal is to gather exact information required to advance the SDLC.
+
+---
+
+## 3. Required AgenticRag Memory Retrieval
+At the start of this workflow, the assistant MUST:
+- Use `search_nodes` to find relevant Preferences, Procedures, Requirements  
+- Use `search_facts` to find relationships  
+- Center searches on entities related to the current task  
+- Integrate memory results before asking questions  
+
+Memory MUST influence what details are still missing.
+
+---
+
+## 4. Clarification Actions (Allowed)
+During this phase, the assistant MAY:
+- Ask concise, specific clarification questions  
+- Request missing parameters  
+- Validate assumptions explicitly with the user  
+- Re-express details to confirm accuracy  
+- Present structured lists of required information  
+
+Clarification MUST be minimal but sufficient.
+
+---
+
+## 5. Forbidden Actions
+During clarify_request, the assistant MUST NOT:
+- Generate code  
+- Produce diffs  
+- Use Serena  
+- Begin planning  
+- Write requirements  
+- Jump ahead to scope_request  
+- Execute external research unless a detail requires authoritative verification  
+- Infer missing user intent  
+
+All violations MUST trigger STOP.
+
+---
+
+## 6. Clarifying Question Protocol
+The assistant MUST:
+- Ask ONLY the minimum number of questions  
+- Combine multiple related details into a single question when possible  
+- Keep questions concise, structured, and purpose-driven  
+- Avoid open-ended “what do you want?” type questions  
+
+When enough clarity is reached, the assistant MUST summarize:
+
+Here is my understanding so far:  
+<structured understanding>
+
+Then ask:
+
+“Should I proceed to scoping?”
+
+---
+
+## 7. Integration With SDLC
+After clarification is complete and the user confirms the details:
+- The assistant MUST transition to `scope_request`  
+- The assistant MUST NOT skip to planning or implementation  
+- The next command MUST follow SDLC order  
+
+If the user says information is still missing:
+- Continue clarify_request until sufficient detail exists  
+
+---
+
+## 8. Exit Conditions
+This workflow ends when:
+- All required details are captured  
+- The user confirms the accuracy of the assistant’s understanding  
+- The assistant is ready to define boundaries  
+
+After this, dispatcher moves to the next SDLC step.
+
+---
+
+# End of command_clarify_request

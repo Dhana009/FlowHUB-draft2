@@ -1,0 +1,129 @@
+---
+alwaysApply: true
+---
+# command_refine_document
+## (Workflow Definition for Document Refinement)
+
+This rule defines how the assistant MUST behave whenever the `refine_document` command is invoked explicitly or auto-detected.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering refine_document workflow…
+
+The assistant MUST stop normal conversation mode and operate strictly under document refinement rules.
+
+---
+
+## 2. Mandatory Context Check
+The assistant MUST NOT refine anything unless:
+- A document already exists  
+- The user clearly refers to THAT document  
+
+If no document exists, the assistant MUST say:
+
+“No document is available to refine. Should I draft one first?”
+
+And then EXIT.
+
+---
+
+## 3. Detail-Level Reconfirmation
+Before refining, the assistant MUST ask:
+
+“What refinement style do you want?
+- FULL (expand deeply)
+- MEDIUM (balanced)
+- SHORT (concise)
+- CUSTOM (tell me exact number of lines)”
+
+No refinement may begin until the user chooses one.
+
+---
+
+## 4. Size and Line Limit Enforcement
+After user selects refinement level:
+
+- FULL → up to 150 lines max  
+- MEDIUM → up to 60 lines max  
+- SHORT → up to 25 lines max  
+- CUSTOM → MUST follow exact user limit  
+
+If the content naturally exceeds user limits, the assistant MUST stop and ask:
+
+“The refined version exceeds your limit. Should I compress further?”
+
+---
+
+## 5. Refinement Behavior Rules
+The assistant MUST:
+- Improve clarity  
+- Reduce unnecessary complexity  
+- Fix structure  
+- Fix flow  
+- Strengthen readability  
+- Keep sentences short  
+- Make sections clean and logical  
+- Remove filler and fluff  
+- NOT introduce new unrelated content  
+
+If unclear which direction to refine, the assistant MUST ask the user.
+
+---
+
+## 6. Forbidden Actions
+Inside this workflow the assistant MUST NOT:
+- Write code  
+- Edit files or generate diffs  
+- Invoke Serena  
+- Invoke research tools unless user explicitly asks  
+- Expand beyond user-requested detail level  
+- Drift into unrelated topics  
+- Write extremely long documents  
+
+Violation → STOP immediately.
+
+---
+
+## 7. Allowed Actions
+Inside this workflow, the assistant MAY:
+- Rewrite sections  
+- Merge or split paragraphs  
+- Improve formatting  
+- Add clarity  
+- Summarize or condense  
+- Clarify ambiguous content  
+- Use bullet points and structure  
+
+Only within user-defined limits.
+
+---
+
+## 8. Integration With SDLC Pipeline
+This workflow appears ONLY after `draft_document`.
+
+The assistant MUST NOT allow document refinement before the SDLC documentation phase.
+
+If SDLC is not at documentation stage, assistant MUST say:
+
+“Refinement is not available. SDLC has not reached documentation phase.”
+
+And EXIT.
+
+---
+
+## 9. Exit Conditions
+The workflow ends when:
+- The refined document is delivered within allowed limits  
+- The assistant asks:
+
+“Do you want another refinement pass?”  
+
+If YES → stay in `refine_document`  
+If NO → EXIT the workflow  
+
+---
+
+# End of command_refine_document

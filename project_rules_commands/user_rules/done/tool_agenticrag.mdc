@@ -1,0 +1,164 @@
+---
+alwaysApply: true
+---
+# tool_agenticrag
+## (Memory Retrieval, Context Consolidation, and Knowledge Access Tool)
+
+This rule defines how the assistant MUST use AgenticRag for retrieving stored context, historical information, prior reasoning, and any persistent knowledge relevant to the user’s workflows.
+
+---
+
+## 1. Purpose and Priority
+AgenticRag is the assistant’s **exclusive tool for memory retrieval**.  
+It MUST be used when:
+- Prior steps in the project are relevant  
+- Historical architecture decisions are needed  
+- Past errors or debugging notes must be recalled  
+- Requirements, scopes, or plans from earlier sessions are needed  
+- User preferences stored previously must be respected  
+
+The assistant MUST NOT attempt manual memory recall without AgenticRag.
+
+---
+
+## 1.2. Mandatory Steps Before Starting Any Task
+Before the assistant begins **any workflow or reasoning**, it MUST:
+
+1. **search_nodes**  
+   - Look for relevant Preferences, Procedures, or Requirements  
+   - Filter by entity type when applicable  
+
+2. **search_facts**  
+   - Identify factual relationships between entities  
+   - Retrieve contextual links  
+
+3. **Review all matches**  
+   - The assistant MUST examine all nodes and facts found  
+   - The assistant MUST NOT ignore existing memory  
+
+These searches MUST happen once at the beginning of each SDLC phase.
+
+---
+
+## 2. When AgenticRag MUST Be Used
+The assistant MUST invoke AgenticRag automatically during:
+- plan_feature (to retrieve historical architecture context)  
+- debugging_session (to retrieve past failure patterns)  
+- test_cycle (to avoid repeating previous mistakes)  
+- research_topic (when referencing prior research)  
+- clarify_request (when user intent patterns exist)  
+- refine_prompt (when similar tasks were seen before)  
+- document_requirements (to load known requirements)  
+
+AgenticRag ensures continuity and consistency across workflows.
+
+---
+
+
+## 2.2. Mandatory Searches Before Any Task
+Before beginning any SDLC phase, the assistant MUST:
+1. `search_nodes` (Preferences, Procedures, Requirements)  
+2. `search_facts` (relationships between nodes)  
+
+The assistant MUST review all retrieved memory and integrate it before proceeding.
+
+---
+
+## 3. Research Memory Integration
+After any research tool (Context7, Cursor Search, BraveSearch, PerplexitySearch) is used, the assistant MUST:
+
+1. Present the research results to the user  
+2. Evaluate if results are factual, stable, and reusable  
+3. Ask the user:
+
+“Should I store these findings in memory for future reuse?”
+
+4. If the user says **yes**, the assistant MUST:
+- Use `add_memory`  
+- Store the results as **Facts**  
+- Split large findings into smaller fact nodes  
+- Store only new or updated items  
+
+No automatic write is allowed.
+
+---
+
+## 4. Invocation Rules
+When AgenticRag is needed:
+- The assistant MUST call it exactly once per phase  
+- Retrieve relevant data  
+- Apply retrieved context to the task  
+- Avoid repeated or redundant calls  
+
+If AgenticRag returns no relevant memory:
+- The assistant MUST proceed without assumptions  
+- The assistant MUST NOT fabricate missing context  
+
+---
+
+## 5. Integration With SDLC and Commands
+AgenticRag MUST respect phase boundaries:
+
+### Allowed:
+- refine_prompt  
+- clarify_request  
+- scope_request  
+- document_requirements  
+- plan_feature  
+- debugging_session  
+- test_cycle  
+
+### Forbidden:
+- generate_todo  
+- implement_change  
+- refactor_code  
+- review_code  
+- draft_document  
+- refine_document  
+- approval phase  
+
+AgenticRag is **retrieval-only**, not execution or transformation.
+
+---
+
+## 6. Search Best Practices
+The assistant MUST follow these guidelines:
+
+- **Search before suggesting**  
+  Never recommend anything before checking memory.
+
+- **Combine node and fact searches**  
+  For complex reasoning, the assistant MUST use both.
+
+- **Use center_node_uuid**  
+  When exploring related memory, the assistant MUST center queries around the current entity.
+
+- **Prioritize specific matches**  
+  Specific nodes override general ones.
+
+- **Be proactive**  
+  If the assistant identifies clear patterns, it MUST ask the user if they should be stored.
+
+---
+
+## 7. Forbidden Actions
+The assistant MUST NOT:
+- Invent memory  
+- Use non-AgenticRag methods for retrieval  
+- Store ambiguous or speculative content  
+- Modify memory without explicit user approval  
+- Mix memory operations with coding (Serena) or research (Brave/Perplexity)  
+
+Memory is exclusively managed through AgenticRag.
+---
+
+## 8. Error Handling
+If AgenticRag is unavailable:
+The assistant MUST output:
+
+Missing MCP: AgenticRag  
+Stopping execution.
+
+Then wait for user direction.
+
+# End of tool_agenticrag

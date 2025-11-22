@@ -1,0 +1,167 @@
+---
+alwaysApply: true
+---
+# command_simulate_flow
+## (Step-by-Step Execution Simulation, Behavioral Walkthrough, and Scenario Analysis Workflow)
+
+This rule defines how the assistant MUST behave whenever the `simulate_flow` command is invoked.  
+This workflow simulates how a system, function, feature, or user interaction would behave **before implementation** — without writing code, planning, or modifying any part of the SDLC state.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering simulate_flow workflow…
+
+The assistant MUST NOT:
+- write code  
+- generate diffs  
+- run Serena  
+- modify files  
+- generate todos  
+- plan features  
+- extract requirements  
+- define scope  
+- begin debugging  
+- execute tests  
+- write or refine documents  
+- store memory automatically  
+
+This workflow exists strictly for simulation and walkthrough.
+
+---
+
+## 2. Purpose of simulate_flow
+The assistant MUST use this workflow when:
+- The user wants to mentally execute a system or feature  
+- The user wants to test logic conceptually  
+- The flow needs validation BEFORE planning or coding  
+- The feature’s behavior must be understood end-to-end  
+- The assistant must check feasibility or logic consistency  
+
+The goal is to simulate behavior, not to build, test, or design it.
+
+---
+
+## 3. Required AgenticRag Memory Retrieval (Conditional)
+If the simulated system depends on:
+- Existing requirements  
+- Architecture decisions  
+- Past simulations  
+- Stored constraints or preferences  
+
+The assistant MUST:
+- Use `search_nodes` to retrieve relevant memory  
+- Use `search_facts` to identify relationships  
+- Integrate memory into the simulation  
+
+Memory MUST NOT add new behaviors that were not previously agreed upon.
+
+---
+
+## 4. Allowed Actions
+During simulate_flow, the assistant MAY:
+- Walk through scenarios step-by-step  
+- Simulate user input and system response  
+- Simulate backend logic conceptually  
+- Run multiple branches (if/else paths)  
+- Identify logic inconsistencies conceptually  
+- Expose edge conditions  
+- Ask clarifying questions if simulation context is unclear  
+
+All behavior MUST remain conceptual.
+
+---
+
+## 5. Forbidden Actions
+During simulate_flow, the assistant MUST NOT:
+- Suggest code  
+- Implement code  
+- Trigger planning or design  
+- Update requirements  
+- Create todos  
+- Test actual code  
+- Debug actual code  
+- Generate documents  
+- Invoke research unless user explicitly asks  
+- Store memory automatically  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 6. Simulation Protocol
+Simulation MUST follow this structured format:
+
+### Step 1 — Define the Simulation Context  
+Clarify:
+- What system  
+- What component  
+- What interaction  
+- What starting state  
+
+### Step 2 — Identify Inputs  
+What the user/system provides at each step.
+
+### Step 3 — Simulate System Response  
+Describe what happens internally and externally.
+
+### Step 4 — Branching Logic  
+Simulate:
+- success paths  
+- failure paths  
+- edge cases  
+- unexpected inputs  
+
+### Step 5 — Summarize Observations  
+Highlight:
+- logical gaps  
+- inconsistencies  
+- failure points  
+- unclear behaviors  
+
+Assistant MUST keep simulation grounded to confirmed requirements and plan.
+
+---
+
+## 7. Optional Research (User-Triggered)
+If the user explicitly asks for external facts to support the simulation:
+- Assistant MUST confirm first  
+- Then run the research pipeline  
+- Then ask if findings should be stored in memory  
+
+No automatic research and no forced memory writes.
+
+---
+
+## 8. Integration With SDLC
+Simulation does NOT advance SDLC by itself.  
+However:
+
+If simulation reveals missing information:
+- Assistant MUST transition to `clarify_request` or `document_requirements`
+
+If simulation reveals system design gaps:
+- Assistant MUST transition to `plan_feature`
+
+If the user decides to implement:
+- Assistant MUST transition to `generate_todo` AFTER planning  
+(never directly to implementation)
+
+Simulation NEVER transitions directly to coding or testing.
+
+---
+
+## 9. Exit Conditions
+This workflow ends when:
+- Simulation steps are exhausted  
+- Success and failure paths are covered  
+- User confirms understanding  
+- User instructs the next step  
+
+After exit, the assistant MUST proceed to refine_prompt.
+
+---
+
+# End of command_simulate_flow

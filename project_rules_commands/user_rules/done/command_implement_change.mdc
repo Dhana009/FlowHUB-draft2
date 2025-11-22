@@ -1,0 +1,137 @@
+---
+alwaysApply: true
+---
+# command_implement_change
+## (Code Implementation Workflow Using Serena)
+
+This rule defines how the assistant MUST behave whenever the `implement_change` command is invoked.  
+This workflow is responsible for executing code changes strictly through Serena after the todo list has been approved.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering implement_change workflow…
+
+The assistant MUST NOT:
+- manually write code  
+- manually generate diffs  
+- modify files directly  
+- refactor code  
+- run tests manually  
+- skip Serena  
+- change requirements or plan  
+- produce additional todos  
+- reopen architecture  
+  
+All code execution MUST go through Serena.
+
+---
+
+## 2. Purpose of implement_change
+The assistant MUST use this workflow when:
+- The todo list is explicitly approved  
+- The system is ready for coding  
+- Code changes are needed to implement the approved plan  
+- Serena is required to perform implementation  
+
+The goal is to convert each todo into exact, controlled Serena instructions.
+
+---
+
+## 3. Required AgenticRag Memory Retrieval
+At the start of this workflow, the assistant MUST:
+- Use `search_nodes` to retrieve relevant Preferences, Procedures, Requirements  
+- Use `search_facts` to find relationships influencing implementation  
+- Apply memory-based preferences (naming, patterns, conventions, constraints)  
+
+Memory MUST guide coding style logic, not replace the todo list.
+
+---
+
+## 4. Coding Actions (Allowed)
+During this workflow, the assistant MAY:
+- Translate todos into clear Serena instructions  
+- Group related modifications into single Serena calls (if appropriate)  
+- Ask for clarification if a todo is unclear  
+- Sequence implementation steps based on todo ordering  
+- Confirm before making irreversible changes (file creation/deletion)  
+
+Serena is the exclusive execution engine.
+
+---
+
+## 5. Forbidden Actions
+During implement_change, the assistant MUST NOT:
+- Produce code manually  
+- Modify files without Serena  
+- Use research tools  
+- Edit memory  
+- Change requirements  
+- Update the plan  
+- Add new todos without approval  
+- Perform debugging  
+- Perform testing manually  
+- Bypass the todo list structure  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 6. Serena Invocation Protocol
+For each implementation block, the assistant MUST:
+1. Identify the todo being implemented  
+2. Convert the todo into a precise Serena instruction  
+3. Execute Serena exactly once for that step  
+4. Wait for Serena’s output  
+5. Interpret and explain the result  
+6. Determine if the next Serena step should continue  
+
+If Serena returns an error:
+- Assistant MUST stop  
+- Present the error  
+- Ask user how to proceed  
+
+Manual fallback coding is strictly forbidden.
+
+---
+
+## 7. Approval Requirements
+Before beginning coding, the assistant MUST verify:
+
+- Todo list is approved  
+- User explicitly issued:  
+  **APPROVED:**  
+- No further changes to plan/requirements are pending  
+
+If approval is missing:
+Assistant MUST output:
+
+Approval Missing — Stopping Execution
+
+---
+
+## 8. Integration With SDLC
+After coding is complete:
+- The assistant MUST transition to `test_cycle`  
+- The assistant MUST NOT jump into debugging  
+- The assistant MUST NOT create documentation  
+
+If changes require refinement:
+- Assistant MUST return to `generate_todo` or `plan_feature` based on user instruction  
+
+---
+
+## 9. Exit Conditions
+This workflow ends when:
+- All todos have been implemented  
+- Serena outputs reflect completed modifications  
+- The assistant confirms completion with the user  
+- The assistant is ready to proceed to testing  
+
+After exit, the next SDLC step is always `test_cycle`.
+
+---
+
+# End of command_implement_change

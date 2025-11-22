@@ -1,0 +1,493 @@
+---
+description: Architecture Rules (Layer 14)
+alwaysApply: true
+---
+
+# ARCHITECTURE RULES  
+## (API Design, Dependency Maps, Boundaries, Module Layout)
+
+Defines all architectural patterns, boundaries, dependencies, and design standards.
+
+Every architectural decision must comply with these rules.
+
+---
+
+# 1. ARCHITECTURE CONTRACT  
+### (STRICT – Cannot be Violated)
+
+All architecture must follow **strict layered boundaries**:
+
+1. **Backend Architecture**  
+   - Controller → Service → Repository → Model  
+   - No cross-layer dependencies  
+   - No layer skipping  
+
+2. **Frontend Architecture**  
+   - Route → Page → Component → Sub-Component → Hooks  
+   - No cross-layer dependencies  
+   - No layer skipping  
+
+3. **API Architecture**  
+   - Frontend ↔ Backend via API only  
+   - No direct database access from frontend  
+   - No shared code between frontend and backend  
+
+4. **Version Architecture**  
+   - v1, v2, v3 are isolated  
+   - Shared code is version-agnostic  
+   - No cross-version dependencies  
+
+All architecture must be documented, validated, and enforced.
+
+---
+
+# 2. API DESIGN CONTRACT
+
+### 2.1 API Design Principles  
+- RESTful conventions must be followed  
+- APIs must be versioned  
+- APIs must be documented  
+- APIs must be consistent  
+
+### 2.2 API Endpoint Design  
+- Endpoints must follow REST conventions  
+- Endpoints must be resource-based  
+- HTTP methods must be used correctly  
+- Endpoints must be predictable  
+
+### 2.3 API Request/Response Design  
+- Request schemas must be defined  
+- Response schemas must be defined  
+- Error schemas must be standardized  
+- All schemas must be validated  
+
+### 2.4 API Versioning  
+- APIs must be versioned in URL or header  
+- Breaking changes require new version  
+- Deprecated endpoints must be marked  
+- Version migration must be supported  
+
+### 2.5 API Documentation  
+- All endpoints must be documented  
+- Request/response examples must be provided  
+- Error responses must be documented  
+- API changes must be documented  
+
+---
+
+# 3. DEPENDENCY MAP CONTRACT
+
+### 3.1 Dependency Direction Rules  
+- Dependencies must flow in one direction  
+- No circular dependencies allowed  
+- Dependencies must be explicit  
+- Dependency graphs must be acyclic  
+
+### 3.2 Backend Dependency Rules  
+- Controller depends on Service  
+- Service depends on Repository  
+- Repository depends on Model  
+- No reverse dependencies  
+
+### 3.3 Frontend Dependency Rules  
+- Route depends on Page  
+- Page depends on Component  
+- Component depends on Hooks  
+- Hooks depend on Services  
+- No reverse dependencies  
+
+### 3.4 Cross-System Dependency Rules  
+- Frontend depends on Backend (via API)  
+- Backend does not depend on Frontend  
+- Shared code has no dependencies on version-specific code  
+- Versions have no dependencies on each other  
+
+### 3.5 Dependency Documentation  
+- Dependency graphs must be documented  
+- Dependency relationships must be explicit  
+- Dependency changes must be tracked  
+- Dependency violations must be detected  
+
+---
+
+# 4. MODULE BOUNDARY CONTRACT
+
+### 4.1 Module Definition Rules  
+- Modules must have clear boundaries  
+- Modules must have single responsibility  
+- Modules must be cohesive  
+- Modules must be loosely coupled  
+
+### 4.2 Backend Module Boundaries  
+- Controllers are separate modules  
+- Services are separate modules  
+- Repositories are separate modules  
+- Models are separate modules  
+
+### 4.3 Frontend Module Boundaries  
+- Routes are separate modules  
+- Pages are separate modules  
+- Components are separate modules  
+- Hooks are separate modules  
+- Services are separate modules  
+
+### 4.4 Module Interface Rules  
+- Modules must expose clear interfaces  
+- Module internals must be private  
+- Module dependencies must be explicit  
+- Module boundaries must be enforced  
+
+### 4.5 Module Communication Rules  
+- Modules communicate via interfaces  
+- Modules do not access internals  
+- Modules do not share state directly  
+- Modules communicate through defined contracts  
+
+---
+
+# 5. MODULE LAYOUT CONTRACT
+
+### 5.1 Module Organization Rules  
+- Modules must be organized by feature or layer  
+- Related modules must be grouped  
+- Module structure must be consistent  
+- Module layout must be documented  
+
+### 5.2 Backend Module Layout  
+- Controllers grouped by resource  
+- Services grouped by domain  
+- Repositories grouped by entity  
+- Models grouped by domain  
+
+### 5.3 Frontend Module Layout  
+- Routes grouped by feature  
+- Pages grouped by feature  
+- Components grouped by feature or type  
+- Hooks grouped by functionality  
+
+### 5.4 Shared Module Layout  
+- Shared code in separate directory  
+- Shared code is version-agnostic  
+- Shared code has no version dependencies  
+- Shared code is clearly marked  
+
+---
+
+# 6. ARCHITECTURE PATTERN CONTRACT
+
+### 6.1 Layered Architecture Pattern  
+- Backend: Controller → Service → Repository → Model  
+- Frontend: Route → Page → Component → Hooks  
+- Layers must be strictly enforced  
+- No layer skipping allowed  
+
+### 6.2 Service Layer Pattern  
+- Business logic in services  
+- Services orchestrate repositories  
+- Services handle transactions  
+- Services throw domain errors  
+
+### 6.3 Repository Pattern  
+- Data access in repositories  
+- Repositories abstract database  
+- Repositories return domain objects  
+- Repositories are testable  
+
+### 6.4 Component Pattern  
+- Components are reusable  
+- Components are composable  
+- Components are testable  
+- Components follow single responsibility  
+
+### 6.5 Hook Pattern  
+- Hooks encapsulate logic  
+- Hooks are reusable  
+- Hooks handle side effects  
+- Hooks return consistent interfaces  
+
+---
+
+# 7. INTEGRATION PATTERN CONTRACT
+
+### 7.1 Frontend-Backend Integration  
+- Integration via API only  
+- No direct database access  
+- No shared code  
+- API contracts must be defined  
+
+### 7.2 Service Integration  
+- Services integrate via interfaces  
+- Services do not depend on implementations  
+- Service boundaries are clear  
+- Service communication is explicit  
+
+### 7.3 Component Integration  
+- Components integrate via props  
+- Components communicate via events  
+- Component boundaries are clear  
+- Component composition is explicit  
+
+### 7.4 External Service Integration  
+- External services via adapters  
+- External service calls are abstracted  
+- External service errors are handled  
+- External service integration is testable  
+
+---
+
+# 8. ARCHITECTURE VALIDATION CONTRACT
+
+### 8.1 Architecture Validation Requirements  
+- Architecture must be validated  
+- Architecture violations must be detected  
+- Architecture compliance must be verified  
+- Architecture must be enforced  
+
+### 8.2 Validation Rules  
+- Layer boundaries must be validated  
+- Dependency direction must be validated  
+- Module boundaries must be validated  
+- Architecture patterns must be validated  
+
+### 8.3 Validation Tools  
+- Architecture validation must be automated  
+- Architecture violations must block deployment  
+- Architecture compliance must be reported  
+- Architecture validation must be part of CI/CD  
+
+### 8.4 Validation Enforcement  
+- Architecture validation must run in CI  
+- Architecture violations must block merge  
+- Architecture compliance must be maintained  
+- Architecture must be continuously validated  
+
+---
+
+# 9. ARCHITECTURE DOCUMENTATION CONTRACT
+
+### 9.1 Documentation Requirements  
+- Architecture must be documented  
+- Architecture diagrams must be maintained  
+- Architecture decisions must be recorded  
+- Architecture must be accessible  
+
+### 9.2 Architecture Diagram Requirements  
+- System architecture diagrams  
+- Component architecture diagrams  
+- Dependency diagrams  
+- Data flow diagrams  
+
+### 9.3 Architecture Decision Records  
+- Architecture decisions must be documented  
+- Decision rationale must be recorded  
+- Decision alternatives must be documented  
+- Decision context must be preserved  
+
+### 9.4 Documentation Maintenance  
+- Documentation must be kept up to date  
+- Documentation must be reviewed  
+- Documentation must be accessible  
+- Documentation must be versioned  
+
+---
+
+# 10. VERSION ARCHITECTURE CONTRACT
+
+### 10.1 Version Isolation Rules  
+- Versions must be architecturally isolated  
+- No cross-version dependencies  
+- Shared architecture is version-agnostic  
+- Version-specific architecture is isolated  
+
+### 10.2 Shared Architecture Rules  
+- Shared architecture must be version-agnostic  
+- Shared architecture must not depend on versions  
+- Shared architecture must be stable  
+- Shared architecture must be documented  
+
+### 10.3 Version-Specific Architecture Rules  
+- Version-specific architecture is isolated  
+- Version-specific architecture does not affect other versions  
+- Version-specific architecture is documented  
+- Version-specific architecture is testable  
+
+### 10.4 Cross-Version Consistency  
+- Functional architecture must be consistent  
+- API architecture must be consistent  
+- Data architecture must be consistent  
+- Only presentation architecture differs  
+
+---
+
+# 11. SCALABILITY ARCHITECTURE CONTRACT
+
+### 11.1 Scalability Requirements  
+- Architecture must support horizontal scaling  
+- Architecture must support vertical scaling  
+- Architecture must be stateless where possible  
+- Architecture must handle load distribution  
+
+### 11.2 Stateless Architecture Rules  
+- Services must be stateless  
+- Components must be stateless  
+- State must be externalized  
+- Session state must be in Redis  
+
+### 11.3 Load Distribution Rules  
+- Load must be distributable  
+- Services must be independently scalable  
+- Database must support scaling  
+- Caching must support scaling  
+
+### 11.4 Performance Architecture  
+- Architecture must support performance optimization  
+- Architecture must minimize bottlenecks  
+- Architecture must support caching  
+- Architecture must support async processing  
+
+---
+
+# 12. SECURITY ARCHITECTURE CONTRACT
+
+### 12.1 Security Architecture Requirements  
+- Security must be built into architecture  
+- Security boundaries must be defined  
+- Security must be enforced at boundaries  
+- Security must be validated  
+
+### 12.2 Authentication Architecture  
+- Authentication must be centralized  
+- Authentication must be at API boundary  
+- Authentication tokens must be validated  
+- Authentication must be consistent  
+
+### 12.3 Authorization Architecture  
+- Authorization must be at service layer  
+- Authorization must be enforced  
+- Authorization must be testable  
+- Authorization must be auditable  
+
+### 12.4 Data Security Architecture  
+- Sensitive data must be protected  
+- Data encryption must be at rest and in transit  
+- Data access must be controlled  
+- Data security must be validated  
+
+---
+
+# 13. TESTABILITY ARCHITECTURE CONTRACT
+
+### 13.1 Testability Requirements  
+- Architecture must support testing  
+- Components must be testable in isolation  
+- Dependencies must be mockable  
+- Architecture must support test automation  
+
+### 13.2 Dependency Injection  
+- Dependencies must be injectable  
+- Dependencies must be mockable  
+- Dependencies must be testable  
+- Dependency injection must be explicit  
+
+### 13.3 Interface Design for Testing  
+- Interfaces must be testable  
+- Interfaces must be mockable  
+- Interfaces must be clear  
+- Interfaces must be documented  
+
+### 13.4 Test Architecture  
+- Test architecture must mirror production  
+- Test architecture must be isolated  
+- Test architecture must be maintainable  
+- Test architecture must be documented  
+
+---
+
+# 14. MCP TOOL INTEGRATION
+
+### 14.1 Serena MCP Usage  
+Serena must be used for:
+- analyzing architecture  
+- validating architecture compliance  
+- mapping dependencies  
+- detecting architecture violations  
+
+### 14.2 Context7 MCP Usage  
+Context7 must be used for:
+- architecture pattern documentation  
+- API design best practices  
+- dependency management documentation  
+- architecture decision frameworks  
+
+### 14.3 AgenticRag Memory Usage  
+AgenticRag must retrieve:
+- architecture patterns from memory  
+- dependency graphs from memory  
+- architecture decisions from memory  
+- architecture best practices  
+
+---
+
+# 15. MEMORY INTEGRATION
+
+### 15.1 Graffiti Storage  
+Store in Graffiti:
+- architecture → component mappings  
+- dependency → relationship graphs  
+- module → boundary definitions  
+- architecture → pattern relationships  
+
+### 15.2 VectorDB Storage  
+Store in VectorDB:
+- architecture decision records  
+- architecture pattern explanations  
+- architecture best practices  
+- architecture troubleshooting guides  
+
+---
+
+# 16. ARCHITECTURE EVOLUTION CONTRACT
+
+### 16.1 Evolution Requirements  
+- Architecture must evolve incrementally  
+- Architecture changes must be documented  
+- Architecture changes must be validated  
+- Architecture changes must be backward-compatible when possible  
+
+### 16.2 Refactoring Rules  
+- Architecture refactoring must be planned  
+- Architecture refactoring must be tested  
+- Architecture refactoring must be documented  
+- Architecture refactoring must be validated  
+
+### 16.3 Migration Rules  
+- Architecture migrations must be planned  
+- Architecture migrations must be tested  
+- Architecture migrations must be documented  
+- Architecture migrations must be reversible  
+
+### 16.4 Deprecation Rules  
+- Architecture deprecations must be announced  
+- Architecture deprecations must have migration path  
+- Architecture deprecations must be documented  
+- Architecture deprecations must be time-bound  
+
+---
+
+# 17. STOP CONDITIONS
+
+Architecture implementation must STOP if:
+- layer boundaries are violated  
+- dependencies are circular  
+- module boundaries are violated  
+- architecture patterns are not followed  
+- architecture is not documented  
+- architecture is not validated  
+- version isolation is violated  
+- security boundaries are violated  
+
+If any violation is detected → planning must stop and correction must be proposed.
+
+---
+
+# END OF RULESET

@@ -1,0 +1,152 @@
+---
+alwaysApply: true
+---
+# command_clarify_request
+## (Meaning Extraction, Ambiguity Resolution, and Intent Alignment Workflow)
+
+This rule defines how the assistant MUST behave whenever the `clarify_request` command is invoked.  
+This workflow ensures the assistant fully understands the user's meaning before ANY SDLC action, planning, coding, or research begins.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering clarify_request workflow…
+
+The assistant MUST NOT:
+- start planning  
+- extract requirements  
+- define scope  
+- run research tools  
+- create todos  
+- write code  
+- run Serena  
+- debug or test  
+- write or edit documents  
+
+This workflow ONLY clarifies the meaning of the user’s latest instruction.
+
+---
+
+## 2. Purpose of clarify_request
+The assistant MUST use this workflow when:
+- refine_prompt has identified ambiguity  
+- The user’s instruction has multiple interpretations  
+- Information is incomplete  
+- Intent is unclear or conflicting  
+- The next SDLC step cannot be determined  
+
+The goal is to obtain a precise, explicit, unambiguous request.
+
+---
+
+## 3. Required AgenticRag Memory Retrieval
+At the start of this workflow, the assistant MUST:
+- Use `search_nodes` to retrieve past user intent patterns, preferences, and constraints  
+- Use `search_facts` to find relationships relevant to interpreting the request  
+- Integrate memory findings into the clarification process  
+
+Memory MUST NOT override new instructions; it only assists disambiguation.
+
+---
+
+## 4. Clarification Actions (Allowed)
+The assistant MAY:
+- Ask targeted, minimal questions  
+- Present possible interpretations  
+- Summarize unclear points  
+- Request missing parameters  
+- Highlight contradictions  
+- Repeat user intent in cleaner language  
+- Confirm assumptions  
+
+Clarification MUST be short, sharp, and focused — no extra explanation.
+
+---
+
+## 5. Forbidden Actions
+During clarify_request, the assistant MUST NOT:
+- Begin requirements gathering  
+- Suggest solutions  
+- Propose architecture  
+- Modify files  
+- Trigger Serena  
+- Perform research unless ambiguity requires external facts  
+- Begin implementation  
+- Start testing or debugging  
+- Write documentation  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 6. Clarification Protocol
+The assistant MUST follow this exact sequence:
+
+### Step 1 — Extract Possible Meanings  
+Present 1–3 short interpretations of what the user *might* mean.
+
+### Step 2 — Ask a Precise Clarification Question  
+One, short, exact question that determines meaning.
+
+### Step 3 — Await User Input  
+No assumptions, no progress until the user responds.
+
+### Step 4 — Lock Interpretation  
+Once clarified, the assistant MUST restate the exact confirmed meaning:
+
+“Understood. Your confirmed intent is: …”
+
+### Step 5 — Select Next SDLC Step  
+Move to the correct command:
+- scope_request  
+- document_requirements  
+- plan_feature  
+- research_topic  
+- etc.
+
+### Step 6 — Ask for Confirmation  
+“Should I proceed with `<detected_command>`?”
+
+The assistant MUST wait for explicit approval.
+
+---
+
+## 7. Research Rules (Conditional)
+Only if ambiguity depends on external facts:
+- Run Context7  
+- If still unclear → Cursor Search  
+- If still unclear → BraveSearch  
+- Perplexity ONLY if necessary  
+
+After research, the assistant MUST:
+- Present results  
+- Confirm if research should be saved to memory  
+- Ask the user to clarify the meaning again  
+
+No automatic memory writes.
+
+---
+
+## 8. Integration With SDLC
+Once meaning is confirmed:
+- Assistant MUST execute the chosen command  
+- Assistant MUST NOT skip any SDLC step  
+- If new ambiguity emerges, assistant MUST re-enter clarify_request  
+
+This ensures all workflows start with correct understanding.
+
+---
+
+## 9. Exit Conditions
+This workflow ends when:
+- The user’s intent is clear  
+- The assistant states the confirmed meaning  
+- The user approves the next SDLC step  
+
+After exit, the assistant MUST enter the approved workflow.
+
+---
+
+# End of command_clarify_request

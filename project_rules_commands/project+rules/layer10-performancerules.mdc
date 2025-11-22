@@ -1,0 +1,449 @@
+---
+description: Performance Rules (Layer 10)
+alwaysApply: true
+---
+
+# PERFORMANCE RULES  
+## (Bundle Size, API Response Times, Database Performance, Caching, Resource Usage)
+
+Defines all performance budgets, optimization requirements, and monitoring standards.
+
+Every feature and code change must comply with performance budgets and requirements.
+
+---
+
+# 1. PERFORMANCE BUDGET CONTRACT  
+### (STRICT – Cannot be Violated)
+
+All performance metrics must stay within defined **performance budgets**:
+
+1. **Frontend Performance Budgets**  
+   - initial bundle size: < 200KB (gzipped)  
+   - total bundle size: < 500KB (gzipped)  
+   - first contentful paint: < 1.5s  
+   - time to interactive: < 3.5s  
+   - largest contentful paint: < 2.5s  
+
+2. **Backend Performance Budgets**  
+   - API response time (p95): < 200ms  
+   - API response time (p99): < 500ms  
+   - database query time: < 100ms  
+   - cache hit rate: > 80%  
+
+3. **Network Performance Budgets**  
+   - API request size: < 1MB  
+   - API response size: < 500KB  
+   - image size: < 200KB per image  
+   - total page weight: < 2MB  
+
+Performance budgets must be enforced in CI/CD. Violations must block deployment.
+
+---
+
+# 2. FRONTEND PERFORMANCE CONTRACT
+
+### 2.1 Bundle Size Requirements  
+- Initial bundle must be < 200KB (gzipped)  
+- Total bundle must be < 500KB (gzipped)  
+- Bundle size must be measured and reported  
+- Bundle size increases must be justified  
+
+### 2.2 Code Splitting Requirements  
+- Code must be split by route  
+- Large dependencies must be lazy-loaded  
+- Vendor code must be separated  
+- Code splitting must be optimized  
+
+### 2.3 Asset Optimization Requirements  
+- Images must be optimized (WebP, compression)  
+- Images must be lazy-loaded  
+- Fonts must be subset and optimized  
+- CSS must be minified and purged  
+
+### 2.4 Render Performance Requirements  
+- Components must not cause unnecessary re-renders  
+- Large lists must use virtualization  
+- Animations must use GPU acceleration  
+- Layout shifts must be minimized  
+
+---
+
+# 3. BACKEND PERFORMANCE CONTRACT
+
+### 3.1 API Response Time Requirements  
+- API response time (p95) must be < 200ms  
+- API response time (p99) must be < 500ms  
+- Slow endpoints must be optimized  
+- Response times must be monitored  
+
+### 3.2 Database Performance Requirements  
+- Database queries must be < 100ms  
+- N+1 queries must be prevented  
+- Queries must use indexes  
+- Query performance must be monitored  
+
+### 3.3 Caching Requirements  
+- Cache hit rate must be > 80%  
+- Frequently accessed data must be cached  
+- Cache invalidation must be handled  
+- Cache TTLs must be appropriate  
+
+### 3.4 Resource Usage Requirements  
+- Memory usage must be monitored  
+- CPU usage must be optimized  
+- Connection pools must be managed  
+- Resource leaks must be prevented  
+
+---
+
+# 4. DATABASE PERFORMANCE CONTRACT
+
+### 4.1 Query Performance Requirements  
+- All queries must use indexes  
+- Query execution time must be < 100ms  
+- Slow queries must be logged and optimized  
+- Query plans must be analyzed  
+
+### 4.2 Query Optimization Rules  
+- N+1 queries must be prevented  
+- Eager loading must be used when appropriate  
+- Query batching must be used  
+- Database connections must be pooled  
+
+### 4.3 Index Requirements  
+- Foreign keys must be indexed  
+- Frequently queried columns must be indexed  
+- Composite indexes must be used when needed  
+- Index usage must be monitored  
+
+### 4.4 Database Connection Management  
+- Connection pooling must be configured  
+- Connection timeouts must be set  
+- Connection limits must be enforced  
+- Connection leaks must be prevented  
+
+---
+
+# 5. CACHING CONTRACT
+
+### 5.1 Caching Strategy Requirements  
+- Frequently accessed data must be cached  
+- Cache hit rate must be > 80%  
+- Cache invalidation must be handled  
+- Cache must not break data consistency  
+
+### 5.2 Cache Layer Requirements  
+- Redis must be used for session storage  
+- Redis must be used for frequently accessed data  
+- Cache keys must follow naming convention  
+- Cache TTLs must be appropriate  
+
+### 5.3 Cache Invalidation Requirements  
+- Cache must be invalidated on data updates  
+- Cache invalidation must be immediate  
+- Cache invalidation must be reliable  
+- Cache invalidation must be tested  
+
+### 5.4 Cache Performance Requirements  
+- Cache response time must be < 10ms  
+- Cache hit rate must be monitored  
+- Cache misses must be logged  
+- Cache performance must be optimized  
+
+---
+
+# 6. NETWORK PERFORMANCE CONTRACT
+
+### 6.1 Request Size Requirements  
+- API request size must be < 1MB  
+- Request payload must be optimized  
+- Unnecessary data must not be sent  
+- Request compression must be used  
+
+### 6.2 Response Size Requirements  
+- API response size must be < 500KB  
+- Response payload must be optimized  
+- Pagination must be used for large datasets  
+- Response compression must be enabled  
+
+### 6.3 Network Optimization Requirements  
+- HTTP/2 must be used  
+- Request batching must be used when appropriate  
+- Request deduplication must be implemented  
+- Network calls must be minimized  
+
+### 6.4 CDN Requirements  
+- Static assets must be served from CDN  
+- CDN caching must be configured  
+- CDN performance must be monitored  
+- CDN must be used for images and fonts  
+
+---
+
+# 7. IMAGE PERFORMANCE CONTRACT
+
+### 7.1 Image Size Requirements  
+- Images must be < 200KB per image  
+- Images must be optimized (compression)  
+- Images must use modern formats (WebP, AVIF)  
+- Image dimensions must be appropriate  
+
+### 7.2 Image Loading Requirements  
+- Images must be lazy-loaded  
+- Images must have proper sizing attributes  
+- Images must use responsive images  
+- Images must not cause layout shifts  
+
+### 7.3 Image Optimization Requirements  
+- Images must be compressed  
+- Images must use appropriate formats  
+- Images must be served from CDN  
+- Images must have fallbacks  
+
+### 7.4 Image Performance Monitoring  
+- Image load times must be monitored  
+- Image sizes must be tracked  
+- Image optimization must be verified  
+- Image performance must be reported  
+
+---
+
+# 8. MEMORY PERFORMANCE CONTRACT
+
+### 8.1 Memory Usage Requirements  
+- Memory usage must be monitored  
+- Memory leaks must be prevented  
+- Memory usage must be optimized  
+- Memory limits must be enforced  
+
+### 8.2 Memory Leak Prevention  
+- Event listeners must be cleaned up  
+- Timers must be cleared  
+- Closures must not hold references  
+- Memory leaks must be detected and fixed  
+
+### 8.3 Memory Optimization Requirements  
+- Unused code must be removed  
+- Large objects must be optimized  
+- Memory allocation must be minimized  
+- Garbage collection must be optimized  
+
+### 8.4 Memory Monitoring  
+- Memory usage must be tracked  
+- Memory leaks must be detected  
+- Memory performance must be reported  
+- Memory issues must be addressed  
+
+---
+
+# 9. CPU PERFORMANCE CONTRACT
+
+### 9.1 CPU Usage Requirements  
+- CPU usage must be optimized  
+- CPU-intensive operations must be optimized  
+- CPU usage must be monitored  
+- CPU limits must be enforced  
+
+### 9.2 CPU Optimization Requirements  
+- Expensive computations must be cached  
+- CPU-intensive operations must be async  
+- CPU usage must be distributed  
+- CPU bottlenecks must be identified  
+
+### 9.3 CPU Monitoring  
+- CPU usage must be tracked  
+- CPU performance must be reported  
+- CPU issues must be addressed  
+- CPU optimization must be verified  
+
+---
+
+# 10. PERFORMANCE MONITORING CONTRACT
+
+### 10.1 Monitoring Requirements  
+- Performance must be monitored continuously  
+- Performance metrics must be collected  
+- Performance alerts must be configured  
+- Performance dashboards must be maintained  
+
+### 10.2 Performance Metrics  
+- Response times must be tracked  
+- Error rates must be tracked  
+- Resource usage must be tracked  
+- User experience metrics must be tracked  
+
+### 10.3 Performance Alerts  
+- Performance degradation must trigger alerts  
+- Budget violations must trigger alerts  
+- Performance issues must be notified  
+- Alerts must be actionable  
+
+### 10.4 Performance Reporting  
+- Performance reports must be generated  
+- Performance trends must be analyzed  
+- Performance issues must be documented  
+- Performance improvements must be tracked  
+
+---
+
+# 11. PERFORMANCE TESTING CONTRACT
+
+### 11.1 Performance Testing Requirements  
+- Performance must be tested regularly  
+- Performance tests must be automated  
+- Performance tests must be part of CI/CD  
+- Performance regressions must be caught  
+
+### 11.2 Performance Test Types  
+- Load testing must be performed  
+- Stress testing must be performed  
+- Endurance testing must be performed  
+- Spike testing must be performed  
+
+### 11.3 Performance Test Metrics  
+- Response times must be measured  
+- Throughput must be measured  
+- Resource usage must be measured  
+- Error rates must be measured  
+
+### 11.4 Performance Test Reporting  
+- Performance test results must be reported  
+- Performance regressions must be identified  
+- Performance improvements must be verified  
+- Performance tests must be maintained  
+
+---
+
+# 12. PERFORMANCE OPTIMIZATION CONTRACT
+
+### 12.1 Optimization Requirements  
+- Performance must be optimized proactively  
+- Performance bottlenecks must be identified  
+- Performance improvements must be prioritized  
+- Performance optimization must be continuous  
+
+### 12.2 Optimization Process  
+- Performance issues must be identified  
+- Root cause must be analyzed  
+- Optimization must be implemented  
+- Optimization must be verified  
+
+### 12.3 Optimization Priorities  
+- Critical performance issues must be fixed immediately  
+- Performance budgets must be maintained  
+- User experience must be prioritized  
+- Performance must be balanced with functionality  
+
+### 12.4 Optimization Validation  
+- Optimizations must be tested  
+- Performance improvements must be measured  
+- Optimizations must not break functionality  
+- Optimizations must be documented  
+
+---
+
+# 13. VERSION CONSISTENCY CONTRACT
+
+### 13.1 Cross-Version Performance Requirements  
+- Performance must be consistent across v1, v2, v3  
+- Performance budgets must apply to all versions  
+- Performance optimizations must benefit all versions  
+- Performance must not degrade in any version  
+
+### 13.2 Version-Specific Performance  
+- Each version must meet performance budgets  
+- Version-specific optimizations are allowed  
+- Performance must be measured per version  
+- Performance must be compared across versions  
+
+### 13.3 Version Performance Testing  
+- Performance must be tested in all versions  
+- Performance regressions must be caught in all versions  
+- Performance improvements must be verified in all versions  
+- Performance must be consistent across versions  
+
+---
+
+# 14. MCP TOOL INTEGRATION
+
+### 14.1 Serena MCP Usage  
+Serena must be used for:
+- analyzing performance bottlenecks  
+- optimizing code performance  
+- identifying performance issues  
+- mapping performance dependencies  
+
+### 14.2 Context7 MCP Usage  
+Context7 must be used for:
+- performance optimization documentation  
+- performance testing tool documentation  
+- performance monitoring tool documentation  
+- performance best practices  
+
+### 14.3 AgenticRag Memory Usage  
+AgenticRag must retrieve:
+- performance patterns from memory  
+- optimization strategies  
+- performance testing strategies  
+- common performance issues and fixes  
+
+---
+
+# 15. MEMORY INTEGRATION
+
+### 15.1 Graffiti Storage  
+Store in Graffiti:
+- performance budget → metric mappings  
+- performance → component relationships  
+- performance → optimization mappings  
+- performance dependency graphs  
+
+### 15.2 VectorDB Storage  
+Store in VectorDB:
+- performance optimization examples  
+- performance testing strategies  
+- performance debugging summaries  
+- performance best practices  
+
+---
+
+# 16. CI/CD PERFORMANCE CONTRACT
+
+### 16.1 CI Performance Validation  
+- Performance budgets must be validated in CI  
+- Performance regressions must block deployment  
+- Performance metrics must be reported  
+- Performance must be part of build  
+
+### 16.2 CI Performance Checks  
+- Bundle size must be checked  
+- API response times must be validated  
+- Performance budgets must be enforced  
+- Performance violations must block deployment  
+
+### 16.3 CI Performance Enforcement  
+- Performance validation must run in CI  
+- Performance violations must block deployment  
+- Performance must be automated  
+- Performance must be part of pipeline  
+
+---
+
+# 17. STOP CONDITIONS
+
+Performance implementation must STOP if:
+- performance budgets are exceeded  
+- bundle size exceeds limits  
+- API response times exceed limits  
+- database queries are too slow  
+- cache hit rate is too low  
+- memory leaks are detected  
+- CPU usage is excessive  
+- performance regressions are detected  
+- performance monitoring is not configured  
+
+If any violation is detected → planning must stop and correction must be proposed.
+
+---
+
+# END OF RULESET

@@ -1,0 +1,489 @@
+---
+description: CI/CD Rules (Layer 9)
+alwaysApply: true
+---
+
+# CI/CD RULES  
+## (Linting, Type Checking, Structure Validation, Build, Deployment)
+
+Defines all CI/CD pipeline requirements, validation checks, and deployment standards.
+
+Every code change must pass all CI/CD checks before deployment.
+
+---
+
+# 1. CI/CD PIPELINE CONTRACT  
+### (STRICT – Cannot be Violated)
+
+All code must pass through the **mandatory CI/CD pipeline**:
+
+1. **Linting Stage**  
+   - code style validation  
+   - must pass before proceeding  
+   - violations must block pipeline  
+
+2. **Type Checking Stage**  
+   - TypeScript type validation  
+   - must pass before proceeding  
+   - type errors must block pipeline  
+
+3. **Structure Validation Stage**  
+   - folder structure validation  
+   - file naming validation  
+   - architecture compliance  
+   - violations must block pipeline  
+
+4. **Testing Stage**  
+   - unit tests must pass  
+   - integration tests must pass  
+   - coverage must meet threshold  
+   - test failures must block pipeline  
+
+5. **Validation Stage**  
+   - selector validation  
+   - accessibility validation  
+   - performance budget validation  
+   - violations must block pipeline  
+
+6. **Build Stage**  
+   - application must build successfully  
+   - dependencies must resolve  
+   - build errors must block pipeline  
+
+7. **Deployment Stage**  
+   - deployment must succeed  
+   - health checks must pass  
+   - rollback must be available  
+
+No stage may be skipped. All stages must pass.
+
+---
+
+# 2. LINTING CONTRACT
+
+### 2.1 Linting Requirements  
+- All code must pass linting checks  
+- Linting must run on every commit  
+- Linting violations must block pipeline  
+- Linting rules must be consistent  
+
+### 2.2 Linting Rules  
+- ESLint for JavaScript/TypeScript  
+- Stylelint for CSS  
+- Consistent code style across codebase  
+- No warnings allowed (errors only)  
+
+### 2.3 Linting Configuration  
+- Linting rules must be version-controlled  
+- Linting rules must be documented  
+- Linting rules must be enforced in CI  
+- Linting rules must match project standards  
+
+### 2.4 Linting Enforcement  
+- Pre-commit hooks must run linting  
+- CI must validate linting  
+- Linting failures must block merge  
+- Linting must be automated  
+
+---
+
+# 3. TYPE CHECKING CONTRACT
+
+### 3.1 Type Checking Requirements  
+- All TypeScript code must pass type checking  
+- Type checking must run on every commit  
+- Type errors must block pipeline  
+- Type safety must be maintained  
+
+### 3.2 Type Checking Rules  
+- Strict mode must be enabled  
+- No `any` types allowed (unless explicitly approved)  
+- All functions must have type annotations  
+- All interfaces must be properly defined  
+
+### 3.3 Type Checking Configuration  
+- TypeScript config must be strict  
+- Type checking must be part of build  
+- Type errors must be caught early  
+- Type checking must be automated  
+
+### 3.4 Type Checking Enforcement  
+- Type checking must run in CI  
+- Type errors must block deployment  
+- Type safety must be verified  
+- Type definitions must be up to date  
+
+---
+
+# 4. STRUCTURE VALIDATION CONTRACT
+
+### 4.1 Structure Validation Requirements  
+- Folder structure must be validated  
+- File naming must be validated  
+- Architecture compliance must be verified  
+- Structure violations must block pipeline  
+
+### 4.2 Folder Structure Validation  
+- Files must be in correct locations  
+- Folder structure must match rules  
+- No files outside allowed locations  
+- Structure must be consistent  
+
+### 4.3 File Naming Validation  
+- File names must follow conventions  
+- File names must be consistent  
+- File extensions must be correct  
+- File organization must be logical  
+
+### 4.4 Architecture Validation  
+- Layer architecture must be enforced  
+- Cross-layer violations must be caught  
+- Architecture rules must be validated  
+- Architecture compliance must be verified  
+
+---
+
+# 5. TESTING IN CI CONTRACT
+
+### 5.1 Test Execution Requirements  
+- All tests must run in CI  
+- Tests must pass before deployment  
+- Test failures must block pipeline  
+- Test results must be reported  
+
+### 5.2 Test Coverage Requirements  
+- Minimum 80% code coverage  
+- Critical paths must have 100% coverage  
+- Coverage must be measured and reported  
+- Coverage gaps must be addressed  
+
+### 5.3 Test Performance Requirements  
+- Test suite must complete in < 15 minutes  
+- Tests must run in parallel  
+- Slow tests must be optimized  
+- Test timeouts must be reasonable  
+
+### 5.4 Test Stability Requirements  
+- Tests must not be flaky  
+- Tests must be deterministic  
+- Tests must be isolated  
+- Flaky tests must be fixed immediately  
+
+---
+
+# 6. SELECTOR VALIDATION CONTRACT
+
+### 6.1 Selector Validation Requirements  
+- All selectors must be validated  
+- Selector compliance must be verified  
+- Selector violations must block pipeline  
+- Selector stability must be ensured  
+
+### 6.2 Selector Validation Rules  
+- data-testid must be present on interactive elements  
+- Selector naming must follow convention  
+- Forbidden selectors must be caught  
+- Selector uniqueness must be validated  
+
+### 6.3 Selector Validation Checks  
+- Validate data-testid presence  
+- Validate selector naming  
+- Validate forbidden selector usage  
+- Validate cross-version consistency  
+
+### 6.4 Selector Validation Enforcement  
+- Selector validation must run in CI  
+- Selector violations must block deployment  
+- Selector compliance must be automated  
+- Selector rules must be enforced  
+
+---
+
+# 7. ACCESSIBILITY VALIDATION CONTRACT
+
+### 7.1 Accessibility Validation Requirements  
+- Accessibility must be validated in CI  
+- WCAG compliance must be verified  
+- Accessibility violations must block pipeline  
+- Accessibility must be automated  
+
+### 7.2 Accessibility Validation Rules  
+- ARIA attributes must be valid  
+- Semantic HTML must be correct  
+- Color contrast must meet standards  
+- Keyboard navigation must work  
+
+### 7.3 Accessibility Validation Checks  
+- Automated accessibility testing  
+- ARIA validation  
+- Semantic HTML validation  
+- Color contrast validation  
+
+### 7.4 Accessibility Validation Enforcement  
+- Accessibility validation must run in CI  
+- Accessibility violations must block deployment  
+- Accessibility must be part of build  
+- Accessibility reports must be generated  
+
+---
+
+# 8. PERFORMANCE BUDGET VALIDATION CONTRACT
+
+### 8.1 Performance Budget Requirements  
+- Performance budgets must be defined  
+- Performance must be measured  
+- Performance violations must block pipeline  
+- Performance must be monitored  
+
+### 8.2 Performance Budget Rules  
+- Bundle size must stay within budget  
+- API response times must meet targets  
+- Page load times must meet targets  
+- Resource usage must be optimized  
+
+### 8.3 Performance Budget Validation  
+- Bundle size must be measured  
+- Performance metrics must be tracked  
+- Performance regressions must be caught  
+- Performance must be reported  
+
+### 8.4 Performance Budget Enforcement  
+- Performance validation must run in CI  
+- Performance violations must block deployment  
+- Performance budgets must be enforced  
+- Performance must be part of build  
+
+---
+
+# 9. BUILD CONTRACT
+
+### 9.1 Build Requirements  
+- Application must build successfully  
+- Build must be reproducible  
+- Build must be fast  
+- Build errors must block pipeline  
+
+### 9.2 Build Configuration  
+- Build config must be version-controlled  
+- Build dependencies must be locked  
+- Build environment must be consistent  
+- Build must be deterministic  
+
+### 9.3 Build Validation  
+- Build must succeed in CI  
+- Build artifacts must be valid  
+- Build must be tested  
+- Build must be optimized  
+
+### 9.4 Build Enforcement  
+- Build must run in CI  
+- Build failures must block deployment  
+- Build must be automated  
+- Build must be reliable  
+
+---
+
+# 10. DEPLOYMENT CONTRACT
+
+### 10.1 Deployment Requirements  
+- Deployment must be automated  
+- Deployment must be reversible  
+- Deployment must be tested  
+- Deployment must be monitored  
+
+### 10.2 Deployment Process  
+- Deployment must follow defined process  
+- Deployment must include health checks  
+- Deployment must include rollback plan  
+- Deployment must be documented  
+
+### 10.3 Deployment Validation  
+- Health checks must pass  
+- Services must start correctly  
+- Database migrations must run  
+- Monitoring must be configured  
+
+### 10.4 Deployment Safety  
+- Deployment must be safe  
+- Rollback must be available  
+- Deployment must be monitored  
+- Deployment must be audited  
+
+---
+
+# 11. ENVIRONMENT MANAGEMENT CONTRACT
+
+### 11.1 Environment Requirements  
+- Environments must be clearly defined  
+- Environment config must be version-controlled  
+- Environment variables must be validated  
+- Environment must be consistent  
+
+### 11.2 Environment Configuration  
+- Development environment  
+- Staging environment  
+- Production environment  
+- Test environment  
+
+### 11.3 Environment Validation  
+- Environment config must be validated  
+- Environment variables must be set  
+- Environment must be tested  
+- Environment must be documented  
+
+### 11.4 Environment Security  
+- Secrets must be managed securely  
+- Environment access must be controlled  
+- Environment must be audited  
+- Environment must be protected  
+
+---
+
+# 12. DEPENDENCY MANAGEMENT CONTRACT
+
+### 12.1 Dependency Requirements  
+- Dependencies must be locked  
+- Dependencies must be up to date  
+- Dependencies must be secure  
+- Dependencies must be validated  
+
+### 12.2 Dependency Management  
+- Package versions must be locked  
+- Dependency updates must be tested  
+- Security vulnerabilities must be addressed  
+- Dependency licenses must be compliant  
+
+### 12.3 Dependency Validation  
+- Dependencies must resolve  
+- Dependencies must be compatible  
+- Dependencies must be secure  
+- Dependencies must be validated in CI  
+
+### 12.4 Dependency Enforcement  
+- Dependency validation must run in CI  
+- Dependency violations must block deployment  
+- Dependency updates must be reviewed  
+- Dependency security must be monitored  
+
+---
+
+# 13. SECURITY VALIDATION CONTRACT
+
+### 13.1 Security Requirements  
+- Security must be validated in CI  
+- Security vulnerabilities must block pipeline  
+- Security must be automated  
+- Security must be monitored  
+
+### 13.2 Security Validation Rules  
+- Dependency vulnerabilities must be checked  
+- Code security must be validated  
+- Secrets must not be exposed  
+- Security best practices must be followed  
+
+### 13.3 Security Validation Checks  
+- Dependency vulnerability scanning  
+- Code security scanning  
+- Secret detection  
+- Security policy enforcement  
+
+### 13.4 Security Validation Enforcement  
+- Security validation must run in CI  
+- Security violations must block deployment  
+- Security must be part of build  
+- Security reports must be generated  
+
+---
+
+# 14. NOTIFICATION AND REPORTING CONTRACT
+
+### 14.1 Notification Requirements  
+- CI/CD status must be reported  
+- Failures must be notified  
+- Success must be reported  
+- Notifications must be timely  
+
+### 14.2 Reporting Requirements  
+- Test results must be reported  
+- Coverage reports must be generated  
+- Performance reports must be generated  
+- Security reports must be generated  
+
+### 14.3 Notification Channels  
+- Email notifications  
+- Slack/Teams notifications  
+- Dashboard updates  
+- Status badges  
+
+### 14.4 Reporting Format  
+- Reports must be clear  
+- Reports must be actionable  
+- Reports must be accessible  
+- Reports must be archived  
+
+---
+
+# 15. MCP TOOL INTEGRATION
+
+### 15.1 Serena MCP Usage  
+Serena must be used for:
+- analyzing CI/CD pipeline  
+- validating code structure  
+- checking test coverage  
+- mapping dependencies  
+
+### 15.2 Context7 MCP Usage  
+Context7 must be used for:
+- CI/CD tool documentation  
+- Testing framework documentation  
+- Build tool documentation  
+- Deployment tool documentation  
+
+### 15.3 AgenticRag Memory Usage  
+AgenticRag must retrieve:
+- CI/CD patterns from memory  
+- Deployment strategies  
+- Testing strategies  
+- Common CI/CD issues and fixes  
+
+---
+
+# 16. MEMORY INTEGRATION
+
+### 16.1 Graffiti Storage  
+Store in Graffiti:
+- CI/CD pipeline → stage mappings  
+- validation → rule relationships  
+- deployment → environment mappings  
+- CI/CD dependency graphs  
+
+### 16.2 VectorDB Storage  
+Store in VectorDB:
+- CI/CD configuration examples  
+- deployment strategies  
+- troubleshooting guides  
+- CI/CD best practices  
+
+---
+
+# 17. STOP CONDITIONS
+
+CI/CD pipeline must STOP if:
+- linting fails  
+- type checking fails  
+- structure validation fails  
+- tests fail  
+- test coverage is below threshold  
+- selector validation fails  
+- accessibility validation fails  
+- performance budget is exceeded  
+- build fails  
+- security validation fails  
+- deployment fails  
+- health checks fail  
+
+If any violation is detected → deployment must be blocked and correction must be required.
+
+---
+
+# END OF RULESET

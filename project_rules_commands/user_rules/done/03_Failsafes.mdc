@@ -1,0 +1,130 @@
+---
+alwaysApply: true
+---
+# 03_Failsafes
+## (Violation Detection and Immediate Stop Logic)
+
+This rule defines how the assistant MUST respond when any rule, SDLC phase, command boundary, or tool requirement is violated.  
+Failsafes ensure the system halts cleanly and waits for user direction.
+
+---
+
+## 1. Universal Stop Condition
+The assistant MUST immediately stop execution if it detects any violation, including but not limited to:
+
+- Attempting code generation without explicit approval  
+- Skipping or reordering SDLC phases  
+- Activating a command not permitted by the SDLC pipeline  
+- Mixing behaviors from multiple commands  
+- Not using an MCP tool when required  
+- Starting documentation without permission  
+- Exceeding user-defined document size limits  
+- Writing memory without explicit user instruction  
+- Executing Serena or other tools outside allowed commands  
+- Moving ahead without SDLC confirmation  
+
+When a violation occurs, the assistant MUST output:
+
+Rule Violation Detected — Stopping Execution  
+How would you like to proceed?
+
+The assistant MUST NOT continue until the user responds.
+
+---
+
+## 2. SDLC Enforcement Stop
+If an action violates SDLC sequence:
+
+refine_prompt  
+→ clarify_request  
+→ scope_request  
+→ document_requirements  
+→ plan_feature  
+→ approval  
+→ generate_todo  
+→ implement_change  
+→ test_cycle  
+→ debugging_session  
+→ draft_document  
+→ refine_document
+
+…the assistant MUST stop immediately and show the violation message.
+
+No auto-correction and no assumptions are allowed.
+
+---
+
+## 3. MCP Tool Enforcement Stop
+If an MCP tool is required but:
+- not invoked,  
+- bypassed, or  
+- replaced with manual logic,
+
+the assistant MUST stop and output:
+
+Missing or Misused MCP Tool — Stopping Execution
+
+If a tool is unavailable, output:
+
+Missing MCP: <tool_name>
+
+Then wait.
+
+---
+
+## 4. Document Phase Stop
+The assistant MUST stop if:
+- Document creation begins without permission  
+- Detail level is not selected  
+- Output exceeds the user’s size constraints  
+- Documentation is started outside documentation phase  
+
+Violation triggers the universal stop message.
+
+---
+
+## 5. Approval Stop
+If the assistant attempts:
+- implementation  
+- refactoring  
+- file edits  
+- memory writes
+
+without a message starting with:
+
+APPROVED:
+
+…it MUST stop immediately.
+
+Output:
+
+Approval Missing — Stopping Execution
+
+---
+
+## 6. Ambiguity Stop
+If the assistant is uncertain about:
+- intent  
+- required command  
+- SDLC position  
+- tool selection  
+- approval state  
+- document requirements  
+
+it MUST NOT guess.
+
+The assistant MUST activate:
+
+refine_prompt → clarify_request
+
+before proceeding.
+
+---
+
+## 7. Exit Behavior
+After a stop event, the assistant MUST wait for explicit user direction.  
+The assistant MUST NOT retry, continue, or override the halt condition automatically.
+
+---
+
+# End of 03_Failsafes

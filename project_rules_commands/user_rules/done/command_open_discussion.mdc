@@ -1,0 +1,150 @@
+---
+alwaysApply: true
+---
+# command_open_discussion
+## (Freeform Conversation, Exploratory Dialogue, and Non-SDLC Interaction Workflow)
+
+This rule defines how the assistant MUST behave whenever the `open_discussion` command is invoked.  
+This workflow exists to allow natural conversation, brainstorming, exploratory thinking, or non-SDLC discussion **without triggering SDLC workflows unless explicitly requested by the user**.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering open_discussion workflow…
+
+The assistant MUST NOT:
+- perform SDLC actions  
+- start planning  
+- extract requirements  
+- define scope  
+- generate todos  
+- write code  
+- run Serena  
+- debug or test  
+- create or modify documents  
+- trigger research tools unless the user explicitly asks  
+- store memory without approval  
+
+This workflow is strictly conversational.
+
+---
+
+## 2. Purpose of open_discussion
+The assistant MUST use this workflow when:
+- The user wants a natural conversation  
+- The topic does not require SDLC workflows  
+- The user wants help thinking through ideas  
+- The user wants explanation, reasoning, or brainstorming  
+- The user says something like “let’s talk”, “discuss”, “explain casually”, etc.  
+- The assistant detects informal, non-task-oriented dialogue  
+
+The goal is to allow freeform conversation while still maintaining safety and boundaries.
+
+---
+
+## 3. Allowed Actions
+During open_discussion, the assistant MAY:
+- Talk casually in natural language  
+- Brainstorm ideas  
+- Explain concepts  
+- Provide examples  
+- Explore topics informally  
+- Ask clarifying or follow-up questions  
+- Guide the user through thinking  
+- Answer general questions  
+- Give high-level reasoning  
+- Bring in contextual knowledge  
+
+All output must remain **non-SDLC** unless the user explicitly requests a workflow command.
+
+---
+
+## 4. Forbidden Actions
+During open_discussion, the assistant MUST NOT:
+- Initiate ANY SDLC command on its own  
+- Infer scope or requirements  
+- Begin planning  
+- Suggest architecture  
+- Write or propose code  
+- Trigger Serena or MCP coding tools  
+- Enter design, debugging, or testing modes  
+- Generate documents  
+- Store memory automatically  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 5. Transition Protocol (Returning to SDLC)
+If during open_discussion the user expresses intent to begin an SDLC task:
+- The assistant MUST immediately switch to `refine_prompt`  
+- Clarify the intent  
+- Identify the correct SDLC command  
+- Ask for confirmation before proceeding  
+
+Examples of SDLC signals from the user:
+- “Let’s build this”  
+- “How do we implement…”  
+- “Plan this feature”  
+- “Can you code…”  
+- “Test this…”  
+
+Open discussion MUST be exited before any SDLC workflow begins.
+
+---
+
+## 6. Optional: Conditional Research
+The assistant may perform research ONLY IF the user explicitly asks, e.g.:
+- “Can you look this up?”  
+- “Search this topic”  
+- “Find out…”  
+
+The assistant must:
+1. Ask for confirmation before running MCP research.  
+2. Ask if findings should be stored in memory.  
+3. Never run research automatically.
+
+---
+
+## 7. Memory Rules
+During open_discussion:
+- The assistant MUST NOT write memory unless the user explicitly says something like:  
+  “Remember this”, “Store this”, “Save this preference”.
+
+- If user expresses new preferences indirectly, the assistant MUST ask:  
+  “Should I store this as a preference in memory?”
+
+No automatic storage is allowed.
+
+---
+
+## 8. Integration With the System
+This workflow sits outside the SDLC pipeline.  
+It does NOT lead into:
+- scope_request  
+- document_requirements  
+- plan_feature  
+- generate_todo  
+- implement_change  
+- debugging_session  
+- test_cycle  
+unless the user explicitly instructs it.
+
+Its only automatic transition is back to `refine_prompt` when the user gives SDLC-related input.
+
+---
+
+## 9. Exit Conditions
+This workflow ends when:
+- The user finishes the informal conversation  
+- The user asks to resume SDLC tasks  
+- The assistant detects explicit intent to switch commands  
+- The user ends the discussion  
+
+After exit, the assistant MUST proceed to `refine_prompt` to determine the next proper workflow.
+
+---
+
+# End of command_open_discussion

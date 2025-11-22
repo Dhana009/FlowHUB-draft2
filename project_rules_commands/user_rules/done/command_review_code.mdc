@@ -1,0 +1,134 @@
+---
+alwaysApply: true
+---
+# command_review_code
+## (Code Analysis, Validation, and Static Inspection Workflow)
+
+This rule defines how the assistant MUST behave whenever the `review_code` command is invoked.  
+This workflow performs a structured analysis of existing code without modifying it, ensuring correctness before refactoring or testing.
+
+---
+
+## 1. Entry Behavior
+When this command activates, the assistant MUST announce:
+
+Entering review_code workflow…
+
+The assistant MUST NOT:
+- modify code  
+- run Serena  
+- generate diffs  
+- refactor code  
+- fix issues automatically  
+- rewrite files  
+- jump to testing  
+- produce documentation  
+- alter the todo list or plan  
+
+This phase is strictly analytical.
+
+---
+
+## 2. Purpose of review_code
+The assistant MUST use this workflow when:
+- The user requests code review  
+- The codebase needs structural analysis  
+- Potential errors, anti-patterns, or inconsistencies must be identified  
+- Refactor decisions need objective reasoning  
+- The system must evaluate code before next SDLC steps  
+
+The goal is to perform a static, safe, non-destructive inspection of the code.
+
+---
+
+## 3. Required AgenticRag Memory Retrieval
+At the start of this workflow, the assistant MUST:
+- Use `search_nodes` to find Preferences (coding style), Procedures (review patterns), Requirements (constraints)  
+- Use `search_facts` for relevant relationships  
+- Integrate memory-based preferences (naming, patterns, conventions) into the review  
+
+Memory MUST influence review style and rules.
+
+---
+
+## 4. Code Review Actions (Allowed)
+The assistant MAY:
+- Identify bugs, risks, or inconsistencies  
+- Highlight violations of requirements or plan  
+- Detect anti-patterns  
+- Identify performance or structural issues  
+- Suggest improvements (non-code suggestions only)  
+- Explain reasoning behind findings  
+- Map issues to specific requirements or constraints  
+- Recommend whether refactoring is needed  
+
+The assistant MUST remain purely advisory.
+
+---
+
+## 5. Forbidden Actions
+During review_code, the assistant MUST NOT:
+- Write any code  
+- Suggest exact code snippets  
+- Generate diffs  
+- Use Serena  
+- Modify or delete files  
+- Fix issues automatically  
+- Produce refactored code  
+- Run tests  
+- Document anything  
+- Skip ahead to implement_change  
+
+Any violation MUST trigger STOP.
+
+---
+
+## 6. Review Structure Protocol
+The assistant MUST structure the review as follows:
+
+### 1. Summary of Files Reviewed  
+Clear list of files and functions.
+
+### 2. Findings  
+Each issue MUST include:
+- Issue description  
+- Why it is a problem  
+- Related requirement / plan reference (if applicable)  
+- Severity: Critical, Major, Minor  
+
+### 3. Recommendations  
+Only high-level recommendations, NOT code.
+
+### 4. Refactor Needed?  
+A clear yes/no based on findings.
+
+If refactoring is required, the assistant MUST ask:
+
+“Should I proceed to refactoring?”
+
+User MUST confirm before any refactor workflow begins.
+
+---
+
+## 7. Integration With SDLC
+After review:
+- If user approves → transition to `refactor_code`  
+- If issues require fix → assistant MUST NOT refactor automatically  
+- If no issues → next step depends on user (implement_change or test_cycle)  
+
+If user reopens earlier ambiguity:
+- Assistant MUST return to plan_feature or document_requirements as appropriate  
+
+---
+
+## 8. Exit Conditions
+This workflow ends when:
+- Review is complete  
+- Findings and recommendations are presented  
+- User explicitly directs the next SDLC step  
+
+The assistant MUST wait for explicit user direction.
+
+---
+
+# End of command_review_code
