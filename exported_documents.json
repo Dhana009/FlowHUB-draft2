@@ -1,0 +1,29 @@
+{
+    "status": "success",
+    "count": 117,
+    "documents": [
+        {
+            "id": "1f858f90f3e38362fe62aadf9147df537d491fd28b5351b8333b5915ee663634",
+            "content": "# plan-feature\n\n### USER COMMAND: `plan_feature`\n\n## Purpose\nCreate a clear, structured, research-backed feature plan before any coding, refactoring, debugging, or documentation begins. This command determines how the feature should be approached, identifies steps, clarifies constraints, and produces a simple, SDLC-ready plan and to-do list. It prevents premature coding and ensures actions are grounded in accurate knowledge.\n\n## Behavior (Strict, SDLC-Aligned)\nThe assistant must identify the user's goal, interpret what feature or system change is required, and run the mandatory research pipeline. Research must always begin with Cursor Search, followed by Context7 MCP. Brave MCP is only used when Context7 is insufficient, and Perplexity MCP is used only for complex or unclear architectural requirements.\n\nAfter research, the assistant must summarize findings concisely, describe what the feature actually is, outline the core behavior, and create a short, clean, actionable plan. This plan must stay simple unless the feature is clearly complex. The assistant must also generate a minimal to-do list that will later be used by `generate_todo` and `implement_change`.\n\nThe assistant must stop after presenting the plan and ask for explicit approval before doing anything else.\n\n## Required Memory Integration\nThe assistant must use AgenticRag memory retrieval:\n- search_nodes for related preferences, past architectural decisions, or recurring patterns  \n- search_facts for dependencies, relationships, or constraints relevant to this feature  \nMemory is used to improve relevance and consistency, not to add new scope or override new user intent. No memory writes may occur automatically.\n\n## Rules\n- No coding  \n- No implementation  \n- No refactoring  \n- No documentation generation  \n- No debugging  \n- No test execution  \n- No Serena usage  \n- No file creation or modification  \n- Research pipeline must be followed exactly as defined in the Global Rules  \n- Plan must remain simple unless complexity requires deeper detail  \n- Must not proceed to next SDLC step without explicit approval  \nPlan_feature focuses on planning only.\n\n## Output Format\nThe assistant must output the following in one continuous section:\n\n- Research Summary  \n- Feature Understanding Summary  \n- Simple Plan (short, ordered steps)  \n- To-Do List (non-executable tasks)  \n- Approval Prompt (\"Do you approve?\")\n\nNo code blocks, no noisy formatting, no section breaks.\n\n## SDLC Interconnection Rules\nAfter the user approves the plan:\n- Move to `generate_todo` to break tasks down further  \n- After todos are approved → move to `implement_change`  \nIf the user modifies feature goals:\n- Return to `scope_request` or `document_requirements`  \nIf research reveals hidden architectural constraints:\n- Ask user whether to expand the plan or redirect to `explain_flow`  \nIf debugging context is detected rather than feature creation:\n- Redirect to `debugging_session`  \n\nPlan_feature must never directly invoke implementation, debugging, testing, or documentation.\n\n## Inline Example (No Break)\nFor example: if the user asks to implement a login page, the assistant summarizes research, identifies UI and backend requirements, creates a 5–7 step plan, generates a concise to-do list, and asks for approval. No code is produced and no steps are executed until the user explicitly approves.\n\n## Availability\nThis command is available in chat as `/plan-feature`.",
+            "meta": {
+                "doc_id": "d:\\planning\\FlowHUB-draft2\\project_rules_commands\\user_commands\\plan-feature.md",
+                "version": "2025-11-23T19:22:27.887912Z",
+                "category": "other",
+                "hash_content": "68912aa23234e69bb54259511ab0bf3d0235e68bff9e2f767a2813d757f1201c",
+                "source": "manual",
+                "repo": "qdrant_haystack",
+                "status": "active",
+                "created_at": "2025-11-23T19:22:27.887921Z",
+                "updated_at": "2025-11-23T19:22:27.887921Z",
+                "tags": [],
+                "file_path": "d:\\planning\\FlowHUB-draft2\\project_rules_commands\\user_commands\\plan-feature.md",
+                "path": "d:\\planning\\FlowHUB-draft2\\project_rules_commands\\user_commands\\plan-feature.md",
+                "hash_file": "71e48b1479a7643d30fe048abb6d2b101b0ed1b8258c4ed440d314f9830e2c85",
+                "metadata_hash": "aa616db47ab63ac23a19037a029f652ab5ac6bd2443f39b9313c8549c5f0080f",
+                "content_hash": "68912aa23234e69bb54259511ab0bf3d0235e68bff9e2f767a2813d757f1201c",
+                "type": "user_command_guide",
+                "file_name": "plan-feature.md"
+            }
+        }
+    ]
+}
